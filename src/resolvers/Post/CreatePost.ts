@@ -5,9 +5,11 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../enums/mutationType'
-import { Topics } from '../../enums/subscriptions'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
+import { isAuth } from '../../middleware/isAuth'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -20,14 +22,15 @@ const { Posts } = Topics
 @Resolver()
 class CreatePostResolver {
   @Mutation((_returns) => Post)
+  @UseMiddleware(isAuth)
   async createPost(
     @Arg('data') data: CreatePostInput,
-    @Ctx() { prisma }: MyContext,
+    @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
-  ) {
+  ): Promise<Post> {
     const newPost = (await prisma.post.create({
-      data,
+      data: { ...data, authorId: userId! },
       select: { ...select, id: true },
     })) as any
 
@@ -44,3 +47,6 @@ class CreatePostResolver {
 }
 
 export { CreatePostResolver }
+function IsAuth(IsAuth: any) {
+  throw new Error('Function not implemented.')
+}

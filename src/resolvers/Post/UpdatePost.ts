@@ -6,9 +6,13 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../enums/mutationType'
-import { Topics } from '../../enums/subscriptions'
+import { models } from '../../types/enums/models'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
+import { isAuth } from '../../middleware/isAuth'
+import { IsOwner } from '../shared/auth/isOwner'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -22,6 +26,8 @@ const { Posts } = Topics
 @Resolver()
 class UpdatePostResolver {
   @Mutation((_returns) => Post)
+  @UseMiddleware(isAuth)
+  @IsOwner(models.post)
   async updatePost(
     @Args() { id }: PostIdInput,
     @Arg('data') data: UpdatePostInput,

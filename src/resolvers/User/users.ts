@@ -11,7 +11,7 @@ class UsersResolver {
     @Arg('query', { nullable: true }) searchQuery: string,
     @Ctx() { prisma, req }: MyContext,
     @Select() select: any
-  ): Promise<User[]> {
+  ) {
     let where: Prisma.UserWhereInput = {}
     const query = searchQuery?.toLowerCase()
 
@@ -35,7 +35,7 @@ class UsersResolver {
     return prisma.user.findMany({
       where,
       select,
-    }) as any
+    })
   }
 }
 

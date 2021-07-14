@@ -1,6 +1,6 @@
 import { Ctx, Root, Subscription } from 'type-graphql'
-import { MutationType } from '../../enums/mutationType'
-import { Topics } from '../../enums/subscriptions'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'

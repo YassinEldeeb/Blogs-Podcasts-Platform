@@ -1,6 +1,5 @@
 import { Length, MinLength } from 'class-validator'
-import { Field, ID, InputType } from 'type-graphql'
-import { UserExists } from '../../../resolvers/shared/validations/decorators/userExists'
+import { Field, InputType } from 'type-graphql'
 
 @InputType()
 export class CreatePostInput {
@@ -22,8 +21,4 @@ export class CreatePostInput {
 
   @Field(() => [String])
   tags: string[]
-
-  @Field(() => ID)
-  @UserExists({ message: "User doesn't exist!" })
-  authorId: string
 }

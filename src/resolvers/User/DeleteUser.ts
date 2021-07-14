@@ -1,19 +1,19 @@
-import { Args, Ctx, Mutation, Resolver } from 'type-graphql'
+import { Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql'
+import { isAuth } from '../../middleware/isAuth'
 import { User } from '../../models/User'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
-import { UserIdInput } from './shared/UserIdInput'
 
 @Resolver()
-class DeleteUserResolver {
+class DeleteAccountResolver {
   @Mutation(() => User)
-  async deleteUser(
-    @Args() { id }: UserIdInput,
-    @Ctx() { prisma }: MyContext,
+  @UseMiddleware(isAuth)
+  async deleteAccount(
+    @Ctx() { prisma, userId }: MyContext,
     @Select() select: any
   ): Promise<User> {
-    return prisma.user.delete({ where: { id }, select }) as any
+    return prisma.user.delete({ where: { id: userId }, select }) as any
   }
 }
 
-export { DeleteUserResolver }
+export { DeleteAccountResolver }

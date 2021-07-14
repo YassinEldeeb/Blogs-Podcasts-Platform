@@ -7,7 +7,7 @@ export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
   const authorization = context.req.headers['authorization']
 
   if (!authorization) {
-    throw new Error('not authenticated!')
+    throw new Error('Not authenticated!')
   }
 
   try {
@@ -19,13 +19,13 @@ export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
     })
 
     if (!user || payload.tokenVersion !== user.tokenVersion) {
-      throw new Error('not authenticated!')
+      throw new Error('Not authenticated!')
     }
 
     context.userId = payload.id
   } catch (error: any) {
     console.log(error.message)
-    throw new Error('not authenticated!')
+    throw new Error('Not authenticated!')
   }
 
   return next()

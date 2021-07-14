@@ -5,9 +5,11 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../enums/mutationType'
-import { Topics } from '../../enums/subscriptions'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
+import { isAuth } from '../../middleware/isAuth'
 import { Comment } from '../../models/Comment'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -20,14 +22,15 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class CreateCommentResolver {
   @Mutation((_returns) => Comment)
+  @UseMiddleware(isAuth)
   async createComment(
     @Arg('data') data: CreateCommentInput,
-    @Ctx() { prisma }: MyContext,
+    @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Comment> {
     const newComment = (await prisma.comment.create({
-      data,
+      data: { ...data, authorId: userId! },
       select: { ...select, id: true },
     })) as any
 

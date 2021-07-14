@@ -6,9 +6,13 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../enums/mutationType'
-import { Topics } from '../../enums/subscriptions'
+import { models } from '../../types/enums/models'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
+import { isAuth } from '../../middleware/isAuth'
+import { IsOwner } from '../shared/auth/isOwner'
 import { Comment } from '../../models/Comment'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -22,6 +26,8 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class UpdateCommentResolver {
   @Mutation((_returns) => Comment)
+  @UseMiddleware(isAuth)
+  @IsOwner(models.comment)
   async updateComment(
     @Args() { id }: CommentIdInput,
     @Arg('data') data: UpdateCommentInput,

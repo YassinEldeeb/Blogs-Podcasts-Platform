@@ -1,12 +1,12 @@
 import { buildSchema, MiddlewareFn } from 'type-graphql'
 import { UsersResolver } from '../resolvers/User/users'
 import { RegisterResolver } from '../resolvers/User/Register'
-import { DeleteUserResolver } from '../resolvers/User/DeleteUser'
+import { DeleteAccountResolver } from '../resolvers/User/DeleteUser'
 import { PostsResolver } from '../resolvers/Post/posts'
 import { CreatePostResolver } from '../resolvers/Post/CreatePost'
 import { DeletePostResolver } from '../resolvers/Post/DeletePost'
 import { CommentsResolver } from '../resolvers/Comment/comments'
-import { UpdateUserResolver } from '../resolvers/User/UpdateUser'
+import { UpdateUserProfileResolver } from '../resolvers/User/UpdateProfile'
 import { UpdatePostResolver } from '../resolvers/Post/UpdatePost'
 import { CreateCommentResolver } from '../resolvers/Comment/CreateComment'
 import { DeleteCommentResolver } from '../resolvers/Comment/DeleteComment'
@@ -23,12 +23,12 @@ export const createSchema = (pubSub: RedisPubSub) =>
     resolvers: [
       UsersResolver,
       RegisterResolver,
-      DeleteUserResolver,
+      DeleteAccountResolver,
       PostsResolver,
       CreatePostResolver,
       DeletePostResolver,
       CommentsResolver,
-      UpdateUserResolver,
+      UpdateUserProfileResolver,
       UpdatePostResolver,
       CreateCommentResolver,
       DeleteCommentResolver,
