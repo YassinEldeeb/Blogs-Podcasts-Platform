@@ -1,30 +1,44 @@
 import 'reflect-metadata'
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
+import express from 'express'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 // import { PubSub } from 'graphql-subscriptions'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
+import expressPlayground from 'graphql-playground-middleware-express'
+import cookieParser from 'cookie-parser'
+import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
 
 const pubsub = new RedisPubSub()
 
-const main = async () => {
+;(async () => {
   const schema = await createSchema(pubsub)
 
   const server = new ApolloServer({
     schema,
-    context: {
+    context: ({ req, res }) => ({
       prisma,
       pubsub,
-    },
+      req,
+      res,
+    }),
   })
 
-  server.listen().then(() => {
+  await server.start()
+
+  const app = express()
+  app.use(cookieParser())
+  app.use(refreshTokenRouter)
+
+  app.get('/', expressPlayground({ endpoint: '/graphql' }))
+
+  server.applyMiddleware({ app })
+
+  app.listen(4000, () => {
     console.log(`
-    Server is running!
-    Listening on port 4000
-    Explore at https://studio.apollographql.com/sandbox
-  `)
+      Server is running!
+      Listening on port 4000
+      Explore at https://studio.apollographql.com/sandbox
+    `)
   })
-}
-
-main()
+})()

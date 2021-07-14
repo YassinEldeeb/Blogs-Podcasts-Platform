@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql'
+import { Field, ObjectType } from 'type-graphql'
 import { MutationType } from '../../../enums/mutationType'
 
 @ObjectType()

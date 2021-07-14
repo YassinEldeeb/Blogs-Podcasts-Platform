@@ -1,12 +1,10 @@
-import { Subscription, Root, Ctx, Info } from 'type-graphql'
+import { Ctx, Root, Subscription } from 'type-graphql'
 import { MutationType } from '../../enums/mutationType'
 import { Topics } from '../../enums/subscriptions'
-import { GraphQLResolveInfo } from 'graphql'
-import { ctx } from '../../types/ctx'
-import { PrismaSelect } from '@paljs/plugins'
-import { PostSubscriptionPayload } from './subscription/PostSubscriptionPayload'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { PostSubscriptionPayload } from './subscription/PostSubscriptionPayload'
 
 const { Posts } = Topics
 const { DELETED } = MutationType
@@ -17,7 +15,7 @@ class PostsSubscriptionsResolver {
   })
   async posts(
     @Root() data: PublishedData,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<PostSubscriptionPayload> {
     let post = null

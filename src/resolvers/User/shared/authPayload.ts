@@ -7,5 +7,5 @@ export class AuthPayload {
   user: User
 
   @Field()
-  token: string
+  accessToken: string
 }

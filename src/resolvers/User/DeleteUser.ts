@@ -1,15 +1,15 @@
 import { Args, Ctx, Mutation, Resolver } from 'type-graphql'
-import { ctx } from '../../types/ctx'
 import { User } from '../../models/User'
-import { UserIdInput } from './shared/UserIdInput'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { UserIdInput } from './shared/UserIdInput'
 
 @Resolver()
 class DeleteUserResolver {
   @Mutation(() => User)
   async deleteUser(
     @Args() { id }: UserIdInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<User> {
     return prisma.user.delete({ where: { id }, select }) as any

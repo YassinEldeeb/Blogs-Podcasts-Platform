@@ -1,21 +1,18 @@
-import { PrismaSelect } from '@paljs/plugins'
-import { GraphQLResolveInfo } from 'graphql'
 import {
-  Resolver,
-  Mutation,
-  Ctx,
-  Info,
   Args,
+  Ctx,
+  Mutation,
   PubSub,
   PubSubEngine,
+  Resolver,
 } from 'type-graphql'
-import { ctx } from '../../types/ctx'
-import { Comment } from '../../models/Comment'
-import { CommentIdInput } from './shared/CommentIdExists'
 import { MutationType } from '../../enums/mutationType'
 import { Topics } from '../../enums/subscriptions'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { Comment } from '../../models/Comment'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { CommentIdInput } from './shared/CommentIdExists'
 
 const { DELETED } = MutationType
 const { CommentsOnPost } = Topics
@@ -25,7 +22,7 @@ class DeleteCommentResolver {
   @Mutation((_returns) => Comment)
   async deleteComment(
     @Args() { id }: CommentIdInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Comment> {

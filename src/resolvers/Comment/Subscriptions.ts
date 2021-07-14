@@ -1,13 +1,11 @@
-import { Subscription, Root, Arg, Info, Ctx } from 'type-graphql'
-import { PrismaSelect } from '@paljs/plugins'
-import { Topics } from '../../enums/subscriptions'
+import { Arg, Ctx, Root, Subscription } from 'type-graphql'
 import { MutationType } from '../../enums/mutationType'
-import { PublishedData } from '../shared/subscription/PublishedData'
-import { CommentSubscriptionPayload } from './subscription/CommentSubscriptionPayload'
-import { GraphQLResolveInfo } from 'graphql'
-import { ctx } from '../../types/ctx'
-import { checkPostExistance } from '../shared/validations/shared/checkPostExistance'
+import { Topics } from '../../enums/subscriptions'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { checkPostExistance } from '../shared/validations/shared/checkPostExistance'
+import { CommentSubscriptionPayload } from './subscription/CommentSubscriptionPayload'
 
 const { CommentsOnPost } = Topics
 const { DELETED } = MutationType
@@ -28,7 +26,7 @@ class CommentsSubscriptionsResolver {
   async comments(
     @Root() data: PublishedData,
     @Arg('postId') _id: string,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<CommentSubscriptionPayload> {
     console.log(select)

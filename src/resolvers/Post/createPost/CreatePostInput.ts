@@ -1,4 +1,4 @@
-import { MinLength, Length } from 'class-validator'
+import { Length, MinLength } from 'class-validator'
 import { Field, ID, InputType } from 'type-graphql'
 import { UserExists } from '../../../resolvers/shared/validations/decorators/userExists'
 

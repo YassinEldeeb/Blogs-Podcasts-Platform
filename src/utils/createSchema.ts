@@ -15,6 +15,8 @@ import { CommentsSubscriptionsResolver } from '../resolvers/Comment/Subscription
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { PostsSubscriptionsResolver } from '../resolvers/Post/Subscriptions'
 import { LoginResolver } from '../resolvers/User/Login'
+import { MeResolver } from '../resolvers/User/me'
+import { RevokeResolver } from '../resolvers/User/revokeAllTokens'
 
 export const createSchema = (pubSub: RedisPubSub) =>
   buildSchema({
@@ -34,6 +36,8 @@ export const createSchema = (pubSub: RedisPubSub) =>
       CommentsSubscriptionsResolver,
       PostsSubscriptionsResolver,
       LoginResolver,
+      MeResolver,
+      RevokeResolver,
     ],
     pubSub,
   })

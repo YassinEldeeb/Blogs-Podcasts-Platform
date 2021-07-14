@@ -1,21 +1,18 @@
 import {
-  Resolver,
-  Mutation,
-  Ctx,
-  Info,
   Arg,
+  Ctx,
+  Mutation,
   PubSub,
   PubSubEngine,
+  Resolver,
 } from 'type-graphql'
-import { ctx } from '../../types/ctx'
-import { Post } from '../../models/Post'
-import { GraphQLResolveInfo } from 'graphql'
-import { CreatePostInput } from './createPost/CreatePostInput'
-import { PrismaSelect } from '@paljs/plugins'
 import { MutationType } from '../../enums/mutationType'
 import { Topics } from '../../enums/subscriptions'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { Post } from '../../models/Post'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { CreatePostInput } from './createPost/CreatePostInput'
 
 const { CREATED } = MutationType
 const { Posts } = Topics
@@ -25,7 +22,7 @@ class CreatePostResolver {
   @Mutation((_returns) => Post)
   async createPost(
     @Arg('data') data: CreatePostInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ) {

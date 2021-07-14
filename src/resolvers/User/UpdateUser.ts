@@ -1,9 +1,9 @@
-import { Resolver, Mutation, Ctx, Arg, Args } from 'type-graphql'
+import { Arg, Args, Ctx, Mutation, Resolver } from 'type-graphql'
 import { User } from '../../models/User'
-import { ctx } from '../../types/ctx'
-import { UpdateUserInput } from './updateUser/UpdateUserInput'
-import { UserIdInput } from './shared/UserIdInput'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { UserIdInput } from './shared/UserIdInput'
+import { UpdateUserInput } from './updateUser/UpdateUserInput'
 
 @Resolver()
 class UpdateUserResolver {
@@ -11,7 +11,7 @@ class UpdateUserResolver {
   updateUser(
     @Args() { id }: UserIdInput,
     @Arg('data') data: UpdateUserInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<User> {
     return prisma.user.update({

@@ -1,9 +1,7 @@
-import { PrismaSelect } from '@paljs/plugins'
 import { Prisma } from '@prisma/client'
-import { GraphQLResolveInfo } from 'graphql'
-import { Arg, Ctx, Info, Query, Resolver } from 'type-graphql'
-import { ctx } from '../../types/ctx'
+import { Arg, Ctx, Query, Resolver } from 'type-graphql'
 import { Post } from '../../models/Post'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
 
 @Resolver()
@@ -11,7 +9,7 @@ class PostsResolver {
   @Query(() => [Post])
   posts(
     @Arg('query', { nullable: true }) searchQuery: string,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<Post[]> {
     let where: Prisma.PostWhereInput = {}

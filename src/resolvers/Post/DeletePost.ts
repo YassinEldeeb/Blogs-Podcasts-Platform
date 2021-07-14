@@ -1,21 +1,18 @@
-import { PrismaSelect } from '@paljs/plugins'
-import { GraphQLResolveInfo } from 'graphql'
 import {
   Args,
   Ctx,
-  Info,
   Mutation,
   PubSub,
   PubSubEngine,
   Resolver,
 } from 'type-graphql'
-import { ctx } from '../../types/ctx'
-import { Post } from '../../models/Post'
-import { PostIdInput } from './shared/PostIdExists'
 import { MutationType } from '../../enums/mutationType'
 import { Topics } from '../../enums/subscriptions'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { Post } from '../../models/Post'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { PostIdInput } from './shared/PostIdExists'
 
 const { DELETED } = MutationType
 const { Posts } = Topics
@@ -25,7 +22,7 @@ class DeletePostResolver {
   @Mutation(() => Post)
   async deletePost(
     @Args() { id }: PostIdInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Post> {

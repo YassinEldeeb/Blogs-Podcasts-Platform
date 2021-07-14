@@ -1,23 +1,20 @@
 import {
-  Resolver,
-  Mutation,
-  Info,
-  Ctx,
   Arg,
   Args,
+  Ctx,
+  Mutation,
   PubSub,
   PubSubEngine,
+  Resolver,
 } from 'type-graphql'
-import { Post } from '../../models/Post'
-import { PrismaSelect } from '@paljs/plugins'
-import { GraphQLResolveInfo } from 'graphql'
-import { ctx } from '../../types/ctx'
-import { UpdatePostInput } from './updatePost/UpdatePostInput'
-import { PostIdInput } from './shared/PostIdExists'
 import { MutationType } from '../../enums/mutationType'
 import { Topics } from '../../enums/subscriptions'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { Post } from '../../models/Post'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { PostIdInput } from './shared/PostIdExists'
+import { UpdatePostInput } from './updatePost/UpdatePostInput'
 
 const { CREATED, UPDATED, DELETED } = MutationType
 const { Posts } = Topics
@@ -29,7 +26,7 @@ class UpdatePostResolver {
     @Args() { id }: PostIdInput,
     @Arg('data') data: UpdatePostInput,
     @PubSub() pubSub: PubSubEngine,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<Post> {
     const originalPost = (await prisma.post.findUnique({

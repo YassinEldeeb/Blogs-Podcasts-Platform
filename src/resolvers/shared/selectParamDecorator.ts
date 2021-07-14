@@ -1,5 +1,5 @@
-import { createParamDecorator } from 'type-graphql'
 import { PrismaSelect } from '@paljs/plugins'
+import { createParamDecorator } from 'type-graphql'
 
 function Select() {
   return createParamDecorator(({ info }: any) => {

@@ -1,21 +1,18 @@
-import { PrismaSelect } from '@paljs/plugins'
-import { GraphQLResolveInfo } from 'graphql'
 import {
-  Resolver,
-  Mutation,
-  Ctx,
-  Info,
   Arg,
+  Ctx,
+  Mutation,
   PubSub,
   PubSubEngine,
+  Resolver,
 } from 'type-graphql'
-import { ctx } from '../../types/ctx'
-import { CreateCommentInput } from './createComment/CreateCommentInput'
-import { Comment } from '../../models/Comment'
-import { Topics } from '../../enums/subscriptions'
 import { MutationType } from '../../enums/mutationType'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { Topics } from '../../enums/subscriptions'
+import { Comment } from '../../models/Comment'
+import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
+import { CreateCommentInput } from './createComment/CreateCommentInput'
 
 const { CREATED } = MutationType
 const { CommentsOnPost } = Topics
@@ -25,7 +22,7 @@ class CreateCommentResolver {
   @Mutation((_returns) => Comment)
   async createComment(
     @Arg('data') data: CreateCommentInput,
-    @Ctx() { prisma }: ctx,
+    @Ctx() { prisma }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Comment> {
