@@ -17,6 +17,7 @@ import { PostsSubscriptionsResolver } from '../resolvers/Post/Subscriptions'
 import { LoginResolver } from '../resolvers/User/Login'
 import { MeResolver } from '../resolvers/User/me'
 import { RevokeResolver } from '../resolvers/User/revokeAllTokens'
+import { PostResolver } from '../resolvers/Post/post'
 
 export const createSchema = (pubSub: RedisPubSub) =>
   buildSchema({
@@ -25,6 +26,7 @@ export const createSchema = (pubSub: RedisPubSub) =>
       RegisterResolver,
       DeleteAccountResolver,
       PostsResolver,
+      PostResolver,
       CreatePostResolver,
       DeletePostResolver,
       CommentsResolver,

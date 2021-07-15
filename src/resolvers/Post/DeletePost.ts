@@ -5,14 +5,13 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
-  UseMiddleware,
 } from 'type-graphql'
+import { Auth } from '../../middleware/Auth'
+import { IsOwner } from '../../middleware/IsOwner'
+import { Post } from '../../models/Post'
 import { models } from '../../types/enums/models'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
-import { isAuth } from '../../middleware/isAuth'
-import { IsOwner } from '../shared/auth/isOwner'
-import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
@@ -24,7 +23,7 @@ const { Posts } = Topics
 @Resolver()
 class DeletePostResolver {
   @Mutation(() => Post)
-  @UseMiddleware(isAuth)
+  @Auth()
   @IsOwner(models.post)
   async deletePost(
     @Args() { id }: PostIdInput,

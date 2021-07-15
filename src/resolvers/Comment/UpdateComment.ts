@@ -11,8 +11,8 @@ import {
 import { models } from '../../types/enums/models'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
-import { isAuth } from '../../middleware/isAuth'
-import { IsOwner } from '../shared/auth/isOwner'
+import { Auth } from '../../middleware/Auth'
+import { IsOwner } from '../../middleware/IsOwner'
 import { Comment } from '../../models/Comment'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -26,7 +26,7 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class UpdateCommentResolver {
   @Mutation((_returns) => Comment)
-  @UseMiddleware(isAuth)
+  @Auth()
   @IsOwner(models.comment)
   async updateComment(
     @Args() { id }: CommentIdInput,

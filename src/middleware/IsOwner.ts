@@ -1,7 +1,7 @@
 import { createMethodDecorator } from 'type-graphql'
-import { models } from '../../../types/enums/models'
-import { prisma } from '../../../prisma'
-import { MyContext } from '../../../types/MyContext'
+import { models } from '../types/enums/models'
+import { prisma } from '../prisma'
+import { MyContext } from '../types/MyContext'
 
 export function IsOwner(model: models) {
   return createMethodDecorator<MyContext>(

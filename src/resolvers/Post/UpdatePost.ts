@@ -11,8 +11,8 @@ import {
 import { models } from '../../types/enums/models'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
-import { isAuth } from '../../middleware/isAuth'
-import { IsOwner } from '../shared/auth/isOwner'
+import { Auth } from '../../middleware/Auth'
+import { IsOwner } from '../../middleware/IsOwner'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -26,7 +26,7 @@ const { Posts } = Topics
 @Resolver()
 class UpdatePostResolver {
   @Mutation((_returns) => Post)
-  @UseMiddleware(isAuth)
+  @Auth()
   @IsOwner(models.post)
   async updatePost(
     @Args() { id }: PostIdInput,

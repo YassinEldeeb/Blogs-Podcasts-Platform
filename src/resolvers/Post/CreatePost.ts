@@ -9,7 +9,7 @@ import {
 } from 'type-graphql'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
-import { isAuth } from '../../middleware/isAuth'
+import { Auth } from '../../middleware/Auth'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -22,7 +22,7 @@ const { Posts } = Topics
 @Resolver()
 class CreatePostResolver {
   @Mutation((_returns) => Post)
-  @UseMiddleware(isAuth)
+  @Auth()
   async createPost(
     @Arg('data') data: CreatePostInput,
     @Ctx() { prisma, userId }: MyContext,

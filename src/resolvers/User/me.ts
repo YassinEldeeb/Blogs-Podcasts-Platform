@@ -1,5 +1,5 @@
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql'
-import { isAuth } from '../../middleware/isAuth'
+import { Auth } from '../../middleware/Auth'
 import { User } from '../../models/User'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/selectParamDecorator'
@@ -7,7 +7,7 @@ import { Select } from '../shared/selectParamDecorator'
 @Resolver()
 class MeResolver {
   @Query(() => User)
-  @UseMiddleware(isAuth)
+  @Auth()
   async me(
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any
