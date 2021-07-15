@@ -1,12 +1,5 @@
-import { MinLength } from 'class-validator'
-import { Field, InputType } from 'type-graphql'
+import { InputType } from 'type-graphql'
+import { TextField } from '../shared/textField'
 
 @InputType()
-export class UpdateCommentInput {
-  @Field()
-  @MinLength(1, {
-    message: 'Text is too short',
-  })
-  @Field()
-  text: string
-}
+export class UpdateCommentInput extends TextField {}

@@ -1,16 +1,9 @@
-import { MinLength } from 'class-validator'
 import { Field, ID, InputType } from 'type-graphql'
 import { PostExists } from '../../../resolvers/shared/validations/decorators/postExists'
+import { TextField } from '../shared/textField'
 
 @InputType()
-export class CreateCommentInput {
-  @Field()
-  @MinLength(1, {
-    message: 'Text is too short',
-  })
-  @Field()
-  text: string
-
+export class CreateCommentInput extends TextField {
   @Field((_type) => ID)
   @PostExists({ message: "Post doesn't exist" })
   postId: string

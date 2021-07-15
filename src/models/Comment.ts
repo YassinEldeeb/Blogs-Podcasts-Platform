@@ -11,6 +11,7 @@ export class Comment {
   text: string
 
   authorId: string
+
   @Field(() => User)
   author: User
 
