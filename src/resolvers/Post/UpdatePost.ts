@@ -6,16 +6,15 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
-  UseMiddleware,
 } from 'type-graphql'
-import { models } from '../../types/enums/models'
-import { MutationType } from '../../types/enums/mutationType'
-import { Topics } from '../../types/enums/subscriptions'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
 import { Post } from '../../models/Post'
+import { models } from '../../types/enums/models'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'
 import { UpdatePostInput } from './updatePost/UpdatePostInput'

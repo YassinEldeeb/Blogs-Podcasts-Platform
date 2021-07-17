@@ -12,7 +12,7 @@ export class Comment {
 
   authorId: string
 
-  @Field(() => User)
+  @Field((_type) => User)
   author: User
 
   postId: string

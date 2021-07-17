@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql'
 import { Auth } from '../../middleware/Auth'
 import { User } from '../../models/User'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 import { UpdateUserInput } from './updateUser/UpdateUserInput'
 
 @Resolver()

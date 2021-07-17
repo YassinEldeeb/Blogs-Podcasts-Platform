@@ -12,7 +12,7 @@ import { Topics } from '../../types/enums/subscriptions'
 import { Auth } from '../../middleware/Auth'
 import { Comment } from '../../models/Comment'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreateCommentInput } from './createComment/CreateCommentInput'
 

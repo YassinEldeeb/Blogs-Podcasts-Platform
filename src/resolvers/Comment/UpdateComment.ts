@@ -15,11 +15,10 @@ import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
 import { Comment } from '../../models/Comment'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CommentIdInput } from './shared/CommentIdExists'
 import { UpdateCommentInput } from './updateComment/UpdateCommentInput'
-
 const { UPDATED } = MutationType
 const { CommentsOnPost } = Topics
 

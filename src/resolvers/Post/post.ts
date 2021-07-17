@@ -2,7 +2,7 @@ import { Arg, Ctx, Query, Resolver } from 'type-graphql'
 import { Auth } from '../../middleware/Auth'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 
 @Resolver()
 class PostResolver {

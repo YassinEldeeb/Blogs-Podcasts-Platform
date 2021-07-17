@@ -2,7 +2,7 @@ import { Arg, Ctx, Root, Subscription } from 'type-graphql'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { checkPostExistance } from '../shared/validations/shared/checkPostExistance'
 import { CommentSubscriptionPayload } from './subscription/CommentSubscriptionPayload'
@@ -29,7 +29,6 @@ class CommentsSubscriptionsResolver {
     @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<CommentSubscriptionPayload> {
-    console.log(select)
     let comment = null
 
     if (data.mutation !== DELETED) {

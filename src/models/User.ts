@@ -10,12 +10,12 @@ export class User {
   @Field()
   name: string
 
-  @Field()
+  @Field({ nullable: true })
   email: string
 
   password: string
 
-  @Field((_type) => [Post])
+  @Field((_type) => [Post], { nullable: true })
   posts: Post[]
 
   @Field((_type) => [Comment])

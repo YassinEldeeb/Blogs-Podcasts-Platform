@@ -3,22 +3,22 @@ import { createMethodDecorator } from 'type-graphql'
 import { prisma } from '../prisma'
 import { MyContext } from '../types/MyContext'
 
-const authFailed = (throwError: boolean = true, context: MyContext) => {
+const authFailed = (throwError: boolean = true, next: any) => {
   if (throwError) {
     throw new Error('Not authenticated!')
-  } else {
-    return
   }
+  next()
 }
 
 export function Auth(options?: { throwError: boolean }) {
   const throwError = options?.throwError
 
-  return createMethodDecorator<MyContext>(async ({ context, args }, next) => {
+  return createMethodDecorator<MyContext>(async ({ context }, next) => {
     const authorization = context.req.headers['authorization']
 
     if (!authorization) {
-      authFailed(throwError, context)
+      context.userId = undefined
+      return authFailed(throwError, next)
     }
 
     try {
@@ -30,13 +30,15 @@ export function Auth(options?: { throwError: boolean }) {
       })
 
       if (!user || payload.tokenVersion !== user.tokenVersion) {
-        authFailed(throwError, context)
+        context.userId = undefined
+        return authFailed(throwError, next)
       }
 
       context.userId = payload.id
     } catch (error: any) {
       console.log(error.message)
-      authFailed(throwError, context)
+      context.userId = undefined
+      return authFailed(throwError, next)
     }
 
     return next()

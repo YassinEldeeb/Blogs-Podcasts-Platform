@@ -2,34 +2,40 @@ import { Prisma } from '@prisma/client'
 import { Arg, Ctx, Query, Resolver } from 'type-graphql'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
-import { Select } from '../shared/selectParamDecorator'
+import { Select } from '../shared/select/selectParamDecorator'
 
 @Resolver()
 class PostsResolver {
   @Query(() => [Post])
   posts(
-    @Arg('query', { nullable: true }) searchQuery: string,
-    @Ctx() { prisma }: MyContext,
+    @Arg('search', { nullable: true }) search: string,
+    @Arg('authorId', { nullable: true }) authorId: string,
+    @Ctx()
+    { prisma }: MyContext,
     @Select() select: any
   ): Promise<Post[]> {
-    let where: Prisma.PostWhereInput = {}
-    const query = searchQuery?.toLowerCase()
+    const where: Prisma.PostWhereInput = { published: true }
 
-    if (query) {
-      where = {
+    if (search) {
+      const filter = {
+        contains: search,
+        mode: 'insensitive',
+      } as any
+
+      where.OR = {
+        ...where,
         OR: [
           {
-            title: {
-              contains: query,
-            },
+            title: filter,
           },
           {
-            body: {
-              contains: query,
-            },
+            body: filter,
           },
         ],
       }
+    }
+    if (authorId) {
+      where.authorId = authorId
     }
 
     return prisma.post.findMany({
