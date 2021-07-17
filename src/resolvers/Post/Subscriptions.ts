@@ -1,4 +1,5 @@
 import { Ctx, Root, Subscription } from 'type-graphql'
+import { Auth } from '../../middleware/Auth'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'

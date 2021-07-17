@@ -8,6 +8,7 @@ import { createSchema } from './utils/createSchema'
 import expressPlayground from 'graphql-playground-middleware-express'
 import cookieParser from 'cookie-parser'
 import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
+import { postsLoader } from './data-loaders/PostsLoader'
 
 const pubsub = new RedisPubSub()
 
@@ -21,6 +22,7 @@ const pubsub = new RedisPubSub()
       pubsub,
       req,
       res,
+      postsLoader: postsLoader(),
     }),
   })
 

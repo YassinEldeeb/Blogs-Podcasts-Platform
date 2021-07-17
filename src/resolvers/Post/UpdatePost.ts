@@ -52,6 +52,9 @@ class UpdatePostResolver {
         id: updatedPost.id,
       } as PublishedData)
     } else if (data.published === false && originalPost.published) {
+      // Delete Post Comments
+      await prisma.comment.deleteMany({ where: { postId: id } })
+
       pubSub.publish(Posts, {
         mutation: DELETED,
         id: updatedPost.id,

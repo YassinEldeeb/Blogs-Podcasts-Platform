@@ -13,7 +13,11 @@ export class postExistConstraint implements ValidatorConstraintInterface {
   }
 }
 
-export function PostExists(validationOptions?: ValidationOptions) {
+interface postExistsArg extends ValidationOptions {
+  published?: boolean
+}
+
+export function PostExists(validationOptions?: postExistsArg) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,

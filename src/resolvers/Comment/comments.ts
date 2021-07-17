@@ -10,7 +10,10 @@ class CommentsResolver {
     @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<Comment[]> {
-    return prisma.comment.findMany({ select }) as any
+    return prisma.comment.findMany({
+      where: { post: { published: true } },
+      select,
+    }) as any
   }
 }
 

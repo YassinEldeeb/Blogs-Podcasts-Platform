@@ -23,11 +23,6 @@ class UsersResolver {
               contains: query,
             },
           },
-          {
-            email: {
-              contains: query,
-            },
-          },
         ],
       }
     }

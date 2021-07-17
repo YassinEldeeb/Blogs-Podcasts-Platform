@@ -1,9 +1,9 @@
 import { prisma } from '../../../../prisma'
 
-export const checkPostExistance = (id: string) => {
+export const checkPostExistance = (id: string, published?: boolean) => {
   return prisma.post
-    .findUnique({
-      where: { id },
+    .findFirst({
+      where: published === undefined ? { id } : { id, published: published },
       select: {
         id: true,
       },
