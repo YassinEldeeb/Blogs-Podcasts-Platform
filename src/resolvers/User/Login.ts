@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
+import { checkPassword } from '../../auth/checkPassword'
 import { genTokens } from '../../auth/genTokens'
 import { sendRefreshToken } from '../../auth/sendRefreshToken'
 import { MyContext } from '../../types/MyContext'
@@ -29,11 +30,7 @@ class LoginResolver {
       select: { password: true },
     })
 
-    const isMatch = bcrypt.compareSync(password, user!.password)
-
-    if (!isMatch) {
-      throw new Error('Unable to Login!')
-    }
+    checkPassword(user!.password, password, 'Unable to Login!')
 
     const authUser = (await prisma.user.findUnique({
       where: { email },
