@@ -27,8 +27,6 @@ class UsersResolver {
       }
     }
 
-    delete select.posts
-
     return prisma.user.findMany({
       where,
       select,

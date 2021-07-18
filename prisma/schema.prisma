@@ -15,6 +15,7 @@ model User {
   password     String    @db.VarChar(255)
   bio          String?
   tokenVersion Int       @default(0)
+  confirmed    Boolean   @default(false)
   posts        Post[]
   comments     Comment[]
   createdAt    DateTime  @default(now())

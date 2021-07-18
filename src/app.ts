@@ -12,7 +12,8 @@ import { postsLoader } from './data-loaders/PostsLoader'
 import { createServer } from 'http'
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { MyContext } from './types/MyContext'
+import './redis'
+import './emails/confirmEmail'
 
 const pubsub = new RedisPubSub({})
 

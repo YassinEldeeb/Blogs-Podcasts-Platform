@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
 import { checkPassword } from '../../auth/checkPassword'
 import { genTokens } from '../../auth/genTokens'
@@ -27,10 +26,14 @@ class LoginResolver {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { password: true },
+      select: { password: true, confirmed: true },
     })
 
     checkPassword(user!.password, password, 'Unable to Login!')
+
+    if (!user?.confirmed) {
+      throw new Error('You need to confirm your email first be logged in')
+    }
 
     const authUser = (await prisma.user.findUnique({
       where: { email },

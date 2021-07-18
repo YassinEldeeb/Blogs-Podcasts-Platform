@@ -1,6 +1,7 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
 import { genTokens } from '../../auth/genTokens'
 import { sendRefreshToken } from '../../auth/sendRefreshToken'
+import { confirmEmail } from '../../emails/confirmEmail'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { RegisterInput } from './register/RegisterInput'
@@ -29,6 +30,7 @@ class RegisterResolver {
     )
 
     sendRefreshToken(res, refreshToken)
+    confirmEmail(user.id, data.email)
 
     context.userId = user.id
 
