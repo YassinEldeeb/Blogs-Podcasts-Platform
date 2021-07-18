@@ -5,6 +5,7 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
@@ -23,7 +24,7 @@ const { Posts } = Topics
 @Resolver()
 class DeletePostResolver {
   @Mutation(() => Post)
-  @Auth()
+  @UseMiddleware(Auth())
   @IsOwner(models.post)
   async deletePost(
     @Args() { id }: PostIdInput,

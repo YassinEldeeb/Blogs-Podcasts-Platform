@@ -24,7 +24,7 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class DeleteCommentResolver {
   @Mutation((_returns) => Comment)
-  @Auth()
+  @UseMiddleware(Auth())
   @IsOwner(models.comment)
   async deleteComment(
     @Args() { id }: CommentIdInput,

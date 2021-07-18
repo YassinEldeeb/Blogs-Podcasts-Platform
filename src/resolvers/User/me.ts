@@ -7,7 +7,7 @@ import { Select } from '../shared/select/selectParamDecorator'
 @Resolver()
 class MeResolver {
   @Query(() => User)
-  @Auth()
+  @UseMiddleware(Auth())
   async me(
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any

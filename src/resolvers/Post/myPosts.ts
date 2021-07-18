@@ -1,4 +1,4 @@
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql'
 import { Auth } from '../../middleware/Auth'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
@@ -8,7 +8,7 @@ import { Select } from '../shared/select/selectParamDecorator'
 @Resolver()
 class MyPostsResolver {
   @Query((_type) => [Post])
-  @Auth()
+  @UseMiddleware(Auth())
   myPosts(
     @Arg('published', { nullable: true }) published: boolean,
     @Ctx() { prisma, userId }: MyContext,

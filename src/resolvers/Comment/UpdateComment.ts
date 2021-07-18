@@ -25,7 +25,7 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class UpdateCommentResolver {
   @Mutation((_returns) => Comment)
-  @Auth()
+  @UseMiddleware(Auth())
   @IsOwner(models.comment)
   async updateComment(
     @Args() { id }: CommentIdInput,

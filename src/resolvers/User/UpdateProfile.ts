@@ -8,7 +8,7 @@ import { UpdateUserInput } from './updateUser/UpdateUserInput'
 @Resolver()
 class UpdateUserProfileResolver {
   @Mutation((_returns) => User)
-  @Auth()
+  @UseMiddleware(Auth())
   updateProfile(
     @Arg('data') data: UpdateUserInput,
     @Ctx() { prisma, userId }: MyContext,

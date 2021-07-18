@@ -6,6 +6,7 @@ import {
   PubSub,
   PubSubEngine,
   Resolver,
+  UseMiddleware,
 } from 'type-graphql'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
@@ -25,7 +26,7 @@ const { Posts } = Topics
 @Resolver()
 class UpdatePostResolver {
   @Mutation((_returns) => Post)
-  @Auth()
+  @UseMiddleware(Auth())
   @IsOwner(models.post)
   async updatePost(
     @Args() { id }: PostIdInput,

@@ -22,7 +22,7 @@ const { Posts } = Topics
 @Resolver()
 class CreatePostResolver {
   @Mutation((_returns) => Post)
-  @Auth()
+  @UseMiddleware(Auth())
   async createPost(
     @Arg('data') data: CreatePostInput,
     @Ctx() { prisma, userId }: MyContext,
@@ -42,11 +42,13 @@ class CreatePostResolver {
       } as PublishedData)
     }
 
+    pubSub.publish(`myPost:${userId}`, {
+      mutation: CREATED,
+      id: newPost.id,
+    } as PublishedData)
+
     return newPost
   }
 }
 
 export { CreatePostResolver }
-function IsAuth(IsAuth: any) {
-  throw new Error('Function not implemented.')
-}

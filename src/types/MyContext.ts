@@ -8,6 +8,7 @@ interface MyContext {
   pubsub: RedisPubSub
   req: Request
   res: Response
+  wsHeaders: any
   userId?: string
   postsLoader: ReturnType<typeof postsLoader>
 }

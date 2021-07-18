@@ -54,6 +54,3 @@ class LoginResolver {
 }
 
 export { LoginResolver }
-function UseMiddlware() {
-  throw new Error('Function not implemented.')
-}

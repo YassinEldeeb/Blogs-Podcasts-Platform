@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { createMethodDecorator } from 'type-graphql'
+import { MiddlewareFn } from 'type-graphql'
 import { prisma } from '../prisma'
 import { MyContext } from '../types/MyContext'
 
@@ -7,13 +7,14 @@ const authFailed = (throwError: boolean = true, next: any) => {
   if (throwError) {
     throw new Error('Not authenticated!')
   }
-  next()
+  return next()
 }
 
-export function Auth(options?: { throwError: boolean }) {
-  const throwError = options?.throwError
-
-  return createMethodDecorator<MyContext>(async ({ context }, next) => {
+export function Auth(options?: {
+  throwError: boolean
+}): MiddlewareFn<MyContext> {
+  return async ({ context }, next) => {
+    const throwError = options?.throwError
     const authorization = context.req.headers['authorization']
 
     if (!authorization) {
@@ -40,7 +41,6 @@ export function Auth(options?: { throwError: boolean }) {
       context.userId = undefined
       return authFailed(throwError, next)
     }
-
     return next()
-  })
+  }
 }

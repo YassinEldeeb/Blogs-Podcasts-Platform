@@ -7,7 +7,7 @@ import { Select } from '../shared/select/selectParamDecorator'
 @Resolver()
 class DeleteAccountResolver {
   @Mutation(() => User)
-  @Auth()
+  @UseMiddleware(Auth())
   async deleteAccount(
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any

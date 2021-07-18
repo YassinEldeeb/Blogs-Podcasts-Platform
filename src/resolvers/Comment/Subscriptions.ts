@@ -1,4 +1,5 @@
 import { Arg, Ctx, Root, Subscription } from 'type-graphql'
+import { pubsub } from '../../app'
 import { MutationType } from '../../types/enums/mutationType'
 import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'
@@ -12,12 +13,11 @@ const { DELETED } = MutationType
 
 class CommentsSubscriptionsResolver {
   @Subscription((_returns) => CommentSubscriptionPayload, {
-    subscribe: (_root, { postId }, { pubsub }): any => {
+    subscribe: (_root, { postId }): any => {
       const topicName = `${CommentsOnPost}:${postId}`
-
       return checkPostExistance(postId).then((post) => {
         if (!post) {
-          return { error: { message: 'Post not Found' } } as any
+          throw new Error('Post not Found')
         }
         return pubsub.asyncIterator(topicName)
       })

@@ -7,10 +7,10 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../types/enums/mutationType'
-import { Topics } from '../../types/enums/subscriptions'
 import { Auth } from '../../middleware/Auth'
 import { Comment } from '../../models/Comment'
+import { MutationType } from '../../types/enums/mutationType'
+import { Topics } from '../../types/enums/subscriptions'
 import { MyContext } from '../../types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
@@ -22,7 +22,7 @@ const { CommentsOnPost } = Topics
 @Resolver()
 class CreateCommentResolver {
   @Mutation((_returns) => Comment)
-  @Auth()
+  @UseMiddleware(Auth())
   async createComment(
     @Arg('data') data: CreateCommentInput,
     @Ctx() { prisma, userId }: MyContext,

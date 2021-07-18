@@ -5,12 +5,16 @@ import { RedisPubSub } from 'graphql-redis-subscriptions'
 // import { PubSub } from 'graphql-subscriptions'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
-import expressPlayground from 'graphql-playground-middleware-express'
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import cookieParser from 'cookie-parser'
 import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
 import { postsLoader } from './data-loaders/PostsLoader'
+import { createServer } from 'http'
+import { execute, subscribe } from 'graphql'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
+import { MyContext } from './types/MyContext'
 
-const pubsub = new RedisPubSub()
+const pubsub = new RedisPubSub({})
 
 ;(async () => {
   const schema = await createSchema(pubsub)
@@ -24,6 +28,7 @@ const pubsub = new RedisPubSub()
       res,
       postsLoader: postsLoader(),
     }),
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   })
 
   await server.start()
@@ -32,11 +37,23 @@ const pubsub = new RedisPubSub()
   app.use(cookieParser())
   app.use(refreshTokenRouter)
 
-  app.get('/', expressPlayground({ endpoint: '/graphql' }))
-
   server.applyMiddleware({ app })
 
-  app.listen(4000, () => {
+  const httpServer = createServer(app)
+
+  SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+      onConnect(wsHeaders: any, ws: any) {
+        return { wsHeaders }
+      },
+    },
+    { server: httpServer, path: server.graphqlPath }
+  )
+
+  httpServer.listen(4000, () => {
     console.log(`
       Server is running!
       Listening on port 4000
@@ -44,3 +61,5 @@ const pubsub = new RedisPubSub()
     `)
   })
 })()
+
+export { pubsub }
