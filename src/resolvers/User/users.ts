@@ -1,14 +1,21 @@
 import { Prisma } from '@prisma/client'
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+import { Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { User } from '../../models/User'
 import { MyContext } from '../../types/MyContext'
+import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
+
+@ArgsType()
+class UsersInput extends PaginationArgs {
+  @Field({ nullable: true })
+  searchQuery?: string
+}
 
 @Resolver()
 class UsersResolver {
   @Query((_returns) => [User])
   async users(
-    @Arg('query', { nullable: true }) searchQuery: string,
+    @Args() { searchQuery, skip, take, cursorId }: UsersInput,
     @Ctx() { prisma }: MyContext,
     @Select() select: any
   ) {
@@ -21,6 +28,7 @@ class UsersResolver {
           {
             name: {
               contains: query,
+              mode: 'insensitive',
             },
           },
         ],
@@ -30,6 +38,9 @@ class UsersResolver {
     return prisma.user.findMany({
       where,
       select,
+      skip,
+      take,
+      cursor: cursorId ? { id: cursorId } : undefined,
     })
   }
 }

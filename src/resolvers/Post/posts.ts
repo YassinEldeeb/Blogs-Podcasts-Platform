@@ -1,15 +1,24 @@
 import { Prisma } from '@prisma/client'
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
+import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
+
+@ArgsType()
+class PostsInput extends PaginationArgs {
+  @Field({ nullable: true })
+  search: string
+
+  @Field({ nullable: true })
+  authorId: string
+}
 
 @Resolver()
 class PostsResolver {
   @Query(() => [Post])
   posts(
-    @Arg('search', { nullable: true }) search: string,
-    @Arg('authorId', { nullable: true }) authorId: string,
+    @Args() { authorId, search, take, skip, cursorId }: PostsInput,
     @Ctx()
     { prisma }: MyContext,
     @Select() select: any
@@ -40,7 +49,10 @@ class PostsResolver {
 
     return prisma.post.findMany({
       where,
+      take,
+      skip,
       select,
+      cursor: cursorId ? { id: cursorId } : undefined,
     }) as any
   }
 }

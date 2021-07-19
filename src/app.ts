@@ -15,7 +15,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws'
 import './redis'
 import './emails/confirmEmail'
 
-const pubsub = new RedisPubSub({})
+const pubsub = new RedisPubSub()
 
 ;(async () => {
   const schema = await createSchema(pubsub)
