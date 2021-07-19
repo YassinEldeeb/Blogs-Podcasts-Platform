@@ -4,6 +4,7 @@ import { Post } from '../../models/Post'
 import { MyContext } from '../../types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
+import { SortingArgs } from '../shared/sorting'
 
 @ArgsType()
 class PostsInput extends PaginationArgs {
@@ -19,8 +20,8 @@ class PostsResolver {
   @Query(() => [Post])
   posts(
     @Args() { authorId, search, take, skip, cursorId }: PostsInput,
-    @Ctx()
-    { prisma }: MyContext,
+    @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
+    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<Post[]> {
     const where: Prisma.PostWhereInput = { published: true }
@@ -49,9 +50,10 @@ class PostsResolver {
 
     return prisma.post.findMany({
       where,
+      select,
       take,
       skip,
-      select,
+      orderBy,
       cursor: cursorId ? { id: cursorId } : undefined,
     }) as any
   }

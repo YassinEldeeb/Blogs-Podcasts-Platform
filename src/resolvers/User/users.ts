@@ -1,9 +1,10 @@
 import { Prisma } from '@prisma/client'
-import { Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
+import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { User } from '../../models/User'
 import { MyContext } from '../../types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
+import { SortingArgs } from '../shared/sorting'
 
 @ArgsType()
 class UsersInput extends PaginationArgs {
@@ -16,6 +17,7 @@ class UsersResolver {
   @Query((_returns) => [User])
   async users(
     @Args() { searchQuery, skip, take, cursorId }: UsersInput,
+    @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma }: MyContext,
     @Select() select: any
   ) {
@@ -40,6 +42,7 @@ class UsersResolver {
       select,
       skip,
       take,
+      orderBy,
       cursor: cursorId ? { id: cursorId } : undefined,
     })
   }
