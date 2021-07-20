@@ -3,3 +3,4 @@ dist
 pgdata
 docker-compose.yml
 .env
+kubernetes/secrets

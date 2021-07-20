@@ -15,7 +15,10 @@ import { SubscriptionServer } from 'subscriptions-transport-ws'
 import './redis'
 import './emails/confirmEmail'
 
-const pubsub = new RedisPubSub()
+console.log('REDIS_HOST:', process.env.REDIS_HOST)
+console.log('DATABASE_URL:', process.env.DATABASE_URL)
+
+const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
 ;(async () => {
   const schema = await createSchema(pubsub)

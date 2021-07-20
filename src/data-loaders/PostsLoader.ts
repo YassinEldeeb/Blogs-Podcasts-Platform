@@ -5,6 +5,7 @@ import { prisma } from '../prisma'
 interface data {
   id: string
   select: any
+  args: any
 }
 
 const batchPosts: any = async (data: data[]) => {
@@ -14,6 +15,10 @@ const batchPosts: any = async (data: data[]) => {
 
   const posts = (await prisma.post.findMany({
     where: { authorId: { in: ids }, published: true },
+    cursor: data[0].args.cursorId ? { id: data[0].args.cursorId } : undefined,
+    take: data[0].args.take,
+    skip: data[0].args.skip,
+    orderBy: data[0].args.orderBy,
     select,
   })) as Post[]
 

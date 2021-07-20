@@ -10,7 +10,7 @@
     "gen-client": "nodemon --watch prisma/schema.prisma --exec yarn genClientAndPushToDB"
   },
   "dependencies": {
-    "@prisma/client": "^2.27.0",
+    "@prisma/client": "2.26.0",
     "apollo-server-core": "^3.0.1",
     "apollo-server-express": "^3.0.0",
     "bcryptjs": "^2.4.3",
@@ -52,6 +52,6 @@
     "@types/uuid": "^8.3.1",
     "concurrently": "^6.2.0",
     "nodemon": "^2.0.7",
-    "prisma": "^2.27.0"
+    "prisma": "2.26.0"
   }
 }

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql
+  labels:
+    app: graphql
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: graphql
+  template:
+    metadata:
+      labels:
+        app: graphql
+    spec:
+      containers:
+        - name: graphql
+          image: yassin/graphql
+          imagePullPolicy: Never
+          resources:
+            limits:
+              cpu: '800m'
+              memory: '0.5Gi'
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: pg-username
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: pg-password
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-configmap
+                  key: database_url
+            - name: DATABASE_URL
+              value: 'postgresql://$(PG_USER):${PG_PASSWORD}@$(DB_URL)/prisma-pg?schema=public'
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-configmap
+                  key: redis_host
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-service
+spec:
+  selector:
+    app: graphql
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+      nodePort: 30000
