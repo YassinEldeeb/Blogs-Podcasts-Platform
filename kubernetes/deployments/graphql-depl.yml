@@ -5,7 +5,7 @@ metadata:
   labels:
     app: graphql
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: graphql
@@ -18,10 +18,6 @@ spec:
         - name: graphql
           image: yassin/graphql
           imagePullPolicy: Never
-          resources:
-            limits:
-              cpu: '800m'
-              memory: '0.5Gi'
           ports:
             - containerPort: 4000
           env:
@@ -61,3 +57,16 @@ spec:
       port: 4000
       targetPort: 4000
       nodePort: 30000
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: graphql
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: graphql
+  minReplicas: 1
+  maxReplicas: 7
+  targetCPUUtilizationPercentage: 50
