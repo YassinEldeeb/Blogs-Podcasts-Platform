@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: graphql-ingress
+spec:
+  rules:
+    - host: devoops.gq
+      http:
+        paths:
+          - backend:
+              serviceName: graphql
+              servicePort: 4000
