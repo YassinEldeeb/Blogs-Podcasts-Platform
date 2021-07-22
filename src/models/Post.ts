@@ -1,5 +1,6 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql'
 import { Comment } from './Comment'
+import { Heart } from './Heart'
 import { User } from './User'
 
 @ObjectType()
@@ -19,8 +20,8 @@ export class Post {
   @Field()
   published: boolean
 
-  @Field((_type) => Int)
-  hearts: number
+  @Field((_type) => [Heart])
+  hearts: Heart[]
 
   authorId: string
 

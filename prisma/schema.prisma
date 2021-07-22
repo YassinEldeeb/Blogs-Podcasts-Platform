@@ -20,6 +20,7 @@ model User {
   comments     Comment[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  hearts       Heart[]
 }
 
 model Post {
@@ -28,12 +29,22 @@ model Post {
   body      String    @db.VarChar(500)
   tags      String[]
   published Boolean   @default(false)
-  hearts    Int       @default(0)
+  hearts    Heart[]
   authorId  String
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Heart {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
