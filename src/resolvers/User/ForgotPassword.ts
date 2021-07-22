@@ -22,7 +22,6 @@ class ForgotPasswordResolver {
     if (!user) {
       return { success: true }
     }
-
     resetPasswordEmail(user.id, email)
 
     return { success: true }

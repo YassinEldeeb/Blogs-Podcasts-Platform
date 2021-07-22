@@ -17,7 +17,7 @@ class ResendConfirmEmail {
     })
 
     if (!user) {
-      throw new Error('Unable to send Confirmation Email! ')
+      return { success: true }
     }
 
     confirmEmail(user!.id, email)

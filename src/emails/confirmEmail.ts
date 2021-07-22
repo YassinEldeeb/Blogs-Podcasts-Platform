@@ -2,20 +2,11 @@ import nodemailer from 'nodemailer'
 import { v4 } from 'uuid'
 import { redisClient } from '../redis'
 import { confirmUserPrefix } from '../resolvers/constants/redisPrefixes'
+import { FROMEMAIL } from './constants/fromEmail'
+import { createTransporter } from './utils/transporter'
 
 export const confirmEmail = async (userId: string, email: string) => {
-  const testAccount = await nodemailer.createTestAccount()
-
-  // create reusable transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  })
+  const transporter = await createTransporter()
 
   try {
     const token = v4()
@@ -27,10 +18,11 @@ export const confirmEmail = async (userId: string, email: string) => {
     )
 
     const info = await transporter.sendMail({
-      from: 'support@devops.com',
+      from: FROMEMAIL,
       to: email,
       subject: 'Confirmation Email',
-      html: `<a>http://frontend.com/confirmEmail/${token}</a>`,
+      html: `<span>Your Token is ${token}</span> <br/> 
+              <a>http://frontend.com/confirmEmail/${token}</a>`,
     })
 
     console.log('Message sent: ', info.messageId)

@@ -2,20 +2,11 @@ import nodemailer from 'nodemailer'
 import { v4 } from 'uuid'
 import { redisClient } from '../redis'
 import { forgotPasswordPrefix } from '../resolvers/constants/redisPrefixes'
+import { FROMEMAIL } from './constants/fromEmail'
+import { createTransporter } from './utils/transporter'
 
 export const resetPasswordEmail = async (userId: string, email: string) => {
-  const testAccount = await nodemailer.createTestAccount()
-
-  // create reusable transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  })
+  const transporter = await createTransporter()
 
   try {
     const token = v4()
@@ -23,10 +14,11 @@ export const resetPasswordEmail = async (userId: string, email: string) => {
     await redisClient.setex(`${forgotPasswordPrefix}${token}`, 60 * 15, userId)
 
     const info = await transporter.sendMail({
-      from: 'support@devops.com',
+      from: FROMEMAIL,
       to: email,
       subject: 'Reset Password',
-      html: `<a>http://frontend.com/reset-password/${token}</a>`,
+      html: `<span>Your Token is ${token}</span> <br/> 
+              <a>http://frontend.com/reset-password/${token}</a>`,
     })
 
     console.log('Message sent: ', info.messageId)
@@ -35,5 +27,7 @@ export const resetPasswordEmail = async (userId: string, email: string) => {
     // Preview only available when sending through an Ethereal account
     console.log('Preview URL: ', nodemailer.getTestMessageUrl(info))
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 }
