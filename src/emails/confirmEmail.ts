@@ -22,7 +22,7 @@ export const confirmEmail = async (userId: string, email: string) => {
       to: email,
       subject: 'Confirmation Email',
       html: `<span>Your Token is ${token}</span> <br/> 
-              <a>http://frontend.com/confirmEmail/${token}</a>`,
+              <a href="http://frontend.com/confirmEmail/${token}">Confirm Email</a>`,
     })
 
     console.log('Message sent: ', info.messageId)

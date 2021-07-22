@@ -18,7 +18,7 @@ export const resetPasswordEmail = async (userId: string, email: string) => {
       to: email,
       subject: 'Reset Password',
       html: `<span>Your Token is ${token}</span> <br/> 
-              <a>http://frontend.com/reset-password/${token}</a>`,
+              <a href='http://frontend.com/reset-password/${token}'>Reset your password</a>`,
     })
 
     console.log('Message sent: ', info.messageId)
