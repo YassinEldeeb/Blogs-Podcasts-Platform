@@ -12,11 +12,7 @@ import { postsLoader } from './data-loaders/PostsLoader'
 import { createServer } from 'http'
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import './redis'
-import './emails/confirmEmail'
-
-console.log('REDIS_HOST:', process.env.REDIS_HOST)
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
+import cors from 'cors'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -38,6 +34,11 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   await server.start()
 
   const app = express()
+  app.use(
+    cors({
+      origin: ['https://studio.apollographql.com', 'http://localhost:3000'],
+    })
+  )
   app.use(cookieParser())
   app.use(refreshTokenRouter)
 

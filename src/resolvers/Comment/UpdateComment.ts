@@ -8,13 +8,13 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { models } from '../../types/enums/models'
-import { MutationType } from '../../types/enums/mutationType'
-import { Topics } from '../../types/enums/subscriptions'
+import { models } from '../../@types/enums/models'
+import { MutationType } from '../../@types/enums/mutationType'
+import { Topics } from '../../@types/enums/subscriptions'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
 import { Comment } from '../../models/Comment'
-import { MyContext } from '../../types/MyContext'
+import { MyContext } from '../../@types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CommentIdInput } from './shared/CommentIdExists'

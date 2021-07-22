@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
 import { redisClient } from '../../redis'
-import { MyContext } from '../../types/MyContext'
+import { MyContext } from '../../@types/MyContext'
 import { forgotPasswordPrefix } from '../constants/redisPrefixes'
 import { ResetPasswordInput } from './resetPassword/resetPasswordInput'
 import { SecureData } from './shared/hashedPassword'

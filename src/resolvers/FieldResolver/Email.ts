@@ -1,6 +1,6 @@
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql'
 import { User } from '../../models/User'
-import { MyContext } from '../../types/MyContext'
+import { MyContext } from '../../@types/MyContext'
 
 @Resolver((_of) => User)
 class EmailResolver {

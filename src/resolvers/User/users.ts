@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { User } from '../../models/User'
-import { MyContext } from '../../types/MyContext'
+import { MyContext } from '../../@types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'
@@ -36,8 +36,9 @@ class UsersResolver {
         ],
       }
     }
+    console.time('Get Users')
 
-    return prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where,
       select,
       skip,
@@ -45,6 +46,9 @@ class UsersResolver {
       orderBy,
       cursor: cursorId ? { id: cursorId } : undefined,
     })
+
+    console.timeEnd('Get Users')
+    return users
   }
 }
 

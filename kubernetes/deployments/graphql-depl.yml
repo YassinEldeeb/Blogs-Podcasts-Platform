@@ -6,6 +6,11 @@ metadata:
     app: graphql
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: graphql
@@ -16,10 +21,17 @@ spec:
     spec:
       containers:
         - name: graphql
-          image: yassin/graphql
-          imagePullPolicy: Never
+          image: yassineldeeb/graphql:1
+          imagePullPolicy: Always
           ports:
             - containerPort: 4000
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '100m'
+            limits:
+              memory: '600Mi'
+              cpu: '2000m'
           env:
             - name: PG_USER
               valueFrom:
@@ -31,6 +43,8 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: pg-password
+            - name: DB_NAME
+              value: prisma-pg
             - name: DB_URL
               valueFrom:
                 configMapKeyRef:
@@ -54,19 +68,6 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 4000
+      name: http
+      port: 80
       targetPort: 4000
-      nodePort: 30000
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: graphql
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: graphql
-  minReplicas: 1
-  maxReplicas: 7
-  targetCPUUtilizationPercentage: 50

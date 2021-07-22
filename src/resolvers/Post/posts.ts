@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { Post } from '../../models/Post'
-import { MyContext } from '../../types/MyContext'
+import { MyContext } from '../../@types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'

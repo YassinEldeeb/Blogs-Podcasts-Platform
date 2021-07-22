@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { AuthChecker } from 'type-graphql'
 import { prisma } from '../prisma'
-import { MyContext } from '../types/MyContext'
+import { MyContext } from '../@types/MyContext'
 
 export const authSubscription: AuthChecker<MyContext> = async (
   { context },
