@@ -9,4 +9,7 @@ export class PostSubscriptionPayload {
 
   @Field({ nullable: true })
   data: Post
+
+  @Field({ nullable: true })
+  deletedPostId?: string
 }

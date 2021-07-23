@@ -7,14 +7,14 @@ export class Follower {
   id: string
 
   @Field((_type) => User)
-  follower: User
+  follower_user: User
 
   @Field((_type) => User)
-  following: User
+  followed_user: User
 
   followerId: string
 
-  followingId: string
+  userId: string
 
   @Field()
   createdAt: Date

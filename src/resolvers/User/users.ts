@@ -36,7 +36,6 @@ class UsersResolver {
         ],
       }
     }
-    console.time('Get Users')
 
     const users = await prisma.user.findMany({
       where,
@@ -47,7 +46,6 @@ class UsersResolver {
       cursor: cursorId ? { id: cursorId } : undefined,
     })
 
-    console.timeEnd('Get Users')
     return users
   }
 }

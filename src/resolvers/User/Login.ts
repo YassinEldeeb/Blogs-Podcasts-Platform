@@ -34,12 +34,11 @@ class LoginResolver {
     if (!user?.confirmed) {
       throw new Error('You need to confirm your email first be logged in')
     }
-    console.time('Login User')
+
     const authUser = (await prisma.user.findUnique({
       where: { email },
       select: { ...select, id: true, tokenVersion: true },
     })) as any
-    console.timeEnd('Login User')
 
     const { accessToken, refreshToken } = await genTokens(
       authUser.id,

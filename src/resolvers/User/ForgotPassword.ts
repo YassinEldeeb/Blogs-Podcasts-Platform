@@ -16,7 +16,7 @@ class ForgotPasswordResolver {
   ): Promise<SuccessPayload> {
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, email: true },
+      select: { id: true },
     })
 
     if (!user) {

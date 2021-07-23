@@ -1,15 +1,14 @@
-import { Arg, Ctx, Root, Subscription } from 'type-graphql'
-import { pubsub } from '../../app'
-import { MutationType } from '../../@types/enums/mutationType'
+import { Arg, Root, Subscription } from 'type-graphql'
+import { DELETED } from '../../@types/enums/mutationType'
 import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
+import { pubsub } from '../../app'
+import { prisma } from '../../prisma'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { checkPostExistance } from '../shared/validations/shared/checkPostExistance'
 import { CommentSubscriptionPayload } from './subscription/CommentSubscriptionPayload'
 
 const { CommentsOnPost } = Topics
-const { DELETED } = MutationType
 
 class CommentsSubscriptionsResolver {
   @Subscription((_returns) => CommentSubscriptionPayload, {
@@ -26,7 +25,6 @@ class CommentsSubscriptionsResolver {
   async comments(
     @Root() data: PublishedData,
     @Arg('postId') _id: string,
-    @Ctx() { prisma }: MyContext,
     @Select() select: any
   ): Promise<CommentSubscriptionPayload> {
     let comment = null
@@ -41,6 +39,7 @@ class CommentsSubscriptionsResolver {
     return {
       mutation: data.mutation,
       data: comment,
+      deletedCommentId: data.id,
     }
   }
 }

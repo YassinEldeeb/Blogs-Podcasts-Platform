@@ -6,9 +6,6 @@ export class PublishedData {
   @Field((_type) => MutationType)
   mutation: MutationType
 
-  @Field({ nullable: true })
-  deletedHeartId?: string
-
   @Field()
   id: string
 }

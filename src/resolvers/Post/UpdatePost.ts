@@ -8,20 +8,16 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
+import { models } from '../../@types/enums/models'
+import { CREATED, DELETED, UPDATED } from '../../@types/enums/mutationType'
+import { MyContext } from '../../@types/MyContext'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
 import { Post } from '../../models/Post'
-import { models } from '../../@types/enums/models'
-import { MutationType } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'
 import { UpdatePostInput } from './updatePost/UpdatePostInput'
-
-const { CREATED, UPDATED, DELETED } = MutationType
-const { Posts } = Topics
 
 @Resolver()
 class UpdatePostResolver {
@@ -48,7 +44,7 @@ class UpdatePostResolver {
 
     // Publish Data
     if (data.published && originalPost.published === false) {
-      pubSub.publish(Posts, {
+      pubSub.publish('Posts', {
         mutation: CREATED,
         id: updatedPost.id,
       } as PublishedData)
@@ -56,12 +52,13 @@ class UpdatePostResolver {
       // Delete Post Comments
       await prisma.comment.deleteMany({ where: { postId: id } })
 
-      pubSub.publish(Posts, {
+      pubSub.publish('Posts', {
         mutation: DELETED,
         id: updatedPost.id,
+        deletedPostId: updatedPost.id,
       } as PublishedData)
     } else {
-      pubSub.publish(Posts, {
+      pubSub.publish('Posts', {
         mutation: UPDATED,
         id: updatedPost.id,
       } as PublishedData)

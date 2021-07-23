@@ -2,18 +2,18 @@ import { PrismaSelect } from '@paljs/plugins'
 import { createParamDecorator } from 'type-graphql'
 import { emailField } from './Fields/email'
 
-function Select(required: any = {}) {
+function Select(required: any = {}, getNestedSelect: boolean = true) {
   return createParamDecorator(({ info }: any) => {
     let { select } = new PrismaSelect(info, { defaultFields: { ...required } })
       .value
 
     select = emailField(select, info)
 
-    if (select?.user?.select) {
+    if (select?.user?.select && getNestedSelect) {
       return select.user.select
     }
 
-    if (select?.data?.select) {
+    if (select?.data?.select && getNestedSelect) {
       return select.data.select
     }
 

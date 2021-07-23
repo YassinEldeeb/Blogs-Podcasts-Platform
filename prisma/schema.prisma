@@ -19,20 +19,20 @@ model User {
   posts        Post[]
   comments     Comment[]
   hearts       Heart[]
-  followers    Follower[]
-  following    Follower[] @relation("followerToUser")
+  followers    Follower[] @relation("followerToUser")
+  following    Follower[]
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }
 
 model Follower {
-  id          String   @id @default(cuid())
-  followerId  String
-  followingId String
-  follower    User     @relation(fields: [followerId], references: [id])
-  following   User     @relation(fields: [followingId], references: [id], name: "followerToUser")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  followed_userId String
+  follower_userId String
+  followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
+  follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Post {

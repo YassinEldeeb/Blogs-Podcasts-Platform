@@ -9,4 +9,7 @@ export class CommentSubscriptionPayload {
 
   @Field({ nullable: true })
   data: Comment
+
+  @Field({ nullable: true })
+  deletedCommentId: string
 }

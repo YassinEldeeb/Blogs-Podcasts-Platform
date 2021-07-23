@@ -12,7 +12,6 @@ import {
 import { CREATED, DELETED } from '../../@types/enums/mutationType'
 import { MyContext } from '../../@types/MyContext'
 import { Auth } from '../../middleware/Auth'
-import { PublishedDataWithTypes } from '../shared/subscription/PublishedDataWithTypes'
 import { PostIdInput } from '../Post/shared/PostIdExists'
 
 @ObjectType()
@@ -49,7 +48,7 @@ class HeartPostResolver {
         id: heart.id,
         type: 'heart',
         authorId: userId,
-      } as PublishedDataWithTypes)
+      })
 
       return { heart: true }
     } else {
@@ -63,7 +62,7 @@ class HeartPostResolver {
         type: 'heart',
         userId,
         deletedHeartId: hearted.id,
-      } as PublishedDataWithTypes)
+      })
 
       return { heart: false }
     }

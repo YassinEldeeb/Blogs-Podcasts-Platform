@@ -1,8 +1,8 @@
-import { Subscription, Authorized, Root } from 'type-graphql'
-import { CREATED } from '../../@types/enums/mutationType'
+import { Authorized, Root, Subscription } from 'type-graphql'
+import { CREATED, DELETED } from '../../@types/enums/mutationType'
 import { prisma } from '../../prisma'
 import { Select } from '../shared/select/selectParamDecorator'
-import { PublishedData } from '../shared/subscription/PublishedData'
+import { HeartPublishedData } from './subscription/heartPublished'
 import {
   heartMutationType,
   HeartSubscriptionPayload,
@@ -17,15 +17,17 @@ class HeartsOnPostsSubscriptionResolver {
   })
   @Authorized()
   async heartsOnMyPosts(
-    @Root() data: PublishedData,
+    @Root() data: HeartPublishedData,
     @Select() select: any
   ): Promise<HeartSubscriptionPayload> {
     let post = null
 
-    post = (await prisma.heart.findUnique({
-      where: { id: data.id },
-      select: { ...select },
-    })) as any
+    if (data.mutation !== DELETED) {
+      post = (await prisma.heart.findUnique({
+        where: { id: data.id },
+        select: { ...select },
+      })) as any
+    }
 
     if (data.mutation === CREATED) {
       return {

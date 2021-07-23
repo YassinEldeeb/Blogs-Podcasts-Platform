@@ -7,17 +7,13 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { MutationType } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
+import { CREATED } from '../../@types/enums/mutationType'
+import { MyContext } from '../../@types/MyContext'
 import { Auth } from '../../middleware/Auth'
 import { Post } from '../../models/Post'
-import { MyContext } from '../../@types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'
-
-const { CREATED } = MutationType
-const { Posts } = Topics
 
 @Resolver()
 class CreatePostResolver {
@@ -36,7 +32,7 @@ class CreatePostResolver {
 
     if (data.published) {
       // Publish Data
-      pubSub.publish(Posts, {
+      pubSub.publish('Posts', {
         mutation: CREATED,
         id: newPost.id,
       } as PublishedData)
