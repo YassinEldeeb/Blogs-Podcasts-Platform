@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { Comment } from './Comment'
+import { Follower } from './Follower'
 import { Post } from './Post'
 
 @ObjectType()
@@ -15,7 +16,7 @@ export class User {
 
   password: string
 
-  @Field((_type) => [Post], { nullable: true })
+  @Field((_type) => [Post])
   posts: Post[]
 
   @Field((_type) => [Comment])
@@ -23,6 +24,12 @@ export class User {
 
   @Field({ nullable: true })
   bio?: string
+
+  @Field((_type) => [Follower])
+  followers: Follower[]
+
+  @Field((_type) => [Follower])
+  following: Follower[]
 
   @Field()
   createdAt: Date

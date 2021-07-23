@@ -6,8 +6,12 @@ enum MutationType {
   DELETED = 'DELETED',
 }
 
+const CREATED = 'CREATED'
+const UPDATED = 'UPDATED'
+const DELETED = 'DELETED'
+
 registerEnumType(MutationType, {
   name: 'MutationType',
 })
 
-export { MutationType }
+export { MutationType, CREATED, UPDATED, DELETED }

@@ -9,18 +9,30 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  name         String    @db.VarChar(255)
-  email        String    @unique
-  password     String    @db.VarChar(255)
+  id           String     @id @default(cuid())
+  name         String     @db.VarChar(255)
+  email        String     @unique
+  password     String     @db.VarChar(255)
   bio          String?
-  tokenVersion Int       @default(0)
-  confirmed    Boolean   @default(false)
+  tokenVersion Int        @default(0)
+  confirmed    Boolean    @default(false)
   posts        Post[]
   comments     Comment[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
   hearts       Heart[]
+  followers    Follower[]
+  following    Follower[] @relation("followerToUser")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Follower {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  follower    User     @relation(fields: [followerId], references: [id])
+  following   User     @relation(fields: [followingId], references: [id], name: "followerToUser")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Post {
@@ -39,10 +51,11 @@ model Post {
 
 model Heart {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId    String
+  authorId  String
   postId    String
+  seen      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

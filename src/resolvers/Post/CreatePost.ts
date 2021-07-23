@@ -42,11 +42,6 @@ class CreatePostResolver {
       } as PublishedData)
     }
 
-    pubSub.publish(`myPost:${userId}`, {
-      mutation: CREATED,
-      id: newPost.id,
-    } as PublishedData)
-
     return newPost
   }
 }
