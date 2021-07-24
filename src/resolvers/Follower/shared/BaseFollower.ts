@@ -12,7 +12,7 @@ class FollowersInput extends PaginationArgs {
   userId: string
 }
 
-export function followerBaseResolver(name: 'followers' | 'followings') {
+export function followerBaseResolver(name: 'followers' | 'following') {
   @Resolver()
   class BaseResolver {
     @Query((_type) => [Follower], { name })

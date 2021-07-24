@@ -1,12 +1,10 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
-import { genTokens } from '../../auth/genTokens'
-import { sendRefreshToken } from '../../auth/sendRefreshToken'
-import { confirmEmail } from '../../emails/confirmEmail'
 import { MyContext } from '../../@types/MyContext'
+import { confirmEmail } from '../../emails/confirmEmail'
+import { User } from '../../models/User'
 import { Select } from '../shared/select/selectParamDecorator'
 import { RegisterInput } from './register/RegisterInput'
 import { SecureData } from './shared/hashedPassword'
-import { User } from '../../models/User'
 
 @Resolver()
 class RegisterResolver {
@@ -23,11 +21,6 @@ class RegisterResolver {
       data,
       select: { ...select, id: true, tokenVersion: true },
     })) as any
-
-    const { accessToken, refreshToken } = await genTokens(
-      user.id,
-      user.tokenVersion
-    )
 
     confirmEmail(user.id, data.email)
 

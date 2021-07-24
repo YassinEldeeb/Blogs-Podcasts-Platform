@@ -2,7 +2,7 @@ import { ObjectType, Field } from 'type-graphql'
 import { PublishedData } from '../../shared/subscription/PublishedData'
 
 @ObjectType()
-export class PostPublishedData extends PublishedData {
+export class CommentPublishedData extends PublishedData {
   @Field({ nullable: true })
   deleted?: boolean = false
 }

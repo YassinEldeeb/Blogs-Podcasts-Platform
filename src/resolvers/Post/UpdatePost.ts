@@ -10,6 +10,7 @@ import {
 } from 'type-graphql'
 import { models } from '../../@types/enums/models'
 import { CREATED, DELETED, UPDATED } from '../../@types/enums/mutationType'
+import { Topics } from '../../@types/enums/subscriptions'
 import { MyContext } from '../../@types/MyContext'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
@@ -28,7 +29,7 @@ class UpdatePostResolver {
     @Args() { id }: PostIdInput,
     @Arg('data') data: UpdatePostInput,
     @PubSub() pubSub: PubSubEngine,
-    @Ctx() { prisma }: MyContext,
+    @Ctx() { prisma, userId }: MyContext,
     @Select() select: any
   ): Promise<Post> {
     const originalPost = (await prisma.post.findUnique({
@@ -44,23 +45,26 @@ class UpdatePostResolver {
 
     // Publish Data
     if (data.published && originalPost.published === false) {
-      pubSub.publish('Posts', {
+      pubSub.publish(Topics.Posts, {
         mutation: CREATED,
         id: updatedPost.id,
+        authorId: userId,
       } as PublishedData)
     } else if (data.published === false && originalPost.published) {
       // Delete Post Comments
       await prisma.comment.deleteMany({ where: { postId: id } })
 
-      pubSub.publish('Posts', {
+      pubSub.publish(Topics.Posts, {
         mutation: DELETED,
         id: updatedPost.id,
-        deletedPostId: updatedPost.id,
+        authorId: userId,
+        deleted: true,
       } as PublishedData)
     } else {
-      pubSub.publish('Posts', {
+      pubSub.publish(Topics.Posts, {
         mutation: UPDATED,
         id: updatedPost.id,
+        authorId: userId,
       } as PublishedData)
     }
 

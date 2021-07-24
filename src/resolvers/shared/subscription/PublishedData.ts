@@ -8,4 +8,6 @@ export class PublishedData {
 
   @Field()
   id: string
+
+  deleted?: boolean = false
 }

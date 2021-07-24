@@ -1,47 +1,32 @@
-import { Authorized, Root, Subscription } from 'type-graphql'
-import { CREATED, DELETED } from '../../@types/enums/mutationType'
-import { prisma } from '../../prisma'
+import { Arg, Root, Subscription } from 'type-graphql'
+import { Topics } from '../../@types/enums/subscriptions'
+import { pubsub } from '../../app'
 import { Select } from '../shared/select/selectParamDecorator'
+import { checkPostExistance } from '../shared/validations/shared/checkPostExistance'
+import { ReturnHeart } from './shared/ReturnHeart'
 import { HeartPublishedData } from './subscription/heartPublished'
-import {
-  heartMutationType,
-  HeartSubscriptionPayload,
-} from './subscription/heartSubscriptionPayload'
+import { HeartSubscriptionPayload } from './subscription/heartSubscriptionPayload'
 
-class HeartsOnPostsSubscriptionResolver {
+class HeartsSubscriptionResolver {
   @Subscription((_returns) => HeartSubscriptionPayload, {
-    topics: ({ context: { userId } }) => `myPostsHearts:${userId}`,
-    filter: async ({ payload, context: { userId } }) => {
-      return payload.authorId !== userId
+    subscribe: (_root, { postId }): any => {
+      const topicName = `${Topics.HeartsOnPost}:${postId}`
+
+      return checkPostExistance(postId).then((post) => {
+        if (!post) {
+          throw new Error('Post not Found')
+        }
+        return pubsub.asyncIterator(topicName)
+      })
     },
   })
-  @Authorized()
-  async heartsOnMyPosts(
+  async hearts(
     @Root() data: HeartPublishedData,
+    @Arg('postId') _postId: string,
     @Select() select: any
   ): Promise<HeartSubscriptionPayload> {
-    let post = null
-
-    if (data.mutation !== DELETED) {
-      post = (await prisma.heart.findUnique({
-        where: { id: data.id },
-        select: { ...select },
-      })) as any
-    }
-
-    if (data.mutation === CREATED) {
-      return {
-        data: post,
-        mutation: heartMutationType.LIKED,
-      }
-    } else {
-      return {
-        data: post,
-        deletedHeartId: data.deletedHeartId,
-        mutation: heartMutationType.DISLIKED,
-      }
-    }
+    return ReturnHeart(data, select)
   }
 }
 
-export { HeartsOnPostsSubscriptionResolver }
+export { HeartsSubscriptionResolver }

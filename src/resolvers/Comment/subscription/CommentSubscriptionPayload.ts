@@ -11,5 +11,5 @@ export class CommentSubscriptionPayload {
   data: Comment
 
   @Field({ nullable: true })
-  deletedCommentId: string
+  deletedCommentId?: string
 }

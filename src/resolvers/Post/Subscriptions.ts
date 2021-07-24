@@ -1,4 +1,4 @@
-import { Root, Subscription } from 'type-graphql'
+import { Authorized, Root, Subscription } from 'type-graphql'
 import { DELETED } from '../../@types/enums/mutationType'
 import { Topics } from '../../@types/enums/subscriptions'
 import { prisma } from '../../prisma'
@@ -9,7 +9,15 @@ import { PostSubscriptionPayload } from './subscription/PostSubscriptionPayload'
 class PostsSubscriptionsResolver {
   @Subscription((_returns) => PostSubscriptionPayload, {
     topics: Topics.Posts,
+    filter: async ({ payload, context: { userId } }) => {
+      const following = !!(await prisma.follower.findFirst({
+        where: { followed_userId: payload.authorId, follower_userId: userId },
+      }))
+
+      return payload.authorId !== userId && following
+    },
   })
+  @Authorized()
   async posts(
     @Root() data: PostPublishedData,
     @Select() select: any
@@ -26,7 +34,7 @@ class PostsSubscriptionsResolver {
     return {
       mutation: data.mutation,
       data: post,
-      deletedPostId: data.deletedPostId,
+      deletedPostId: data.deleted ? data.id : undefined,
     }
   }
 }

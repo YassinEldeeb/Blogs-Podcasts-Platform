@@ -9,13 +9,14 @@ import {
 } from 'type-graphql'
 import { models } from '../../@types/enums/models'
 import { DELETED } from '../../@types/enums/mutationType'
+import { Topics } from '../../@types/enums/subscriptions'
 import { MyContext } from '../../@types/MyContext'
 import { Auth } from '../../middleware/Auth'
 import { IsOwner } from '../../middleware/IsOwner'
 import { Post } from '../../models/Post'
 import { Select } from '../shared/select/selectParamDecorator'
+import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'
-import { PostPublishedData } from './subscription/postPublished'
 
 @Resolver()
 class DeletePostResolver {
@@ -28,12 +29,12 @@ class DeletePostResolver {
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Post> {
-    const isOwner = await prisma.post.findFirst({
+    const ownPost = await prisma.post.findFirst({
       where: { id, authorId: userId },
-      select: { id: true },
+      select: { id: true, published: true },
     })
 
-    if (!isOwner) {
+    if (!ownPost) {
       throw new Error("You're Not the owner of the Post!")
     }
 
@@ -43,11 +44,14 @@ class DeletePostResolver {
     })) as any
 
     // Publish Data
-    pubSub.publish('Posts', {
-      mutation: DELETED,
-      id: isOwner.id,
-      deletedPostId: isOwner.id,
-    } as PostPublishedData)
+    if (ownPost.published) {
+      pubSub.publish(Topics.Posts, {
+        mutation: DELETED,
+        id: ownPost.id,
+        authorId: userId,
+        deleted: true,
+      } as PublishedData)
+    }
 
     return deletedPost
   }

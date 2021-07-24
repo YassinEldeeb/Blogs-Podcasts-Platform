@@ -1,3 +1,3 @@
 import { followerBaseResolver } from './shared/BaseFollower'
 
-followerBaseResolver('followings')
+followerBaseResolver('following')
