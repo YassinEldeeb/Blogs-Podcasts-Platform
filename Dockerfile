@@ -8,8 +8,8 @@ COPY . .
 
 RUN npx prisma generate
 
-RUN npx tsc
+RUN npm run build
 
 EXPOSE 4000
 
-CMD npx prisma db push && npm run start
+CMD yarn prisma-push-prod && npm run start

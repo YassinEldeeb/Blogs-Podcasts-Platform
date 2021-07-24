@@ -1,13 +1,18 @@
 {
-  "name": "graphql-basics",
+  "name": "graphql",
   "version": "1.0.0",
   "main": "dist/app.js",
   "license": "MIT",
   "scripts": {
-    "start": "node -r dotenv/config dist/app.js",
-    "dev": "nodemon --watch dist/* --watch src/schema.graphql -e ts,js,graphql --exec yarn start",
+    "start": "dotenv -e ./config/prod.env -- node dist/app.js",
+    "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
+    "dev": "nodemon --watch dist/* --exec yarn start-dev",
     "genClientAndPushToDB": "concurrently \"prisma generate\" \"prisma db push\"",
-    "gen-client": "nodemon --watch prisma/schema.prisma --exec yarn genClientAndPushToDB"
+    "gen-client": "nodemon --watch prisma/schema.prisma --exec yarn genClientAndPushToDB",
+    "build": "ttsc",
+    "build-w": "ttsc -w",
+    "prisma-push-dev": "dotenv -e ./config/dev.env -- npx prisma db push",
+    "prisma-push-prod": "dotenv -e ./config/prod.env -- npx prisma db push"
   },
   "dependencies": {
     "@getvim/execute": "^1.0.0",
@@ -20,7 +25,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
-    "dotenv": "^10.0.0",
+    "dotenv-cli": "^4.0.0",
     "express": "^4.17.1",
     "form-data": "^4.0.0",
     "googleapis": "^82.0.0",
