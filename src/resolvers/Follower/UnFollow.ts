@@ -9,10 +9,10 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { DELETED } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
-import { Auth } from '../../middleware/Auth'
+import { DELETED } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
+import { MyContext } from '@/types/MyContext'
+import { Auth } from '@/middleware/Auth'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { FollowInput } from './follow/followInput'
 

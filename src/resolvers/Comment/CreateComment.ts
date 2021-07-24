@@ -7,11 +7,11 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { CREATED } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
-import { Auth } from '../../middleware/Auth'
-import { Comment } from '../../models/Comment'
+import { CREATED } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
+import { MyContext } from '@/types/MyContext'
+import { Auth } from '@/middleware/Auth'
+import { Comment } from '@/models/Comment'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreateCommentInput } from './createComment/CreateCommentInput'

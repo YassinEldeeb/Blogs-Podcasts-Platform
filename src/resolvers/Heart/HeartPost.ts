@@ -9,10 +9,10 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { CREATED, DELETED } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
-import { Auth } from '../../middleware/Auth'
+import { CREATED, DELETED } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
+import { MyContext } from '@/types/MyContext'
+import { Auth } from '@/middleware/Auth'
 import { PostIdInput } from '../Post/shared/PostIdExists'
 
 @ObjectType()

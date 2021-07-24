@@ -1,9 +1,9 @@
 import { Args, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql'
-import { Auth } from '../../middleware/Auth'
-import { User } from '../../models/User'
-import { MyContext } from '../../@types/MyContext'
+import { Auth } from '@/middleware/Auth'
+import { User } from '@/models/User'
+import { MyContext } from '@/types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
-import { confirmDeleteAccount } from '../../emails/deleteAccount'
+import { confirmDeleteAccount } from '@/emails/deleteAccount'
 import { resendConfirmInput } from './confirmEmail/resendConfirmInput'
 import { SuccessPayload } from './shared/successPayload'
 

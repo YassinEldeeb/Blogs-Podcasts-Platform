@@ -8,8 +8,8 @@ import {
   Resolver,
   Root,
 } from 'type-graphql'
-import { User } from '../../models/User'
-import { MyContext } from '../../@types/MyContext'
+import { User } from '@/models/User'
+import { MyContext } from '@/types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'

@@ -1,5 +1,5 @@
-import { DELETED } from '../../../@types/enums/mutationType'
-import { prisma } from '../../../prisma'
+import { DELETED } from '@/types/enums/mutationType'
+import { prisma } from '@/prisma'
 import { CommentPublishedData } from './CommentPublished'
 
 export const ReturnComment = async (

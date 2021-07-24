@@ -1,6 +1,6 @@
 import { Args, Ctx, Mutation, Resolver } from 'type-graphql'
-import { confirmEmail } from '../../emails/confirmEmail'
-import { MyContext } from '../../@types/MyContext'
+import { confirmEmail } from '@/emails/confirmEmail'
+import { MyContext } from '@/types/MyContext'
 import { resendConfirmInput } from './confirmEmail/resendConfirmInput'
 import { SuccessPayload } from './shared/successPayload'
 

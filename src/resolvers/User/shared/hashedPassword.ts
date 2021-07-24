@@ -1,5 +1,5 @@
 import { createParamDecorator } from 'type-graphql'
-import { MyContext } from '../../../@types/MyContext'
+import { MyContext } from '@/types/MyContext'
 import bcrypt from 'bcryptjs'
 
 function SecureData() {

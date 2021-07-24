@@ -1,5 +1,5 @@
 import { ArgsType, Field, ID } from 'type-graphql'
-import { UserExists } from '../../../resolvers/shared/validations/decorators/userExists'
+import { UserExists } from '@/resolvers/shared/validations/decorators/userExists'
 
 @ArgsType()
 export class UserIdInput {

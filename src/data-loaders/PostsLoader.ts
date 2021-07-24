@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader'
-import { Post } from '../models/Post'
-import { prisma } from '../prisma'
+import { Post } from '@/models/Post'
+import { prisma } from '@/prisma'
 
 interface data {
   id: string

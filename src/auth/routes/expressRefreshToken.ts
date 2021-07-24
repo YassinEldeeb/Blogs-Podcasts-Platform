@@ -1,6 +1,6 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import { prisma } from '../../prisma'
+import { prisma } from '@/prisma'
 import { genTokens } from '../genTokens'
 import { sendRefreshToken } from '../sendRefreshToken'
 

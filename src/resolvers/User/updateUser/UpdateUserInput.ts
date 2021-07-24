@@ -1,6 +1,6 @@
-import { IsDefined, MinLength, ValidateIf, Equals } from 'class-validator'
+import { UserExists } from '@/resolvers/shared/validations/decorators/userExists'
+import { IsDefined, MinLength, ValidateIf } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
-import { UserExists } from '../../../resolvers/shared/validations/decorators/userExists'
 
 @InputType()
 export class UpdateUserInput {

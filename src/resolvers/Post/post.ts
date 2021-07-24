@@ -1,7 +1,7 @@
 import { Arg, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql'
-import { Auth } from '../../middleware/Auth'
-import { Post } from '../../models/Post'
-import { MyContext } from '../../@types/MyContext'
+import { Auth } from '@/middleware/Auth'
+import { Post } from '@/models/Post'
+import { MyContext } from '@/types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 
 @Resolver()

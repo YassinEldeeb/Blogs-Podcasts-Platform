@@ -1,6 +1,6 @@
+import { Post } from '@/models/Post'
+import { MutationType } from '@/types/enums/mutationType'
 import { Field, ObjectType } from 'type-graphql'
-import { MutationType } from '../../../@types/enums/mutationType'
-import { Post } from '../../../models/Post'
 
 @ObjectType()
 export class PostSubscriptionPayload {

@@ -1,3 +1,6 @@
+import { Auth } from '@/middleware/Auth'
+import { Post } from '@/models/Post'
+import { MyContext } from '@/types/MyContext'
 import { Prisma } from '@prisma/client'
 import {
   Arg,
@@ -9,9 +12,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { Auth } from '../../middleware/Auth'
-import { Post } from '../../models/Post'
-import { MyContext } from '../../@types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'

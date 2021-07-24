@@ -1,6 +1,6 @@
 import { Field, ObjectType } from 'type-graphql'
-import { MutationType } from '../../../@types/enums/mutationType'
-import { Comment } from '../../../models/Comment'
+import { MutationType } from '@/types/enums/mutationType'
+import { Comment } from '@/models/Comment'
 
 @ObjectType()
 export class CommentSubscriptionPayload {

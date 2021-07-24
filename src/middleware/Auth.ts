@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { MiddlewareFn } from 'type-graphql'
-import { prisma } from '../prisma'
-import { MyContext } from '../@types/MyContext'
+import { prisma } from '@/prisma'
+import { MyContext } from '@/types/MyContext'
 
 const authFailed = (throwError: boolean = true, next: any) => {
   if (throwError) {

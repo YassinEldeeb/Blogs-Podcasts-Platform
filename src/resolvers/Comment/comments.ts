@@ -1,6 +1,6 @@
 import { Arg, Args, Ctx, ObjectType, Query, Resolver } from 'type-graphql'
-import { Comment } from '../../models/Comment'
-import { MyContext } from '../../@types/MyContext'
+import { Comment } from '@/models/Comment'
+import { MyContext } from '@/types/MyContext'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'

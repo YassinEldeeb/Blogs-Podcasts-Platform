@@ -1,6 +1,6 @@
 import { Args, ArgsType, Ctx, Mutation, Resolver } from 'type-graphql'
-import { resetPasswordEmail } from '../../emails/resetPassword'
-import { MyContext } from '../../@types/MyContext'
+import { resetPasswordEmail } from '@/emails/resetPassword'
+import { MyContext } from '@/types/MyContext'
 import { resendConfirmInput } from './confirmEmail/resendConfirmInput'
 import { SuccessPayload } from './shared/successPayload'
 

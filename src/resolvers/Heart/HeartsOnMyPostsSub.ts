@@ -1,5 +1,5 @@
 import { Authorized, Root, Subscription } from 'type-graphql'
-import { Topics } from '../../@types/enums/subscriptions'
+import { Topics } from '@/types/enums/subscriptions'
 import { Select } from '../shared/select/selectParamDecorator'
 import { ReturnHeart } from './shared/ReturnHeart'
 import { HeartPublishedData } from './subscription/heartPublished'

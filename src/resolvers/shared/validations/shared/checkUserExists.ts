@@ -1,4 +1,4 @@
-import { prisma } from '../../../../prisma'
+import { prisma } from '@/prisma'
 
 export const checkUserExistance = (where: any, isProblem: boolean = false) => {
   return prisma.user

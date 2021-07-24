@@ -1,3 +1,10 @@
+import { Auth } from '@/middleware/Auth'
+import { IsOwner } from '@/middleware/IsOwner'
+import { Post } from '@/models/Post'
+import { models } from '@/types/enums/models'
+import { DELETED } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
+import { MyContext } from '@/types/MyContext'
 import {
   Args,
   Ctx,
@@ -7,13 +14,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { models } from '../../@types/enums/models'
-import { DELETED } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
-import { Auth } from '../../middleware/Auth'
-import { IsOwner } from '../../middleware/IsOwner'
-import { Post } from '../../models/Post'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'

@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql'
+import { Field, ObjectType } from 'type-graphql'
 import { PublishedData } from '../../shared/subscription/PublishedData'
 
 @ObjectType()

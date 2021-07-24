@@ -1,5 +1,5 @@
+import { PostExists } from '@/resolvers/shared/validations/decorators/postExists'
 import { ArgsType, Field, ID } from 'type-graphql'
-import { PostExists } from '../../../resolvers/shared/validations/decorators/postExists'
 
 @ArgsType()
 export class PostIdInput {

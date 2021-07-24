@@ -1,3 +1,8 @@
+import { Auth } from '@/middleware/Auth'
+import { Post } from '@/models/Post'
+import { CREATED } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
+import { MyContext } from '@/types/MyContext'
 import {
   Arg,
   Ctx,
@@ -7,11 +12,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { CREATED } from '../../@types/enums/mutationType'
-import { Topics } from '../../@types/enums/subscriptions'
-import { MyContext } from '../../@types/MyContext'
-import { Auth } from '../../middleware/Auth'
-import { Post } from '../../models/Post'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'

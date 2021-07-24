@@ -1,5 +1,5 @@
 import { ArgsType, Field, ID } from 'type-graphql'
-import { CommentExists } from '../../../resolvers/shared/validations/decorators/commentExists'
+import { CommentExists } from '@/resolvers/shared/validations/decorators/commentExists'
 
 @ArgsType()
 export class CommentIdInput {
