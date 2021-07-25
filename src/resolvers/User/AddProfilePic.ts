@@ -30,6 +30,12 @@ class AddProfilePicResolver {
     @Arg('picture', () => GraphQLUpload) file: Upload,
     @Ctx() { prisma, userId }: MyContext
   ): Promise<AddProfilePayload> {
+    const { createReadStream, mimetype } = file
+
+    if (!mimetype.includes('image/')) {
+      throw new Error('Please provide an Image!')
+    }
+
     const { profilePic } = (await prisma.user.findUnique({
       where: { id: userId },
       select: { profilePic: true },
@@ -43,8 +49,6 @@ class AddProfilePicResolver {
         throw new Error("Couldn't add profile picture")
       }
     }
-
-    const { createReadStream, mimetype } = file
 
     const modifiedFilename = userId + mimetype.replace('image/', '.')
 

@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { Comment } from './Comment'
 import { Follower } from './Follower'
+import { Heart } from './Heart'
 import { Post } from './Post'
 
 @ObjectType()
@@ -15,6 +16,15 @@ export class User {
   email: string
 
   password: string
+
+  confirmed: boolean
+
+  tokenVersion: number
+
+  hearts: Heart[]
+
+  @Field({ nullable: true })
+  profilePic?: String
 
   @Field((_type) => [Post])
   posts: Post[]
