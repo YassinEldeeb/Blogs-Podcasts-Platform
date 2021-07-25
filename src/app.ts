@@ -11,7 +11,10 @@ import path from 'path'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
+import { commentsLoader } from './data-loaders/CommentsLoader'
 import { postsLoader } from './data-loaders/PostsLoader'
+import { followersLoader } from './data-loaders/FollowersLoader'
+import { followingLoader } from './data-loaders/FollowingLoader'
 // import { PubSub } from 'graphql-subscriptions'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
@@ -29,6 +32,9 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       req,
       res,
       postsLoader: postsLoader(),
+      commentsLoader: commentsLoader(),
+      followersLoader: followersLoader(),
+      followingLoader: followingLoader(),
     }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   })

@@ -44,6 +44,16 @@ class FollowResolver {
       where: { followed_userId: UserIdToUnFollow, follower_userId: userId! },
     })
 
+    await prisma.user.update({
+      data: { following_count: { decrement: 1 } },
+      where: { id: userId },
+    })
+
+    await prisma.user.update({
+      data: { followers_count: { decrement: 1 } },
+      where: { id: UserIdToUnFollow },
+    })
+
     // Publish Data
     pubSub.publish(`${Topics.followersOfUser}:${UserIdToUnFollow}`, {
       mutation: DELETED,

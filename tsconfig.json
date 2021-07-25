@@ -51,6 +51,7 @@
     "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
     "paths": {
       "@/auth/*": ["src/auth/*"],
+      "@/data-loaders/*": ["src/data-loaders/*"],
       "@/emails/*": ["src/emails/*"],
       "@/middleware/*": ["src/middleware/*"],
       "@/models/*": ["src/models/*"],

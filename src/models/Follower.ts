@@ -12,9 +12,9 @@ export class Follower {
   @Field((_type) => User)
   followed_user: User
 
-  followerId: string
+  follower_userId: string
 
-  userId: string
+  followed_userId: string
 
   @Field()
   createdAt: Date

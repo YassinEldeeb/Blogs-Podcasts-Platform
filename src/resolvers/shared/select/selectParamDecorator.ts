@@ -11,6 +11,10 @@ function Select(required: any = {}, getNestedSelect: boolean = true) {
     select = emailField(select, info)
     select = filterSelections(select)
 
+    if (!Object.keys(select).length) {
+      select = { id: true }
+    }
+
     if (select?.user?.select && getNestedSelect) {
       return select.user.select
     }

@@ -44,7 +44,16 @@ class FollowResolver {
       select: { ...select, id: true },
     })) as any
 
-    console.log('FROM FOLLOWING', `${Topics.followersOfUser}:${UserIdToFollow}`)
+    await prisma.user.update({
+      data: { following_count: { increment: 1 } },
+      where: { id: userId },
+    })
+
+    await prisma.user.update({
+      data: { followers_count: { increment: 1 } },
+      where: { id: UserIdToFollow },
+    })
+
     // Publish Data
     pubSub.publish(`${Topics.followersOfUser}:${UserIdToFollow}`, {
       mutation: CREATED,

@@ -45,6 +45,7 @@ class UsersResolver {
       orderBy,
       cursor: cursorId ? { id: cursorId } : undefined,
     })
+    console.log(users)
 
     return users
   }
