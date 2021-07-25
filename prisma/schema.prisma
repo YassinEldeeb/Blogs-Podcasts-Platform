@@ -16,6 +16,7 @@ model User {
   bio          String?
   tokenVersion Int        @default(0)
   confirmed    Boolean    @default(false)
+  profilePic   String?
   posts        Post[]
   comments     Comment[]
   hearts       Heart[]

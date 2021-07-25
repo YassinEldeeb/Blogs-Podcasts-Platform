@@ -1,18 +1,20 @@
-import 'reflect-metadata'
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import express from 'express'
+import { execute, subscribe } from 'graphql'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
+import { graphqlUploadExpress } from 'graphql-upload'
+import { createServer } from 'http'
+import path from 'path'
+import 'reflect-metadata'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
+import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
+import { postsLoader } from './data-loaders/PostsLoader'
 // import { PubSub } from 'graphql-subscriptions'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
-import cookieParser from 'cookie-parser'
-import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
-import { postsLoader } from './data-loaders/PostsLoader'
-import { createServer } from 'http'
-import { execute, subscribe } from 'graphql'
-import { SubscriptionServer } from 'subscriptions-transport-ws'
-import cors from 'cors'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -34,13 +36,17 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   await server.start()
 
   const app = express()
+
   app.use(
     cors({
-      origin: ['https://studio.apollographql.com', 'http://localhost:3000'],
+      origin: ['http://localhost:3000'],
     })
   )
+
   app.use(cookieParser())
   app.use(refreshTokenRouter)
+  app.use(graphqlUploadExpress())
+  app.use('/images', express.static(path.join(__dirname, '../images/')))
 
   server.applyMiddleware({ app })
 
@@ -51,7 +57,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       schema,
       execute,
       subscribe,
-      onConnect(wsHeaders: any, ws: any) {
+      onConnect(wsHeaders: any) {
         return { wsHeaders }
       },
     },
