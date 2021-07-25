@@ -37,6 +37,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
+          volumeMounts:
+            - name: images
+              mountPath: /images
           resources:
             requests:
               memory: '100Mi'
@@ -69,3 +72,7 @@ spec:
                 configMapKeyRef:
                   name: redis-configmap
                   key: redis_host
+      volumes:
+        - name: images
+          persistentVolumeClaim:
+            claimName: 'images-pv-claim'
