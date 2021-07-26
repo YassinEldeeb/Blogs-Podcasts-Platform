@@ -41,6 +41,11 @@ class DeleteCommentResolver {
       },
     })) as any
 
+    await prisma.post.update({
+      where: { id: deletedComment.postId },
+      data: { comments_count: { decrement: 1 } },
+    })
+
     // Publish Data
     pubSub.publish(`${CommentsOnPost}:${deletedComment.postId}`, {
       mutation: DELETED,

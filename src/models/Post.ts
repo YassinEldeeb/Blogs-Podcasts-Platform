@@ -20,6 +20,12 @@ export class Post {
   @Field()
   published: boolean
 
+  @Field()
+  hearts_count: number
+
+  @Field()
+  comments_count: number
+
   @Field((_type) => [Heart])
   hearts: Heart[]
 

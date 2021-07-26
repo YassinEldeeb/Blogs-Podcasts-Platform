@@ -18,7 +18,7 @@ class PostsInput extends PaginationArgs {
 @Resolver()
 class PostsResolver {
   @Query(() => [Post])
-  posts(
+  async posts(
     @Args() { authorId, search, take, skip, cursorId }: PostsInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma }: MyContext,

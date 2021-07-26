@@ -45,6 +45,10 @@ class HeartPostResolver {
           post: { select: { id: true, author: { select: { id: true } } } },
         },
       })
+      await prisma.post.update({
+        where: { id },
+        data: { hearts_count: { increment: 1 } },
+      })
 
       pubSub.publish(`${Topics.myPostsHearts}:${heart.post.author.id}`, {
         mutation: CREATED,
@@ -62,6 +66,10 @@ class HeartPostResolver {
     } else {
       await prisma.heart.deleteMany({
         where: { authorId: userId!, postId: id },
+      })
+      await prisma.post.update({
+        where: { id },
+        data: { hearts_count: { decrement: 1 } },
       })
 
       pubSub.publish(`${Topics.myPostsHearts}:${hearted.post.author.id}`, {

@@ -33,6 +33,11 @@ class CreateCommentResolver {
       select: { ...select, id: true, post: { select: { authorId: true } } },
     })) as any
 
+    await prisma.post.update({
+      where: { id: data.postId },
+      data: { comments_count: { increment: 1 } },
+    })
+
     // Publish Data
     pubSub.publish(`${CommentsOnPost}:${data.postId}`, {
       mutation: CREATED,

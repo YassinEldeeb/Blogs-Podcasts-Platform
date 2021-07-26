@@ -1,20 +1,26 @@
 import { Comment } from '@/models/Comment'
 import { prisma } from '@/prisma'
+import { Prisma } from '@prisma/client'
 import DataLoader from 'dataloader'
 
 interface data {
   id: string
   select: any
   args: any
+  by: 'authorId' | 'postId'
 }
 
 const batchComments: any = async (data: data[]) => {
   const ids = data.map((e) => e.id)
   const select = data[0].select
-  select.authorId = true
+  select[data[0].by] = true
+
+  const where: Prisma.CommentWhereInput = {}
+
+  where[data[0].by] = { in: ids }
 
   const comments = (await prisma.comment.findMany({
-    where: { authorId: { in: ids } },
+    where,
     cursor: data[0].args.cursorId ? { id: data[0].args.cursorId } : undefined,
     take: data[0].args.take,
     skip: data[0].args.skip,
@@ -25,10 +31,10 @@ const batchComments: any = async (data: data[]) => {
   const commentsMap: any = []
 
   comments.forEach((comment: Comment) => {
-    if (commentsMap[comment.authorId]) {
-      commentsMap[comment.authorId].push(comment)
+    if (commentsMap[comment[data[0].by]]) {
+      commentsMap[comment[data[0].by]].push(comment)
     } else {
-      commentsMap[comment.authorId] = [comment]
+      commentsMap[comment[data[0].by]] = [comment]
     }
   })
 

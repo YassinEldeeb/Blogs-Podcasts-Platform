@@ -23,3 +23,5 @@ class UserFollowingFieldResolver {
     })
   }
 }
+
+export { UserFollowingFieldResolver }
