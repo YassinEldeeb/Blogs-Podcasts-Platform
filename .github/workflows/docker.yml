@@ -6,8 +6,8 @@ name: Docker Image CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
-    
+    branches: [master]
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -19,18 +19,23 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+      - name: run tests
+        run: |
+          yarn
+          yarn test
+
       - name: docker login
         env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}     
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: build Image
-        run: | 
+        run: |
           docker build -t yassineldeeb/graphql:1 .
 
       - name: image push
-        run: | 
+        run: |
           docker push yassineldeeb/graphql:1
