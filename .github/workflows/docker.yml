@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Docker Image CI
+name: Run Tests and Deploy to Production
 
 # Controls when the workflow will run
 on:
@@ -20,23 +20,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: run tests
+      - name: Run tests
         run: |
           yarn
           npx prisma generate
           npx jest
 
-      - name: docker login
+      - name: Docker Login
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: build Image
+      - name: Build Image
         run: |
           docker build -t yassineldeeb/graphql:1 .
 
-      - name: image push
+      - name: Push Image
         run: |
           docker push yassineldeeb/graphql:1
