@@ -2,7 +2,7 @@ import { sumNums } from '../src/test_playground/sumNums'
 import { isValidPassword } from '../src/test_playground/validPassword'
 
 test('should sum two numbers', () => {
-  expect(sumNums(2, 5)).toBe(7)
+  expect(sumNums(2, 5)).toBe(8)
 })
 
 test('should reject week password', () => {
