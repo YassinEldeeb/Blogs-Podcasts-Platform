@@ -88,5 +88,7 @@
         "transform": "typescript-transform-paths"
       }
     ]
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

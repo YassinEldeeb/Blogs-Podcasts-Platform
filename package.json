@@ -12,8 +12,10 @@
     "build": "ttsc",
     "build-w": "ttsc -w",
     "prisma-push-dev": "dotenv -e ./config/dev.env -- npx prisma db push",
+    "prisma-push-test": "dotenv -e ./config/test.env -- npx prisma db push",
     "prisma-push-prod": "dotenv -e ./config/prod.env -- npx prisma db push",
-    "prisma-studio": "dotenv -e ./config/dev.env -- npx prisma studio"
+    "prisma-studio": "dotenv -e ./config/dev.env -- npx prisma studio",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@getvim/execute": "^1.0.0",
@@ -60,6 +62,7 @@
     "@types/graphql-fields": "^1.3.4",
     "@types/graphql-upload": "^8.0.6",
     "@types/ioredis": "^4.26.6",
+    "@types/jest": "^26.0.24",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/lodash": "^4.14.171",
     "@types/node": "^15.14.0",
@@ -68,8 +71,10 @@
     "@types/sharp": "^0.28.4",
     "@types/uuid": "^8.3.1",
     "concurrently": "^6.2.0",
+    "jest": "^27.0.6",
     "nodemon": "^2.0.7",
     "prisma": "2.26.0",
+    "ts-jest": "^27.0.4",
     "tsconfig-paths": "^3.10.1",
     "ttypescript": "^1.5.12",
     "typescript-transform-paths": "^3.1.0"
