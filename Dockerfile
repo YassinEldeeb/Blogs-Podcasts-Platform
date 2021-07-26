@@ -2,7 +2,7 @@ FROM node:16.5-alpine3.11
 
 COPY package*.json ./
 
-RUN npm i yarn -g
+RUN npm i yarn -g --force
 
 RUN yarn
 
