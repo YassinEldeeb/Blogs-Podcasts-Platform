@@ -29,7 +29,10 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      # Runs a single command using the runners shell
-      - name: Build Docker Image
+      - name: build Image
         run: | 
           docker build -t yassineldeeb/graphql:1 .
+
+      - name: image push
+        run: | 
+          docker push yassineldeeb/graphql:1
