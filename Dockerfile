@@ -12,8 +12,6 @@ RUN npx prisma generate
 
 RUN npm run build
 
-RUN yarn --prod
-
 EXPOSE 4000
 
 CMD yarn prisma-push-prod && npm run start
