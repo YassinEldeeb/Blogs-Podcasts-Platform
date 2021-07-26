@@ -23,7 +23,9 @@ jobs:
       - name: run tests
         run: |
           yarn
-          yarn test
+          npx prisma generate
+          npm run build
+          npx jest
 
       - name: docker login
         env:
