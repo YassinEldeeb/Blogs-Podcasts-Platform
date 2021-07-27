@@ -54,7 +54,7 @@ spec:
                   name: postgres-configmap
                   key: database_url
             - name: DATABASE_URL
-              value: 'postgresql://${PG_USER}:${PG_PASSWORD}@$(DB_URL)/prisma-pg?schema=public'
+              value: 'postgresql://$(PG_USER):$(PG_PASSWORD)@$(DB_URL)/prisma-pg?schema=public'
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
