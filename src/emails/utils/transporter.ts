@@ -19,7 +19,12 @@ export const createTransporter = async () => {
       if (err) {
         console.log(
           'Failed to get a new access token!',
+          'refresh-token',
           process.env.GMAIL_REFRESH_TOKEN,
+          'client-id',
+          process.env.GMAIL_CLIENT_ID,
+          'secret',
+          process.env.GMAIL_CLIENT_SECRET,
           err
         )
       }
