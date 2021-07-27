@@ -4,7 +4,7 @@
   "main": "dist/app.js",
   "license": "MIT",
   "scripts": {
-    "start": "env-cmd -f ./config/prod.env node dist/app.js",
+    "start": "node dist/app.js",
     "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
     "dev": "nodemon --watch dist/* --exec yarn start-dev",
     "genClientAndPushToDB": "concurrently \"prisma generate\" \"prisma db push\"",
