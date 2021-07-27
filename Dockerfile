@@ -10,8 +10,8 @@ COPY . .
 
 RUN npx prisma generate
 
-RUN npm run build
+RUN yarn build
 
 EXPOSE 4000
 
-CMD yarn prisma-push-prod && npm run start
+CMD yarn prisma-push-prod && yarn start
