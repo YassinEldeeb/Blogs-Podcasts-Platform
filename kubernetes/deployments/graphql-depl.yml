@@ -46,6 +46,36 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: pg-password
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: pg-password
+            - name: REFRESH_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: REFRESH_TOKEN_SECRET
+            - name: GMAIL_REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GMAIL_REFRESH_TOKEN
+            - name: GMAIL_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GMAIL_EMAIL
+            - name: GMAIL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GMAIL_CLIENT_SECRET
+            - name: GMAIL_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GMAIL_CLIENT_ID
             - name: DB_NAME
               value: prisma-pg
             - name: DB_URL
