@@ -17,7 +17,11 @@ export const createTransporter = async () => {
   const accessToken = (await new Promise((resolve, reject) => {
     oauth2Client.getAccessToken((err, token) => {
       if (err) {
-        console.log('Failed to get a new access token!')
+        console.log(
+          'Failed to get a new access token!',
+          process.env.GMAIL_REFRESH_TOKEN,
+          err
+        )
       }
       resolve(token)
     })
