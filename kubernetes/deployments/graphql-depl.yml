@@ -50,7 +50,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: graphql-secret
-                  key: pg-password
+                  key: ACCESS_TOKEN_SECRET
             - name: REFRESH_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
