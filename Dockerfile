@@ -1,8 +1,10 @@
 FROM node:16.5-alpine3.11
 
-COPY package*.json ./
-
 RUN npm i yarn -g --force
+
+COPY yarn.lock ./
+
+COPY package.json ./
 
 RUN yarn
 

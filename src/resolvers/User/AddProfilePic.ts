@@ -30,6 +30,7 @@ class AddProfilePicResolver {
     @Arg('picture', () => GraphQLUpload) file: Upload,
     @Ctx() { prisma, userId }: MyContext
   ): Promise<AddProfilePayload> {
+    console.log('Begining!!')
     const { createReadStream, mimetype } = file
 
     if (!mimetype.includes('image/')) {
@@ -44,7 +45,8 @@ class AddProfilePicResolver {
     // Remove old Image
     if (profilePic) {
       try {
-        fs.unlinkSync(path.join(__dirname, `../../..${profilePic}`))
+        console.log(profilePic)
+        fs.unlinkSync(path.join(__dirname, `../../../uploads${profilePic}`))
       } catch (error) {
         throw new Error("Couldn't add profile picture")
       }
@@ -54,7 +56,7 @@ class AddProfilePicResolver {
 
     const writeLocation = path.join(
       __dirname,
-      `../../../images/${modifiedFilename}`
+      `../../../uploads/profile_images/${modifiedFilename}`
     )
 
     const stream = createReadStream()
@@ -70,12 +72,14 @@ class AddProfilePicResolver {
       })
     }
 
+    console.log('Saving Picture...')
+
     await sharp(await getBufferData())
       .resize(250, 250)
       .toFile(writeLocation)
 
     await prisma.user.update({
-      data: { profilePic: `/images/${modifiedFilename}` },
+      data: { profilePic: `/profile_images/${modifiedFilename}` },
       where: { id: userId },
     })
 

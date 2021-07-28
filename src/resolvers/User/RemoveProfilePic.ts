@@ -35,7 +35,7 @@ class AddProfilePicResolver {
     })
 
     try {
-      fs.unlinkSync(path.join(__dirname, `../../..${profilePic}`))
+      fs.unlinkSync(path.join(__dirname, `../../../uploads/${profilePic}`))
     } catch (error) {
       throw new Error('No profile picture to be deleted!')
     }

@@ -26,8 +26,11 @@ spec:
           ports:
             - containerPort: 4000
           volumeMounts:
-            - name: images
-              mountPath: /images
+            - name: profile-images
+              mountPath: /uploads/profile_images
+
+            - name: posts-images
+              mountPath: /uploads/posts_images
           resources:
             requests:
               memory: '300Mi'
@@ -91,6 +94,10 @@ spec:
                   name: redis-configmap
                   key: redis_host
       volumes:
-        - name: images
+        - name: profile-images
           persistentVolumeClaim:
-            claimName: 'images-pv-claim'
+            claimName: 'profile-images-pv-claim'
+
+        - name: posts-images
+          persistentVolumeClaim:
+            claimName: 'posts-images-pv-claim'

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: images-pv-claim
+  name: posts-images-pv-claim
 spec:
   resources:
     requests:

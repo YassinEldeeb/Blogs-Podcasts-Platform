@@ -52,7 +52,10 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   app.use(cookieParser())
   app.use(refreshTokenRouter)
   app.use(graphqlUploadExpress())
-  app.use('/images', express.static(path.join(__dirname, '../images/')))
+  app.use(
+    '/profile_images',
+    express.static(path.join(__dirname, '../uploads/profile_images/'))
+  )
 
   server.applyMiddleware({ app })
 
