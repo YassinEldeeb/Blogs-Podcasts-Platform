@@ -1,4 +1,6 @@
 import { Auth } from '@/middleware/Auth'
+import { IsOwner } from '@/middleware/IsOwner'
+import { models } from '@/types/enums/models'
 import { MyContext } from '@/types/MyContext'
 import { Upload } from '@/types/Upload'
 import fs from 'fs'
@@ -28,6 +30,7 @@ class UploadCoverImagePayload {
 class UploadPostCover {
   @Mutation((_type) => UploadCoverImagePayload)
   @UseMiddleware(Auth())
+  @IsOwner(models.post)
   async uploadPostCover(
     @Arg('picture', () => GraphQLUpload) file: Upload,
     @Args() { postId }: PostIdInput,
