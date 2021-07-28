@@ -1,6 +1,6 @@
+import { PostExists } from '@/resolvers/shared/validations/decorators/postExists'
 import { MinLength } from 'class-validator'
 import { Field, ID, InputType } from 'type-graphql'
-import { PostExists } from '@/resolvers/shared/validations/decorators/postExists'
 
 @InputType()
 export class CreateCommentInput {

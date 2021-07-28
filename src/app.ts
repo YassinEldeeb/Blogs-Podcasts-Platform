@@ -1,4 +1,3 @@
-//! Write Better Notification System
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'

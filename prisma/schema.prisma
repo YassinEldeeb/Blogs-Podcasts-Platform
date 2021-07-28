@@ -9,23 +9,25 @@ datasource db {
 }
 
 model User {
-  id              String     @id @default(cuid())
-  name            String     @db.VarChar(255)
-  email           String     @unique
-  password        String     @db.VarChar(255)
+  id              String         @id @default(cuid())
+  name            String         @db.VarChar(255)
+  email           String         @unique
+  password        String         @db.VarChar(255)
   bio             String?
-  tokenVersion    Int        @default(0)
-  confirmed       Boolean    @default(false)
+  tokenVersion    Int            @default(0)
+  confirmed       Boolean        @default(false)
   profilePic      String?
   posts           Post[]
   comments        Comment[]
   hearts          Heart[]
-  followers_count Int        @default(0)
-  following_count Int        @default(0)
-  followers       Follower[] @relation("followerToUser")
+  followers_count Int            @default(0)
+  following_count Int            @default(0)
+  followers       Follower[]     @relation("followerToUser")
   following       Follower[]
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  notifications   Notification[]
+  replies         Reply[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 }
 
 model Follower {
@@ -55,6 +57,18 @@ model Post {
   coverImg       String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  replies        Reply[]
+}
+
+model Notification {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  seen         Boolean  @default(false)
+  type         String
+  notification String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Heart {
@@ -63,7 +77,6 @@ model Heart {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorId  String
   postId    String
-  seen      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -73,6 +86,20 @@ model Comment {
   text      String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  postId    String
+  replies   Reply[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reply {
+  id        String   @id @default(cuid())
+  text      String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId String
   authorId  String
   postId    String
   createdAt DateTime @default(now())

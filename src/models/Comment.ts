@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { Post } from './Post'
+import { Reply } from './Reply'
 import { User } from './User'
 
 @ObjectType()
@@ -22,6 +23,9 @@ export class Comment {
 
   @Field()
   bio: string
+
+  @Field((_type) => [Reply])
+  replies: Reply[]
 
   @Field()
   createdAt: Date
