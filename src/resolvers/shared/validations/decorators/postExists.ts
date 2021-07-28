@@ -8,8 +8,8 @@ import { checkPostExistance } from '../shared/checkPostExistance'
 
 @ValidatorConstraint({ async: true })
 export class postExistConstraint implements ValidatorConstraintInterface {
-  validate(id: string) {
-    return checkPostExistance(id)
+  validate(postId: string) {
+    return checkPostExistance(postId)
   }
 }
 

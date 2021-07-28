@@ -26,12 +26,12 @@ class HeartPostResolver {
   @Mutation((_return) => HeartPostPayload)
   @UseMiddleware(Auth())
   async heartPost(
-    @Args() { id }: PostIdInput,
+    @Args() { postId }: PostIdInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine
   ): Promise<HeartPostPayload> {
     const hearted = await prisma.heart.findFirst({
-      where: { postId: id, authorId: userId },
+      where: { postId, authorId: userId },
       select: {
         id: true,
         post: { select: { id: true, author: { select: { id: true } } } },
@@ -40,13 +40,13 @@ class HeartPostResolver {
 
     if (!hearted) {
       const heart = await prisma.heart.create({
-        data: { authorId: userId!, postId: id },
+        data: { authorId: userId!, postId },
         include: {
           post: { select: { id: true, author: { select: { id: true } } } },
         },
       })
       await prisma.post.update({
-        where: { id },
+        where: { id: postId },
         data: { hearts_count: { increment: 1 } },
       })
 
@@ -65,10 +65,10 @@ class HeartPostResolver {
       return { heart: true }
     } else {
       await prisma.heart.deleteMany({
-        where: { authorId: userId!, postId: id },
+        where: { authorId: userId!, postId },
       })
       await prisma.post.update({
-        where: { id },
+        where: { id: postId },
         data: { hearts_count: { decrement: 1 } },
       })
 

@@ -1,12 +1,14 @@
 import { Auth } from '@/middleware/Auth'
 import { MyContext } from '@/types/MyContext'
 import { Upload } from '@/types/Upload'
+import fs from 'fs'
 import { GraphQLUpload } from 'graphql-upload'
 import path from 'path'
 import sharp from 'sharp'
 import streamtToBuffer from 'stream-to-buffer'
 import {
   Arg,
+  Args,
   Ctx,
   Field,
   Mutation,
@@ -14,40 +16,41 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import fs from 'fs'
+import { PostIdInput } from './shared/PostIdExists'
 
 @ObjectType()
-class AddProfilePayload {
+class UploadCoverImagePayload {
   @Field()
   uploaded: boolean
 }
 
 @Resolver()
-class AddProfilePicResolver {
-  @Mutation((_type) => AddProfilePayload)
+class UploadPostCover {
+  @Mutation((_type) => UploadCoverImagePayload)
   @UseMiddleware(Auth())
-  async addProfilePic(
+  async uploadPostCover(
     @Arg('picture', () => GraphQLUpload) file: Upload,
+    @Args() { postId }: PostIdInput,
     @Ctx() { prisma, userId }: MyContext
-  ): Promise<AddProfilePayload> {
+  ): Promise<UploadCoverImagePayload> {
     const { createReadStream, mimetype } = file
 
     if (!mimetype.includes('image/')) {
       throw new Error('Please provide an Image!')
     }
 
-    const { profilePic } = (await prisma.user.findUnique({
-      where: { id: userId },
-      select: { profilePic: true },
+    const { coverImg } = (await prisma.post.findUnique({
+      where: { id: postId },
+      select: { coverImg: true },
     })) as any
 
     // Remove old Image
-    if (profilePic) {
+    if (coverImg) {
       try {
-        console.log(profilePic)
-        fs.unlinkSync(path.join(__dirname, `../../../uploads${profilePic}`))
+        console.log(coverImg)
+        fs.unlinkSync(path.join(__dirname, `../../../uploads${coverImg}`))
       } catch (error) {
-        throw new Error("Couldn't add profile picture")
+        throw new Error("Couldn't add cover image for your post")
       }
     }
 
@@ -55,7 +58,7 @@ class AddProfilePicResolver {
 
     const writeLocation = path.join(
       __dirname,
-      `../../../uploads/profile_images/${modifiedFilename}`
+      `../../../uploads/posts_images/${modifiedFilename}`
     )
 
     const stream = createReadStream()
@@ -71,17 +74,15 @@ class AddProfilePicResolver {
       })
     }
 
-    await sharp(await getBufferData())
-      .resize(250, 250)
-      .toFile(writeLocation)
+    await sharp(await getBufferData()).toFile(writeLocation)
 
-    await prisma.user.update({
-      data: { profilePic: `/profile_images/${modifiedFilename}` },
-      where: { id: userId },
+    await prisma.post.update({
+      data: { coverImg: `/posts_images/${modifiedFilename}` },
+      where: { id: postId },
     })
 
     return { uploaded: true }
   }
 }
 
-export { AddProfilePicResolver }
+export { UploadPostCover }

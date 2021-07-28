@@ -1,3 +1,4 @@
+//! Write Better Notification System
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'
@@ -55,6 +56,10 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   app.use(
     '/profile_images',
     express.static(path.join(__dirname, '../uploads/profile_images/'))
+  )
+  app.use(
+    '/posts_images',
+    express.static(path.join(__dirname, '../uploads/posts_images/'))
   )
 
   server.applyMiddleware({ app })

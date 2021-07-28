@@ -5,5 +5,5 @@ import { ArgsType, Field, ID } from 'type-graphql'
 export class PostIdInput {
   @Field(() => ID)
   @PostExists({ message: "Post Doesn't exist!" })
-  id: string
+  postId: string
 }

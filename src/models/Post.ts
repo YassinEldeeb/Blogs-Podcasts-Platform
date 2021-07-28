@@ -26,6 +26,9 @@ export class Post {
   @Field()
   comments_count: number
 
+  @Field({ nullable: true })
+  coverImg?: string
+
   @Field((_type) => [Heart])
   hearts: Heart[]
 

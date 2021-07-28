@@ -26,19 +26,19 @@ class UpdatePostResolver {
   @UseMiddleware(Auth())
   @IsOwner(models.post)
   async updatePost(
-    @Args() { id }: PostIdInput,
+    @Args() { postId }: PostIdInput,
     @Arg('data') data: UpdatePostInput,
     @PubSub() pubSub: PubSubEngine,
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any
   ): Promise<Post> {
     const originalPost = (await prisma.post.findUnique({
-      where: { id },
+      where: { id: postId },
       select: { published: true },
     })) as any
 
     const updatedPost = (await prisma.post.update({
-      where: { id },
+      where: { id: postId },
       data,
       select: { ...select, id: true },
     })) as any
@@ -52,7 +52,7 @@ class UpdatePostResolver {
       } as PublishedData)
     } else if (data.published === false && originalPost.published) {
       // Delete Post Comments
-      await prisma.comment.deleteMany({ where: { postId: id } })
+      await prisma.comment.deleteMany({ where: { postId } })
 
       pubSub.publish(Topics.Posts, {
         mutation: DELETED,

@@ -24,13 +24,13 @@ class DeletePostResolver {
   @UseMiddleware(Auth())
   @IsOwner(models.post)
   async deletePost(
-    @Args() { id }: PostIdInput,
+    @Args() { postId }: PostIdInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Post> {
     const ownPost = await prisma.post.findFirst({
-      where: { id, authorId: userId },
+      where: { id: postId, authorId: userId },
       select: { id: true, published: true },
     })
 
@@ -39,7 +39,7 @@ class DeletePostResolver {
     }
 
     const deletedPost = (await prisma.post.delete({
-      where: { id },
+      where: { id: postId },
       select: { ...select },
     })) as any
 
