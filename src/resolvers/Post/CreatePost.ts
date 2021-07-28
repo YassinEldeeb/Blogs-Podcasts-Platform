@@ -15,6 +15,7 @@ import {
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'
+import readingTime from 'reading-time'
 
 @Resolver()
 class CreatePostResolver {
@@ -26,6 +27,17 @@ class CreatePostResolver {
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Post> {
+    let readTime: { text: string; minutes: number }
+
+    try {
+      readTime = readingTime(data.body)
+    } catch (error) {
+      readTime = { text: 'over an hour read', minutes: 60 }
+    }
+
+    data.readingTimeTxt = readTime.text
+    data.readingTimeMin = readTime.minutes
+
     const newPost = (await prisma.post.create({
       data: { ...data, authorId: userId! },
       select: { ...select, id: true },

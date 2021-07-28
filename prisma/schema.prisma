@@ -41,7 +41,7 @@ model Follower {
 model Post {
   id             String    @id @default(cuid())
   title          String
-  body           String    @db.VarChar(500)
+  body           String
   tags           String[]
   published      Boolean   @default(false)
   hearts         Heart[]
@@ -50,6 +50,8 @@ model Post {
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
+  readingTimeTxt String
+  readingTimeMin Float
   coverImg       String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt

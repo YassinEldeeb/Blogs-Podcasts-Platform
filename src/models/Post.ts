@@ -41,6 +41,12 @@ export class Post {
   comments: Comment[]
 
   @Field()
+  readingTimeTxt: string
+
+  @Field()
+  readingTimeMin: number
+
+  @Field()
   createdAt: Date
 
   @Field()

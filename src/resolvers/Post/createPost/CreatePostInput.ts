@@ -21,4 +21,7 @@ export class CreatePostInput {
 
   @Field(() => [String])
   tags: string[]
+
+  readingTimeTxt: string
+  readingTimeMin: number
 }
