@@ -52,24 +52,19 @@ class HeartPostResolver {
         data: { hearts_count: { increment: 1 } },
       })
 
-      pubSub.publish(`${Topics.myPostsHearts}:${heart.post.author.id}`, {
-        mutation: CREATED,
-        id: heart.id,
-        authorId: userId,
-      })
-
       pubSub.publish(`${Topics.HeartsOnPost}:${heart.post.id}`, {
         mutation: CREATED,
         id: heart.id,
         authorId: userId,
       })
 
-      notify(
-        heart.post.author.id,
-        NotificationTypes.heartOnPost,
-        `/posts/${heart.post.id}`,
-        userId!
-      )
+      if (userId !== heart.post.author.id)
+        notify(
+          heart.post.author.id,
+          NotificationTypes.heartOnPost,
+          `/posts/${heart.post.id}`,
+          userId!
+        )
       return { heart: true }
     } else {
       await prisma.heart.deleteMany({
@@ -80,14 +75,6 @@ class HeartPostResolver {
         data: { hearts_count: { decrement: 1 } },
       })
 
-      pubSub.publish(`${Topics.myPostsHearts}:${hearted.post.author.id}`, {
-        mutation: DELETED,
-        id: hearted.id,
-        type: 'heart',
-        userId,
-        deletedHeartId: hearted.id,
-      })
-
       pubSub.publish(`${Topics.HeartsOnPost}:${hearted.post.id}`, {
         mutation: DELETED,
         id: hearted.id,
@@ -95,13 +82,14 @@ class HeartPostResolver {
         deletedHeartId: hearted.id,
       })
 
-      notify(
-        hearted.post.author.id,
-        NotificationTypes.heartOnPost,
-        `/posts/${hearted.post.id}`,
-        userId!,
-        { remove: true }
-      )
+      if (userId !== hearted.post.author.id)
+        notify(
+          hearted.post.author.id,
+          NotificationTypes.heartOnPost,
+          `/posts/${hearted.post.id}`,
+          userId!,
+          { remove: true }
+        )
 
       return { heart: false }
     }

@@ -1,6 +1,5 @@
 import { Auth } from '@/middleware/Auth'
 import { IsOwner } from '@/middleware/IsOwner'
-import { Reply } from '@/models/Reply'
 import { Select } from '@/resolvers/shared/select/selectParamDecorator'
 import { PublishedData } from '@/resolvers/shared/subscription/PublishedData'
 import { models } from '@/types/enums/models'
@@ -37,7 +36,7 @@ export function updateCommentOrReplyBase<T extends ClassType>(
     async updateBase(
       @Arg('id') id: string,
       @Arg('data') data: UpdateCommentInput,
-      @Ctx() { prisma }: MyContext,
+      @Ctx() { prisma, userId }: MyContext,
       @PubSub() pubSub: PubSubEngine,
       @Select() select: any
     ): Promise<T> {

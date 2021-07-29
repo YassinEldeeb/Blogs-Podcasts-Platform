@@ -1,7 +1,9 @@
 import { Auth } from '@/middleware/Auth'
+import { notify } from '@/resolvers/shared/Notify'
 import { CREATED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
+import { NotificationTypes } from '@/types/NotificationsTypes'
 import {
   Arg,
   ClassType,
@@ -15,7 +17,7 @@ import {
 import { Select } from '../../shared/select/selectParamDecorator'
 import { PublishedData } from '../../shared/subscription/PublishedData'
 
-const { CommentsOnPost, CommentsOnMyPosts } = Topics
+const { CommentsOnPost } = Topics
 
 export function createCommentOrReplyBase<
   T extends ClassType,
@@ -47,14 +49,13 @@ export function createCommentOrReplyBase<
         id: newCommentOrReply.id,
       } as PublishedData)
 
-      pubSub.publish(
-        `${CommentsOnMyPosts}:${newCommentOrReply.post.authorId}`,
-        {
-          mutation: CREATED,
-          id: newCommentOrReply.id,
-          authorId: userId,
-        } as PublishedData
-      )
+      if (userId !== newCommentOrReply.post.authorId)
+        notify(
+          newCommentOrReply.post.authorId,
+          NotificationTypes.newComments,
+          `/post/${data.postId}/comments`,
+          userId!
+        )
 
       return newCommentOrReply
     }

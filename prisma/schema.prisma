@@ -22,8 +22,8 @@ model User {
   hearts                Heart[]
   followers_count       Int                    @default(0)
   following_count       Int                    @default(0)
-  followers             Follower[]             @relation("followerToUser")
-  following             Follower[]
+  followers             Follower[]
+  following             Follower[]             @relation("followerToUser")
   notifications         Notification[]
   notificationsFromUser NotificationFromUser[]
   replies               Reply[]

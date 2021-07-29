@@ -1,11 +1,13 @@
 import { Auth } from '@/middleware/Auth'
 import { IsOwner } from '@/middleware/IsOwner'
+import { notify } from '@/resolvers/shared/Notify'
 import { Select } from '@/resolvers/shared/select/selectParamDecorator'
 import { PublishedData } from '@/resolvers/shared/subscription/PublishedData'
 import { models } from '@/types/enums/models'
 import { DELETED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
+import { NotificationTypes } from '@/types/NotificationsTypes'
 import {
   Arg,
   ClassType,
@@ -17,7 +19,7 @@ import {
   UseMiddleware,
 } from 'type-graphql'
 
-const { CommentsOnPost, CommentsOnMyPosts } = Topics
+const { CommentsOnPost } = Topics
 
 export function deleteCommentOrReplyBase<T extends ClassType>(
   suffix: 'Reply' | 'Comment',
@@ -59,15 +61,14 @@ export function deleteCommentOrReplyBase<T extends ClassType>(
         id: deletedCommentOrReply.id,
       } as PublishedData)
 
-      pubSub.publish(
-        `${CommentsOnMyPosts}:${deletedCommentOrReply.post.authorId}`,
-        {
-          mutation: DELETED,
-          id: deletedCommentOrReply.id,
-          deleted: true,
-          authorId: userId,
-        } as PublishedData
-      )
+      if (userId !== deletedCommentOrReply.post.authorId)
+        notify(
+          deletedCommentOrReply.post.authorId,
+          NotificationTypes.newComments,
+          `/post/${deletedCommentOrReply.postId}/comments}`,
+          userId!,
+          { remove: true }
+        )
 
       return deletedCommentOrReply
     }
