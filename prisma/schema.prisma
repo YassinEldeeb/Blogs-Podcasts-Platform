@@ -9,25 +9,26 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(cuid())
-  name            String         @db.VarChar(255)
-  email           String         @unique
-  password        String         @db.VarChar(255)
-  bio             String?
-  tokenVersion    Int            @default(0)
-  confirmed       Boolean        @default(false)
-  profilePic      String?
-  posts           Post[]
-  comments        Comment[]
-  hearts          Heart[]
-  followers_count Int            @default(0)
-  following_count Int            @default(0)
-  followers       Follower[]     @relation("followerToUser")
-  following       Follower[]
-  notifications   Notification[]
-  replies         Reply[]
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id                    String                 @id @default(cuid())
+  name                  String                 @db.VarChar(255)
+  email                 String                 @unique
+  password              String
+  bio                   String?                @db.VarChar(160)
+  tokenVersion          Int                    @default(0)
+  confirmed             Boolean                @default(false)
+  profilePic            String?
+  posts                 Post[]
+  comments              Comment[]
+  hearts                Heart[]
+  followers_count       Int                    @default(0)
+  following_count       Int                    @default(0)
+  followers             Follower[]             @relation("followerToUser")
+  following             Follower[]
+  notifications         Notification[]
+  notificationsFromUser NotificationFromUser[]
+  replies               Reply[]
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
 }
 
 model Follower {
@@ -52,23 +53,33 @@ model Post {
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
+  replies        Reply[]
   readingTimeTxt String
   readingTimeMin Float
   coverImg       String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  replies        Reply[]
 }
 
 model Notification {
-  id           String   @id @default(cuid())
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String
-  seen         Boolean  @default(false)
-  type         String
-  notification String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String                 @id @default(cuid())
+  notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
+  notifiedUserId String
+  fromUsers      NotificationFromUser[]
+  seen           Boolean                @default(false)
+  message        String
+  type           String
+  url            String
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+}
+
+model NotificationFromUser {
+  id             String        @id @default(cuid())
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  userId         String
+  notificationId String?
 }
 
 model Heart {

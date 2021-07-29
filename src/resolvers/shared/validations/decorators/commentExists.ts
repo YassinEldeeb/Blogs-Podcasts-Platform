@@ -1,5 +1,6 @@
 import {
   registerDecorator,
+  ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -8,18 +9,25 @@ import { checkCommentExistance } from '../shared/checkCommentExists'
 
 @ValidatorConstraint({ async: true })
 export class commentExistConstraint implements ValidatorConstraintInterface {
-  validate(id: string) {
-    return checkCommentExistance(id)
+  validate(id: string, args: any) {
+    return checkCommentExistance(
+      id,
+      args.constraints[0] ? args.object.postId : undefined
+    )
   }
 }
 
-export function CommentExists(validationOptions?: ValidationOptions) {
+interface commentExistsArg extends ValidationOptions {
+  existsWithinThisPost?: boolean
+}
+
+export function CommentExists(validationOptions?: commentExistsArg) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [],
+      constraints: [validationOptions?.existsWithinThisPost],
       validator: commentExistConstraint,
     })
   }

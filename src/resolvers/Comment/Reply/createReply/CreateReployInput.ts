@@ -5,6 +5,9 @@ import { Field, ID, InputType } from 'type-graphql'
 @InputType()
 export class CreateReplyInput extends CreateCommentInput {
   @Field((_type) => ID)
-  @CommentExists({ message: "Comment doesn't exist" })
+  @CommentExists({
+    message: "Comment doesn't exist",
+    existsWithinThisPost: true,
+  })
   commentId: string
 }
