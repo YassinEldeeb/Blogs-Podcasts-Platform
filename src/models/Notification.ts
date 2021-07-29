@@ -9,6 +9,9 @@ class NotificationFromUser {
   @Field((_type) => User)
   user: User
 
+  @Field((_type) => User)
+  userWhoFired: User
+
   notification: Notification
   notificationId: string
 }

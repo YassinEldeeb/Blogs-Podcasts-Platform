@@ -14,6 +14,8 @@ import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
 import { Auth } from '@/middleware/Auth'
 import { PostIdInput } from '../Post/shared/PostIdExists'
+import { notify } from '../shared/Notify'
+import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @ObjectType()
 class HeartPostPayload {
@@ -30,21 +32,21 @@ class HeartPostResolver {
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine
   ): Promise<HeartPostPayload> {
-    const hearted = await prisma.heart.findFirst({
+    const hearted = (await prisma.heart.findFirst({
       where: { postId, authorId: userId },
       select: {
         id: true,
         post: { select: { id: true, author: { select: { id: true } } } },
       },
-    })
+    })) as any
 
     if (!hearted) {
-      const heart = await prisma.heart.create({
+      const heart = (await prisma.heart.create({
         data: { authorId: userId!, postId },
         include: {
           post: { select: { id: true, author: { select: { id: true } } } },
         },
-      })
+      })) as any
       await prisma.post.update({
         where: { id: postId },
         data: { hearts_count: { increment: 1 } },
@@ -62,6 +64,12 @@ class HeartPostResolver {
         authorId: userId,
       })
 
+      notify(
+        heart.post.author.id,
+        NotificationTypes.heartOnPost,
+        `/posts/${heart.post.id}`,
+        userId!
+      )
       return { heart: true }
     } else {
       await prisma.heart.deleteMany({
@@ -86,6 +94,14 @@ class HeartPostResolver {
         authorId: userId,
         deletedHeartId: hearted.id,
       })
+
+      notify(
+        hearted.post.author.id,
+        NotificationTypes.heartOnPost,
+        `/posts/${hearted.post.id}`,
+        userId!,
+        { remove: true }
+      )
 
       return { heart: false }
     }
