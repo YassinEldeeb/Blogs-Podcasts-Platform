@@ -47,6 +47,9 @@ export class User {
   @Field()
   following_count: number
 
+  @Field((_type) => [Follower])
+  followedBy: Follower[]
+
   @Field()
   createdAt: Date
 

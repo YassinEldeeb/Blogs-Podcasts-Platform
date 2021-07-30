@@ -16,6 +16,8 @@ import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'
 import readingTime from 'reading-time'
+import { notify } from '../shared/notifications/Notify'
+import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @Resolver()
 class CreatePostResolver {
@@ -51,6 +53,20 @@ class CreatePostResolver {
         authorId: userId,
       } as PublishedData)
     }
+
+    const followers = (
+      await prisma.follower.findMany({
+        where: { followed_userId: userId },
+        select: { id: true },
+      })
+    ).map((e: any) => e.id)
+
+    notify({
+      arrayOfNotifiedUsers: followers,
+      type: NotificationTypes.heartOnPost,
+      url: `/newPosts`,
+      firedNotificationUserId: userId!,
+    })
 
     return newPost
   }

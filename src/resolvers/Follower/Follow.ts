@@ -15,7 +15,7 @@ import { Follower } from '@/models/Follower'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { FollowInput } from './follow/followInput'
-import { notify } from '../shared/Notify'
+import { notify } from '../shared/notifications/Notify'
 import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @Resolver()
@@ -62,12 +62,12 @@ class FollowResolver {
       id: follow.id,
     } as PublishedData)
 
-    notify(
-      UserIdToFollow,
-      NotificationTypes.newFollowers,
-      `/users/${userId}`,
-      userId!
-    )
+    notify({
+      notifiedUserId: UserIdToFollow,
+      type: NotificationTypes.newFollowers,
+      url: `/users/${userId}`,
+      firedNotificationUserId: userId!,
+    })
 
     return follow
   }

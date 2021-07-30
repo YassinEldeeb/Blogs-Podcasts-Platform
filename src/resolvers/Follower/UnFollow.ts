@@ -15,7 +15,7 @@ import { MyContext } from '@/types/MyContext'
 import { Auth } from '@/middleware/Auth'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { FollowInput } from './follow/followInput'
-import { notify } from '../shared/Notify'
+import { notify } from '../shared/notifications/Notify'
 import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @ObjectType()
@@ -63,13 +63,13 @@ class FollowResolver {
       deleted: true,
     } as PublishedData)
 
-    notify(
-      UserIdToUnFollow,
-      NotificationTypes.newFollowers,
-      `/users/${userId}`,
-      userId!,
-      { remove: true }
-    )
+    notify({
+      notifiedUserId: UserIdToUnFollow,
+      type: NotificationTypes.newFollowers,
+      url: `/users/${userId}`,
+      firedNotificationUserId: userId!,
+      options: { remove: true },
+    })
 
     return { unFollowed: true }
   }

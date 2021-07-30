@@ -14,7 +14,7 @@ import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
 import { Auth } from '@/middleware/Auth'
 import { PostIdInput } from '../Post/shared/PostIdExists'
-import { notify } from '../shared/Notify'
+import { notify } from '../shared/notifications/Notify'
 import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @ObjectType()
@@ -59,12 +59,12 @@ class HeartPostResolver {
       })
 
       if (userId !== heart.post.author.id)
-        notify(
-          heart.post.author.id,
-          NotificationTypes.heartOnPost,
-          `/posts/${heart.post.id}`,
-          userId!
-        )
+        notify({
+          notifiedUserId: heart.post.author.id,
+          type: NotificationTypes.heartOnPost,
+          url: `/posts/${heart.post.id}`,
+          firedNotificationUserId: userId!,
+        })
       return { heart: true }
     } else {
       await prisma.heart.deleteMany({
@@ -83,13 +83,13 @@ class HeartPostResolver {
       })
 
       if (userId !== hearted.post.author.id)
-        notify(
-          hearted.post.author.id,
-          NotificationTypes.heartOnPost,
-          `/posts/${hearted.post.id}`,
-          userId!,
-          { remove: true }
-        )
+        notify({
+          notifiedUserId: hearted.post.author.id,
+          type: NotificationTypes.heartOnPost,
+          url: `/posts/${hearted.post.id}`,
+          firedNotificationUserId: userId!,
+          options: { remove: true },
+        })
 
       return { heart: false }
     }

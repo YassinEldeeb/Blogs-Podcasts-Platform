@@ -1,5 +1,5 @@
 import { Auth } from '@/middleware/Auth'
-import { notify } from '@/resolvers/shared/Notify'
+import { notify } from '@/resolvers/shared/notifications/Notify'
 import { CREATED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
@@ -50,12 +50,12 @@ export function createCommentOrReplyBase<
       } as PublishedData)
 
       if (userId !== newCommentOrReply.post.authorId)
-        notify(
-          newCommentOrReply.post.authorId,
-          NotificationTypes.newComments,
-          `/post/${data.postId}/comments`,
-          userId!
-        )
+        notify({
+          notifiedUserId: newCommentOrReply.post.authorId,,
+          type: NotificationTypes.newComments,
+          url: `/post/${data.postId}/comments`,
+          firedNotificationUserId: userId!,
+        })
 
       return newCommentOrReply
     }

@@ -1,6 +1,6 @@
 import { Auth } from '@/middleware/Auth'
 import { IsOwner } from '@/middleware/IsOwner'
-import { notify } from '@/resolvers/shared/Notify'
+import { notify } from '@/resolvers/shared/notifications/Notify'
 import { Select } from '@/resolvers/shared/select/selectParamDecorator'
 import { PublishedData } from '@/resolvers/shared/subscription/PublishedData'
 import { models } from '@/types/enums/models'
@@ -62,13 +62,13 @@ export function deleteCommentOrReplyBase<T extends ClassType>(
       } as PublishedData)
 
       if (userId !== deletedCommentOrReply.post.authorId)
-        notify(
-          deletedCommentOrReply.post.authorId,
-          NotificationTypes.newComments,
-          `/post/${deletedCommentOrReply.postId}/comments}`,
-          userId!,
-          { remove: true }
-        )
+        notify({
+          notifiedUserId: deletedCommentOrReply.post.authorId,
+          type: NotificationTypes.newComments,
+          url: `/post/${deletedCommentOrReply.postId}/comments}`,
+          firedNotificationUserId: userId!,
+          options: { remove: true },
+        })
 
       return deletedCommentOrReply
     }

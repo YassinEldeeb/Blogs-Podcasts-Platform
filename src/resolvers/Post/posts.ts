@@ -27,8 +27,9 @@ class PostsResolver {
     const where: Prisma.PostWhereInput = { published: true }
 
     if (search) {
+      const parsedSearch = search.replace('#', '').toLowerCase()
       const filter = {
-        contains: search,
+        contains: parsedSearch,
         mode: 'insensitive',
       } as any
 
@@ -40,6 +41,12 @@ class PostsResolver {
           },
           {
             body: filter,
+          },
+          {
+            tags: { has: parsedSearch },
+          },
+          {
+            author: { name: { contains: parsedSearch, mode: 'insensitive' } },
           },
         ],
       }
