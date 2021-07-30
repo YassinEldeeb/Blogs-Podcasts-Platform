@@ -51,7 +51,7 @@ export function createCommentOrReplyBase<
 
       if (userId !== newCommentOrReply.post.authorId)
         notify({
-          notifiedUserId: newCommentOrReply.post.authorId,,
+          notifiedUserId: newCommentOrReply.post.authorId,
           type: NotificationTypes.newComments,
           url: `/post/${data.postId}/comments`,
           firedNotificationUserId: userId!,

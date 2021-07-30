@@ -55,31 +55,6 @@ class DeletePostResolver {
       } as PublishedData)
     }
 
-    const followers = (
-      await prisma.follower.findMany({
-        where: { followed_userId: userId },
-        select: { id: true },
-      })
-    ).map((e: any) => e.id)
-
-    notify(
-      undefined,
-      NotificationTypes.heartOnPost,
-      `/newPosts`,
-      userId!,
-      followers,
-      {
-        remove: true,
-      }
-    )
-    notify({
-      notifiedUserId: hearted.post.author.id,
-      type: NotificationTypes.heartOnPost,
-      url: `/newPosts`,
-      firedNotificationUserId: userId!,
-      options: { remove: true },
-    })
-
     return deletedPost
   }
 }

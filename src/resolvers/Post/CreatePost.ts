@@ -61,12 +61,12 @@ class CreatePostResolver {
       })
     ).map((e: any) => e.id)
 
-    notify({
-      arrayOfNotifiedUsers: followers,
-      type: NotificationTypes.heartOnPost,
-      url: `/newPosts`,
-      firedNotificationUserId: userId!,
-    })
+    // notify({
+    //   arrayOfNotifiedUsers: followers,
+    //   type: NotificationTypes.heartOnPost,
+    //   url: `/newPosts`,
+    //   firedNotificationUserId: userId!,
+    // })
 
     return newPost
   }
