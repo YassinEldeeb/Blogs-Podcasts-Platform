@@ -36,11 +36,6 @@ class MyFeedResolver {
             some: { author: following },
           },
         },
-        {
-          replies: {
-            some: { author: following },
-          },
-        },
       ],
     }
 

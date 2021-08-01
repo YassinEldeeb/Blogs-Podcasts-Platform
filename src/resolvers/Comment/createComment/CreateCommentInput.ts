@@ -11,6 +11,9 @@ export class CreateCommentInput {
   @Field()
   text: string
 
+  @Field({ nullable: true })
+  parentId?: string
+
   @Field((_type) => ID)
   @PostExists({ message: "Post doesn't exist", published: true })
   postId: string

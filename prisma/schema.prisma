@@ -26,7 +26,6 @@ model User {
   following             Follower[]             @relation("followerToUser")
   notifications         Notification[]
   notificationsFromUser NotificationFromUser[]
-  replies               Reply[]
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   NotificationFromUser  NotificationFromUser[] @relation("whoFired")
@@ -54,7 +53,6 @@ model Post {
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
-  replies        Reply[]
   readingTimeTxt String
   readingTimeMin Float
   coverImg       String?
@@ -90,11 +88,9 @@ model Heart {
   user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  reply     Reply?   @relation(fields: [replyId], references: [id], onDelete: Cascade)
   authorId  String
   postId    String?
   commentId String?
-  replyId   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -106,24 +102,9 @@ model Comment {
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorId     String
   postId       String
-  replies      Reply[]
   hearts       Heart[]
   hearts_count Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-}
-
-model Reply {
-  id           String   @id @default(cuid())
-  text         String
-  comment      Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  commentId    String
-  authorId     String
-  postId       String
-  hearts       Heart[]
-  hearts_count Int      @default(0)
+  parentId     String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

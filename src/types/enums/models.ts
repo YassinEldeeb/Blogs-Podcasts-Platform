@@ -3,5 +3,4 @@ export enum models {
   post = 'post',
   comment = 'comment',
   heart = 'heart',
-  reply = 'reply',
 }
