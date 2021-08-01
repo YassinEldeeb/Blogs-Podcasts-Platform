@@ -22,7 +22,7 @@ const formatedNames = ({ names, name }: formateNamesArgs) => {
 export const createMessage = ({ type, names, name }: createMessageArgs) => {
   switch (type) {
     case NotificationTypes.newPosts:
-      return `New Post notifications from ${formatedNames({ name, names })}`
+      return `New Posts from ${formatedNames({ name, names })}`
     case NotificationTypes.newFollowers:
       return `${formatedNames({ name, names })} followed you`
     case NotificationTypes.heartOnPost:

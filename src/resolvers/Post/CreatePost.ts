@@ -3,6 +3,8 @@ import { Post } from '@/models/Post'
 import { CREATED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
+import { NotificationTypes } from '@/types/NotificationsTypes'
+import readingTime from 'reading-time'
 import {
   Arg,
   Ctx,
@@ -12,12 +14,10 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
+import { notifyMany } from '../shared/notifications/NotifyMany'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'
-import readingTime from 'reading-time'
-import { notify } from '../shared/notifications/Notify'
-import { NotificationTypes } from '@/types/NotificationsTypes'
 
 @Resolver()
 class CreatePostResolver {
@@ -57,16 +57,16 @@ class CreatePostResolver {
     const followers = (
       await prisma.follower.findMany({
         where: { followed_userId: userId },
-        select: { id: true },
+        select: { follower_userId: true },
       })
-    ).map((e: any) => e.id)
+    ).map((e: any) => e.follower_userId)
 
-    // notify({
-    //   arrayOfNotifiedUsers: followers,
-    //   type: NotificationTypes.heartOnPost,
-    //   url: `/newPosts`,
-    //   firedNotificationUserId: userId!,
-    // })
+    notifyMany({
+      notifiedUsersIds: followers,
+      type: NotificationTypes.newPosts,
+      url: `/timeline`,
+      firedNotificationUserId: userId!,
+    })
 
     return newPost
   }

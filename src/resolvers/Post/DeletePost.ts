@@ -16,6 +16,7 @@ import {
   UseMiddleware,
 } from 'type-graphql'
 import { notify } from '../shared/notifications/Notify'
+import { notifyMany } from '../shared/notifications/NotifyMany'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'
@@ -54,6 +55,21 @@ class DeletePostResolver {
         deleted: true,
       } as PublishedData)
     }
+
+    const followers = (
+      await prisma.follower.findMany({
+        where: { followed_userId: userId },
+        select: { follower_userId: true },
+      })
+    ).map((e: any) => e.follower_userId)
+
+    notifyMany({
+      notifiedUsersIds: followers,
+      type: NotificationTypes.newPosts,
+      url: `/timeline`,
+      firedNotificationUserId: userId!,
+      options: { remove: true },
+    })
 
     return deletedPost
   }

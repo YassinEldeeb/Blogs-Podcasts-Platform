@@ -32,12 +32,9 @@ export const notify = async ({
   })
 
   const filteredUsers =
-    existingNotification?.fromUsers.filter((e: any) => {
-      if (options?.remove) {
-        return e.userWhoFired.id !== firedNotificationUserId
-      }
-      return true
-    }) || []
+    existingNotification?.fromUsers.filter(
+      (e: any) => e.userWhoFired.id !== firedNotificationUserId
+    ) || []
 
   const names = [name, ...filteredUsers.map((e: any) => e.userWhoFired.name)]
 
