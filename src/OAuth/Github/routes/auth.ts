@@ -51,7 +51,7 @@ githubOAuthRouter.get(
 
     sendRefreshToken(res, refreshToken)
 
-    res.redirect(`${process.env.SERVER_URL!}/successful`)
+    res.redirect(`http://127.0.0.1:5500/success`)
   }
 )
 
