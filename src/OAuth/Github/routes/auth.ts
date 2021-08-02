@@ -51,7 +51,7 @@ githubOAuthRouter.get(
 
     sendRefreshToken(res, refreshToken)
 
-    res.redirect(`${process.env.SERVER_URL!}/graphql`)
+    res.redirect(`${process.env.SERVER_URL!}/successful`)
   }
 )
 
