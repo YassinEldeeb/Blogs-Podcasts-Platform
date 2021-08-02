@@ -51,6 +51,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       credentials: true,
     })
   )
+  app.set('trust proxy', 1)
 
   app.use(cookieParser())
   app.use(refreshTokenRouter)
