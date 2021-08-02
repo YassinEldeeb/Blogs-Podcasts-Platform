@@ -21,5 +21,12 @@ passport.use(
     }
   )
 )
-
+console.log({
+  clientID: process.env.GITHUB_CLIENT_ID!.replace('\n', ''),
+  clientSecret: process.env.GITHUB_CLIENT_SECRET!.replace('\n', ''),
+  callbackURL: `${process.env.SERVER_URL!.replace(
+    '\n',
+    ''
+  )}/auth/github/callback`,
+})
 export { githubStrategyRouter }
