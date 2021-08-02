@@ -48,6 +48,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   app.use(
     cors({
       origin: ['http://localhost:3000'],
+      credentials: true,
     })
   )
 
