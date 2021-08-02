@@ -6,6 +6,7 @@ import { MyContext } from '@/types/MyContext'
 import { confirmUserPrefix } from '../constants/redisPrefixes'
 import { Select } from '../shared/select/selectParamDecorator'
 import { ConfirmEmailPayload } from './confirmEmail/confirmEmailPayload'
+import { genRefreshToken } from '@/auth/utils/genRefreshToken'
 
 @Resolver()
 class ConfirmEmailResolver {
@@ -31,7 +32,7 @@ class ConfirmEmailResolver {
 
     redisClient.del(`${confirmUserPrefix}${token}`)
 
-    const { accessToken, refreshToken } = await genTokens(
+    const refreshToken = await genRefreshToken(
       authUser.id,
       authUser.tokenVersion
     )
@@ -40,7 +41,7 @@ class ConfirmEmailResolver {
 
     context.userId = authUser.id
 
-    return { user: authUser, accessToken, confirmed: true }
+    return { user: authUser, confirmed: true }
   }
 }
 

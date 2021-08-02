@@ -7,6 +7,7 @@ import { Select } from '../shared/select/selectParamDecorator'
 import { checkUserExistance } from '../shared/validations/shared/checkUserExists'
 import { LoginInput } from './login/LoginInput'
 import { AuthPayload } from './shared/authPayload'
+import { genRefreshToken } from '@/auth/utils/genRefreshToken'
 
 @Resolver()
 class LoginResolver {
@@ -29,6 +30,10 @@ class LoginResolver {
       select: { password: true, confirmed: true },
     })
 
+    if (!user?.password) {
+      throw new Error('Unable to Login!')
+    }
+
     checkPassword(user!.password, password, 'Unable to Login!')
 
     if (!user?.confirmed) {
@@ -40,7 +45,7 @@ class LoginResolver {
       select: { ...select, id: true, tokenVersion: true },
     })) as any
 
-    const { accessToken, refreshToken } = await genTokens(
+    const refreshToken = await genRefreshToken(
       authUser.id,
       authUser.tokenVersion
     )
@@ -49,7 +54,7 @@ class LoginResolver {
 
     context.userId = authUser.id
 
-    return { user: authUser, accessToken }
+    return { user: authUser }
   }
 }
 

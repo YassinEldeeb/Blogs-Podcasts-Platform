@@ -6,9 +6,6 @@ export class ConfirmEmailPayload {
   @Field((_type) => User, { nullable: true })
   user?: User
 
-  @Field({ nullable: true })
-  accessToken?: string
-
   @Field()
   confirmed: boolean
 }

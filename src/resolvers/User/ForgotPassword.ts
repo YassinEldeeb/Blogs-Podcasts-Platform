@@ -16,12 +16,16 @@ class ForgotPasswordResolver {
   ): Promise<SuccessPayload> {
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true },
+      select: { id: true, password: true },
     })
 
     if (!user) {
       return { success: true }
     }
+    if (!user.password) {
+      throw new Error("Can't forgot password for OAuth Users")
+    }
+
     resetPasswordEmail(user.id, email)
 
     return { success: true }

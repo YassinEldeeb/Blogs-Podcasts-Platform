@@ -79,6 +79,16 @@ spec:
                 secretKeyRef:
                   name: graphql-secret
                   key: GMAIL_CLIENT_ID
+            - name: GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GITHUB_CLIENT_ID
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: GITHUB_CLIENT_SECRET
             - name: DB_NAME
               value: prisma-pg
             - name: DB_URL

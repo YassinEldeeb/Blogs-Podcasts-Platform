@@ -10,14 +10,16 @@ import { createServer } from 'http'
 import path from 'path'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
 import { commentsLoader } from './data-loaders/CommentsLoader'
 import { postsLoader } from './data-loaders/PostsLoader'
 import { followersLoader } from './data-loaders/FollowersLoader'
 import { followingLoader } from './data-loaders/FollowingLoader'
-// import { PubSub } from 'graphql-subscriptions'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
+import passport from 'passport'
+import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
+import { githubStrategyRouter } from './OAuth/Github/strategy'
+import { githubOAuthRouter } from './OAuth/Github/routes/auth'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -76,6 +78,18 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
     },
     { server: httpServer, path: server.graphqlPath }
   )
+
+  app.use(githubStrategyRouter)
+  app.use(passport.initialize())
+  app.use(githubOAuthRouter)
+
+  passport.serializeUser((user, done) => {
+    done(null, user)
+  })
+
+  passport.deserializeUser((user: any, done) => {
+    done(null, user)
+  })
 
   httpServer.listen(4000, () => {
     console.log(`

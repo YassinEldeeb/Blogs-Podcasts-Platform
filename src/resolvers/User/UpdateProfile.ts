@@ -23,6 +23,10 @@ class UpdateUserProfileResolver {
         select: { password: true },
       })) as any
 
+      if (!password) {
+        throw Error('Unable to Change Password for OAuth Users')
+      }
+
       checkPassword(
         password,
         _unsecureData.oldPassword,

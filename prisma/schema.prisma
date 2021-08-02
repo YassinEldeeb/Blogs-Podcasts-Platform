@@ -9,26 +9,28 @@ datasource db {
 }
 
 model User {
-  id                    String                 @id @default(cuid())
-  name                  String                 @db.VarChar(255)
-  email                 String                 @unique
-  password              String
-  bio                   String?                @db.VarChar(160)
-  tokenVersion          Int                    @default(0)
-  confirmed             Boolean                @default(false)
-  profilePic            String?
-  posts                 Post[]
-  comments              Comment[]
-  hearts                Heart[]
-  followers_count       Int                    @default(0)
-  following_count       Int                    @default(0)
-  followers             Follower[]
-  following             Follower[]             @relation("followerToUser")
-  notifications         Notification[]
-  notificationsFromUser NotificationFromUser[]
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  NotificationFromUser  NotificationFromUser[] @relation("whoFired")
+  id                            String                 @id @default(cuid())
+  name                          String                 @db.VarChar(255)
+  username                      String?                @unique
+  email                         String                 @unique
+  password                      String?
+  bio                           String?                @db.VarChar(160)
+  tokenVersion                  Int                    @default(0)
+  confirmed                     Boolean                @default(false)
+  profilePic                    String?
+  posts                         Post[]
+  comments                      Comment[]
+  hearts                        Heart[]
+  followers_count               Int                    @default(0)
+  following_count               Int                    @default(0)
+  followers                     Follower[]
+  following                     Follower[]             @relation("followerToUser")
+  notifications                 Notification[]
+  notificationsFromUser         NotificationFromUser[]
+  notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
+  githubId                      String?                @unique
+  createdAt                     DateTime               @default(now())
+  updatedAt                     DateTime               @updatedAt
 }
 
 model Follower {

@@ -5,7 +5,4 @@ import { User } from '@/models/User'
 export class AuthPayload {
   @Field((_type) => User)
   user: User
-
-  @Field()
-  accessToken: string
 }
