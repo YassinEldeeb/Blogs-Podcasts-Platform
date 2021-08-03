@@ -28,9 +28,17 @@ class CreateCommentResolver {
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Comment> {
+    const selectWithDefault = {
+      ...select,
+      id: true,
+      post: {
+        select: { ...{ authorId: true }, ...(select?.post?.select || {}) },
+      },
+    }
+
     const newComment = (await prisma.comment.create({
       data: { ...data, authorId: userId! },
-      select: { ...select, id: true, post: { select: { authorId: true } } },
+      select: selectWithDefault,
     })) as any
 
     await prisma.post.update({

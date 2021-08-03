@@ -11,30 +11,50 @@ import { SortingArgs } from '../shared/sorting'
 class MyFeedResolver {
   @Query((_type) => [Post])
   @UseMiddleware(Auth())
-  timeline(
+  async timeline(
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any
   ): Promise<Post[]> {
+    const following = await prisma.follower.findMany({
+      where: { follower_userId: userId },
+      select: { createdAt: true, followed_userId: true },
+    })
+
+    const followingIds = following.map((e) => e.followed_userId)
     const feed: Prisma.PostWhereInput = {
       author: {
-        followers: {
-          some: {
-            follower_userId: userId,
-          },
-        },
+        id: { in: followingIds },
       },
     }
 
-    return prisma.post.findMany({
+    const selectWithDefault = {
+      ...select,
+      createdAt: true,
+      author: {
+        select: { ...{ id: true }, ...(select?.author?.select || {}) },
+      },
+    }
+
+    const posts = (await prisma.post.findMany({
       where: feed,
-      select,
+      select: selectWithDefault,
       take,
       skip,
       orderBy,
       cursor: cursorId ? { id: cursorId } : undefined,
-    }) as any
+    })) as any
+
+    const filteredPosts = posts.filter((post: any) => {
+      const followingDate = following.find(
+        (e) => e.followed_userId === post.author.id
+      )!.createdAt
+
+      return post.createdAt >= followingDate
+    })
+
+    return filteredPosts
   }
 }
 

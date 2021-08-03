@@ -40,13 +40,17 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
       whereParentId[inputKey] = input[inputKey]
 
       const heartSelect = () => {
+        const authorSelection = {
+          select: { id: true, author: { select: { id: true } } },
+        }
+
         if (type === 'post') {
           return {
-            post: { select: { id: true, author: { select: { id: true } } } },
+            post: authorSelection,
           }
         }
         return {
-          comment: { select: { id: true, author: { select: { id: true } } } },
+          comment: authorSelection,
         }
       }
 

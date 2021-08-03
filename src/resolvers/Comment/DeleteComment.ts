@@ -30,14 +30,18 @@ class BaseResolver {
     @PubSub() pubSub: PubSubEngine,
     @Select() select: any
   ): Promise<Comment> {
+    const selectWithDefault = {
+      ...select,
+      postId: true,
+      id: true,
+      post: {
+        select: { ...{ authorId: true }, ...(select?.post?.select || {}) },
+      },
+    }
+
     const deletedComment = (await prisma.comment.delete({
       where: { id },
-      select: {
-        ...select,
-        postId: true,
-        id: true,
-        post: { select: { authorId: true } },
-      },
+      select: selectWithDefault,
     })) as any
 
     await prisma.post.update({

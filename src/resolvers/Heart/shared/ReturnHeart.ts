@@ -9,7 +9,7 @@ export const ReturnHeart = async (data: HeartPublishedData, select: any) => {
   if (data.mutation !== DELETED) {
     post = (await prisma.heart.findUnique({
       where: { id: data.id },
-      select: { ...select },
+      select,
     })) as any
   }
 

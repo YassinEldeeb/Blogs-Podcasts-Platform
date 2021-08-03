@@ -10,7 +10,7 @@ export class PaginationArgs {
   skip: number = 0
 
   @Field((_type) => Int)
-  @Max(500)
+  @Max(100)
   take: number = 15
 
   @Field((_type) => String, {
