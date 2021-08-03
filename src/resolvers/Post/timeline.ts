@@ -27,6 +27,7 @@ class MyFeedResolver {
       author: {
         id: { in: followingIds },
       },
+      published: true,
     }
 
     const selectWithDefault = {

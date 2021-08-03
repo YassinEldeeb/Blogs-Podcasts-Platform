@@ -37,6 +37,7 @@ class MyFeedResolver {
           },
         },
       ],
+      published: true,
     }
 
     return prisma.post.findMany({

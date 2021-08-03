@@ -1,6 +1,5 @@
 import { Comment } from '@/models/Comment'
 import { Post } from '@/models/Post'
-import { User } from '@/models/User'
 import { PaginationArgs } from '@/resolvers/shared/pagination'
 import { Select } from '@/resolvers/shared/select/selectParamDecorator'
 import { SortingArgs } from '@/resolvers/shared/sorting'
@@ -26,14 +25,20 @@ export function commentsBaseResolver<T extends ClassType>(
       @Root() user: Post,
       @Args() { take, skip, cursorId }: PaginationArgs,
       @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-      @Ctx() { commentsLoader }: MyContext,
+      @Ctx() { usersCommentsLoader, postsCommentsLoader }: MyContext,
       @Select() select: any
     ) {
-      return commentsLoader.load({
+      let loader: any
+      if (by === 'authorId') {
+        loader = usersCommentsLoader
+      } else {
+        loader = postsCommentsLoader
+      }
+
+      return loader.load({
         id: user.id,
         select,
         args: { take, skip, cursorId, orderBy },
-        by,
       })
     }
   }

@@ -1,10 +1,9 @@
 import { models } from '@/types/enums/models'
 import { baseBatch } from './shared/baseDataLoader'
 
-const postsLoader = baseBatch({
+const usersCommentsLoader = baseBatch({
   uniqueId: 'authorId',
-  model: models.post,
-  additionalWhere: { published: true },
+  model: models.comment,
 })
 
-export { postsLoader }
+export { usersCommentsLoader }

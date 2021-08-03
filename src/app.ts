@@ -10,7 +10,7 @@ import { createServer } from 'http'
 import path from 'path'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { commentsLoader } from './data-loaders/CommentsLoader'
+import { usersCommentsLoader } from './data-loaders/UsersCommentsLoader'
 import { postsLoader } from './data-loaders/PostsLoader'
 import { followersLoader } from './data-loaders/FollowersLoader'
 import { followingLoader } from './data-loaders/FollowingLoader'
@@ -20,6 +20,7 @@ import passport from 'passport'
 import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
 import { githubStrategyRouter } from './OAuth/Github/strategy'
 import { githubOAuthRouter } from './OAuth/Github/routes/auth'
+import { postsCommentsLoader } from './data-loaders/PostsCommentsLoader'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -34,7 +35,8 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       req,
       res,
       postsLoader: postsLoader(),
-      commentsLoader: commentsLoader(),
+      usersCommentsLoader: usersCommentsLoader(),
+      postsCommentsLoader: postsCommentsLoader(),
       followersLoader: followersLoader(),
       followingLoader: followingLoader(),
     }),
