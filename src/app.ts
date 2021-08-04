@@ -1,4 +1,7 @@
-require('dotenv-safe').config()
+import path from 'path'
+require('dotenv-safe').config({
+  example: path.join(__dirname, '../config/.env.example'),
+})
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'
@@ -9,7 +12,6 @@ import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { graphqlUploadExpress } from 'graphql-upload'
 import { createServer } from 'http'
 import passport from 'passport'
-import path from 'path'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
