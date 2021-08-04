@@ -7,11 +7,7 @@ const githubStrategyRouter = express.Router()
 const env = (envVar: string) => {
   return envVar.replace(/\n|\r/g, '')
 }
-console.log({
-  clientID: env(process.env.GITHUB_CLIENT_ID!),
-  clientSecret: env(process.env.GITHUB_CLIENT_SECRET!),
-  callbackURL: `${env(process.env.SERVER_URL!)}/auth/github/callback`,
-})
+
 passport.use(
   new GitHubStrategy(
     {

@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  # Backup the database every day at 2AM --> 0 2 * * *
+  schedule: '* * * * *'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: postgres-backup
+              image: postgres
+              command: ['/bin/sh']
+              args:
+                [
+                  '-c',
+                  'echo "$PGPASS" > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U postgres -h postgres "prisma-pg" > /var/backups/backup-$(date +"%m-%d-%Y-%H-%M").sql',
+                ]
+              env:
+                - name: PGPASS
+                  valueFrom:
+                    secretKeyRef:
+                      name: pgpass
+                      key: pgpass
+              volumeMounts:
+                - mountPath: /var/backups
+                  name: postgres-storage
+          restartPolicy: Never
+          volumes:
+            - name: postgres-storage
+              persistentVolumeClaim:
+                claimName: postgres-pv-claim

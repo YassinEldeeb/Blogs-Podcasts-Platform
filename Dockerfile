@@ -16,4 +16,4 @@ RUN yarn build
 
 EXPOSE 4000
 
-CMD yarn prisma-push-prod --force-reset && yarn start
+CMD yarn prisma-push-prod && yarn start
