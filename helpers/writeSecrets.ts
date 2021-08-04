@@ -17,7 +17,13 @@ fs.readFile(path.join(__dirname, '../config/prod.env'), 'utf8', (err, data) => {
 
   data.split('\n').forEach((line) => {
     const key = line.split('=')[0]
-    const ignore = ['PG_USER', 'PG_PASSWORD', 'DB_NAME', 'DATABASE_URL']
+    const ignore = [
+      'PG_USER',
+      'PG_PASSWORD',
+      'DB_NAME',
+      'DATABASE_URL',
+      'REDIS_HOST',
+    ]
 
     if (ignore.some((e) => e === key)) {
       return

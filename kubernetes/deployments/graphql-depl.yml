@@ -73,11 +73,6 @@ spec:
                 secretKeyRef:
                   name: graphql-secret
                   key: REFRESH_TOKEN_SECRET
-            - name: REDIS_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: graphql-secret
-                  key: REDIS_HOST
             - name: GMAIL_REFRESH_TOKEN
               valueFrom:
                 secretKeyRef:
