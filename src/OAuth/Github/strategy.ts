@@ -5,13 +5,8 @@ import { Strategy as GitHubStrategy } from 'passport-github2'
 const githubStrategyRouter = express.Router()
 
 const env = (envVar: string) => {
-  return envVar.replace('\n', '')
+  return envVar.replace(/\n|\r/g, '')
 }
-console.log({
-  clientID: process.env.GITHUB_CLIENT_ID!,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-  callbackURL: `${process.env.SERVER_URL!}/auth/github/callback`,
-})
 console.log({
   clientID: env(process.env.GITHUB_CLIENT_ID!),
   clientSecret: env(process.env.GITHUB_CLIENT_SECRET!),
