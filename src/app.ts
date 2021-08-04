@@ -1,3 +1,4 @@
+require('dotenv-safe').config()
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'
