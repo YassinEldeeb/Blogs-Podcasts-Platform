@@ -4,8 +4,8 @@ import colors from 'colors'
 import { getSecretFileData } from './lib/secretFileData'
 import { getBaseDeplConfig } from './lib/baseDeplConfig'
 
-let secretFileData = getBaseDeplConfig()
-let baseDeplConfig = getSecretFileData()
+let secretFileData = getSecretFileData()
+let baseDeplConfig = getBaseDeplConfig()
 
 let deplFileEnv = ``
 
@@ -31,6 +31,7 @@ fs.readFile(path.join(__dirname, '../config/prod.env'), 'utf8', (err, data) => {
     secretFileData += `\n  ${key}: ${base64}`
     deplFileEnv += `\n            - name: ${key}\n              valueFrom:\n                secretKeyRef:\n                  name: graphql-secret\n                  key: ${key}`
   })
+
   fs.writeFileSync(
     path.join(__dirname, '../kubernetes/secrets/graphql-secret.yml'),
     secretFileData
