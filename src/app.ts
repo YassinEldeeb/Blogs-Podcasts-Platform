@@ -7,20 +7,15 @@ import { execute, subscribe } from 'graphql'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { graphqlUploadExpress } from 'graphql-upload'
 import { createServer } from 'http'
+import passport from 'passport'
 import path from 'path'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { usersCommentsLoader } from './data-loaders/UsersCommentsLoader'
-import { postsLoader } from './data-loaders/PostsLoader'
-import { followersLoader } from './data-loaders/FollowersLoader'
-import { followingLoader } from './data-loaders/FollowingLoader'
+import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
+import { githubOAuthRouter } from './OAuth/Github/routes/auth'
+import { githubStrategyRouter } from './OAuth/Github/strategy'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
-import passport from 'passport'
-import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
-import { githubStrategyRouter } from './OAuth/Github/strategy'
-import { githubOAuthRouter } from './OAuth/Github/routes/auth'
-import { postsCommentsLoader } from './data-loaders/PostsCommentsLoader'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -34,11 +29,6 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       pubsub,
       req,
       res,
-      postsLoader: postsLoader(),
-      usersCommentsLoader: usersCommentsLoader(),
-      postsCommentsLoader: postsCommentsLoader(),
-      followersLoader: followersLoader(),
-      followingLoader: followingLoader(),
     }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   })

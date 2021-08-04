@@ -14,7 +14,11 @@ interface data {
   args: any
 }
 
-const baseBatch = ({ uniqueId, model, additionalWhere }: DataLoaderArgs) => {
+const baseBatch = <T = any>({
+  uniqueId,
+  model,
+  additionalWhere,
+}: DataLoaderArgs) => {
   const batchData: any = async (data: data[]) => {
     const select = data[0].select
     const args = data[0].args
@@ -47,9 +51,9 @@ const baseBatch = ({ uniqueId, model, additionalWhere }: DataLoaderArgs) => {
     return ids.map((e: any) => dataMap[e] || [])
   }
 
-  const dataLoader = () => new DataLoader<data, any, any>(batchData)
+  const dataLoader = () => new DataLoader<data, T[]>(batchData)
 
-  return dataLoader
+  return dataLoader()
 }
 
 export { baseBatch }

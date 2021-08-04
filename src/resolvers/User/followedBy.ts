@@ -1,3 +1,4 @@
+import { followedByLoader } from '@/data-loaders/explicit-cases/followedBy'
 import { Auth } from '@/middleware/Auth'
 import { Follower } from '@/models/Follower'
 import { User } from '@/models/User'
@@ -23,23 +24,16 @@ class followedByResolver {
     @Root() user: User,
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-    @Ctx() { prisma, userId }: MyContext,
+    @Ctx() { userId }: MyContext,
     @Select() select: any
   ): Promise<Follower[]> {
-    const followingIds = (
-      await prisma.follower.findMany({
-        where: { follower_userId: userId },
-        select: { followed_userId: true },
-      })
-    ).map((e: { followed_userId: string }) => e.followed_userId)
-
-    return prisma.follower.findMany({
-      where: {
-        follower_userId: { in: followingIds },
-        followed_userId: user.id,
-      },
+    return followedByLoader.load({
+      id: user.id,
+      followed_userId: user.id,
+      userId: userId!,
       select,
-    }) as any
+      args: { take, skip, cursorId, orderBy },
+    })
   }
 }
 

@@ -1,3 +1,5 @@
+import { postsCommentsLoader } from '@/data-loaders/PostsCommentsLoader'
+import { usersCommentsLoader } from '@/data-loaders/UsersCommentsLoader'
 import { Comment } from '@/models/Comment'
 import { Post } from '@/models/Post'
 import { PaginationArgs } from '@/resolvers/shared/pagination'
@@ -25,7 +27,6 @@ export function commentsBaseResolver<T extends ClassType>(
       @Root() user: Post,
       @Args() { take, skip, cursorId }: PaginationArgs,
       @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-      @Ctx() { usersCommentsLoader, postsCommentsLoader }: MyContext,
       @Select() select: any
     ) {
       let loader: any

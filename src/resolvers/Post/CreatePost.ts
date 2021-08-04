@@ -61,13 +61,6 @@ class CreatePostResolver {
       })
     ).map((e: any) => e.follower_userId)
 
-    notifyMany({
-      notifiedUsersIds: followers,
-      type: NotificationTypes.newPosts,
-      url: `/timeline`,
-      firedNotificationUserId: userId!,
-    })
-
     return newPost
   }
 }

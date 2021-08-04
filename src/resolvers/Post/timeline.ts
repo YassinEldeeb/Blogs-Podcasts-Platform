@@ -55,6 +55,11 @@ class MyFeedResolver {
       return post.createdAt >= followingDate
     })
 
+    await prisma.user.update({
+      data: { lastTimelineVisit: new Date() },
+      where: { id: userId! },
+    })
+
     return filteredPosts
   }
 }

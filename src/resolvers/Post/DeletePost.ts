@@ -63,14 +63,6 @@ class DeletePostResolver {
       })
     ).map((e: any) => e.follower_userId)
 
-    notifyMany({
-      notifiedUsersIds: followers,
-      type: NotificationTypes.newPosts,
-      url: `/timeline`,
-      firedNotificationUserId: userId!,
-      options: { remove: true },
-    })
-
     return deletedPost
   }
 }

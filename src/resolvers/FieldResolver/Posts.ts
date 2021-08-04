@@ -1,10 +1,9 @@
+import { postsLoader } from '@/data-loaders/PostsLoader'
 import { User } from '@/models/User'
-import { MyContext } from '@/types/MyContext'
 import {
   Arg,
   Args,
   ArgsType,
-  Ctx,
   FieldResolver,
   Resolver,
   Root,
@@ -23,7 +22,6 @@ class PostsResolver {
     @Root() user: User,
     @Args() { take, skip, cursorId }: PostsInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-    @Ctx() { postsLoader }: MyContext,
     @Select() select: any
   ) {
     return postsLoader.load({

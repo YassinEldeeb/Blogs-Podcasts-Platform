@@ -29,6 +29,7 @@ model User {
   notificationsFromUser         NotificationFromUser[]
   notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
   githubId                      String?                @unique
+  lastTimelineVisit             DateTime?
   createdAt                     DateTime               @default(now())
   updatedAt                     DateTime               @updatedAt
 }
