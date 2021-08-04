@@ -18,7 +18,7 @@ class PostsSubscriptionsResolver {
     },
   })
   @Authorized()
-  async posts(
+  async myFeed(
     @Root() data: PostPublishedData,
     @Select() select: any
   ): Promise<PostSubscriptionPayload> {
