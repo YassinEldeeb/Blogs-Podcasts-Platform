@@ -4,7 +4,7 @@ metadata:
   name: postgres-backup
 spec:
   # Backup the database every day at 2AM --> 0 2 * * *
-  schedule: '* * * * *'
+  schedule: '0 2 * * *'
   jobTemplate:
     spec:
       template:
@@ -16,7 +16,7 @@ spec:
               args:
                 [
                   '-c',
-                  'echo "$PGPASS" > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U postgres -h postgres "prisma-pg" > /var/backups/backup-$(date +"%m-%d-%Y-%H-%M").sql',
+                  'echo "$PGPASS" > /root/.pgpass && chmod 600 /root/.pgpass && pg_dump -U postgres -h "postgres-service" "prisma-pg" > /var/backups/backup-now.sql',
                 ]
               env:
                 - name: PGPASS
@@ -25,10 +25,18 @@ spec:
                       name: pgpass
                       key: pgpass
               volumeMounts:
-                - mountPath: /var/backups
-                  name: postgres-storage
+                - name: postgres-storage
+                  mountPath: /var/lib/postgresql/pg-data
+
+                - name: postgres-backups
+                  mountPath: /var/backups
+
           restartPolicy: Never
           volumes:
             - name: postgres-storage
               persistentVolumeClaim:
                 claimName: postgres-pv-claim
+
+            - name: postgres-backups
+              persistentVolumeClaim:
+                claimName: pg-backups-pv-claim

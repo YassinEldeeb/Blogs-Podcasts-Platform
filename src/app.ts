@@ -19,6 +19,7 @@ import { githubOAuthRouter } from './OAuth/Github/routes/auth'
 import { githubStrategyRouter } from './OAuth/Github/strategy'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
+import { startBackupSchedule } from './backup'
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -87,7 +88,9 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   passport.deserializeUser((user: any, done) => {
     done(null, user)
   })
-
+  if (process.env.NODE_ENV === 'production') {
+    startBackupSchedule()
+  }
   httpServer.listen(4000, () => {
     console.log(`
       Server is running!

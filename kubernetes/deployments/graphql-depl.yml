@@ -31,6 +31,9 @@ spec:
 
             - name: posts-images
               mountPath: /uploads/posts_images
+
+            - name: postgres-backups
+              mountPath: /backups
           resources:
             requests:
               memory: '300Mi'
@@ -63,6 +66,11 @@ spec:
                 configMapKeyRef:
                   name: redis-configmap
                   key: redis_host
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: NODE_ENV
             - name: ACCESS_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
@@ -112,6 +120,12 @@ spec:
         - name: profile-images
           persistentVolumeClaim:
             claimName: 'profile-images-pv-claim'
+
         - name: posts-images
           persistentVolumeClaim:
             claimName: 'posts-images-pv-claim'
+
+        - name: postgres-backups
+          persistentVolumeClaim:
+            claimName: pg-backups-pv-claim
+

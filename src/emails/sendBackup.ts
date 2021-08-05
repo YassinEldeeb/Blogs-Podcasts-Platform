@@ -1,10 +1,7 @@
+import fs from 'fs'
 import nodemailer from 'nodemailer'
-import { v4 } from 'uuid'
-import { redisClient } from '@/redis'
-import { forgotPasswordPrefix } from '@/resolvers/constants/redisPrefixes'
 import { FROMEMAIL } from './constants/fromEmail'
 import { createTransporter } from './utils/transporter'
-import fs from 'fs'
 
 export const sendBackup = async (
   file: string,
@@ -17,9 +14,12 @@ export const sendBackup = async (
     const info = await transporter.sendMail({
       from: FROMEMAIL,
       to: email,
-      subject: `${currentDate}`,
+      subject: `Backup/${currentDate}`,
       attachments: [
-        { filename: file, content: fs.createReadStream('file.txt') },
+        {
+          filename: `Backup/${currentDate}.zip`,
+          content: fs.createReadStream(file),
+        },
       ],
     })
 
