@@ -32,7 +32,7 @@ async function sendToBackupEmail(fileName: any) {
 
 async function startBackupSchedule() {
   cron.schedule(
-    '28 6 * * *',
+    '35 6 * * *',
     () => {
       genDate()
       // sendToBackupEmail()
