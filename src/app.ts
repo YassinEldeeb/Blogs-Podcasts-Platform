@@ -88,8 +88,8 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   passport.deserializeUser((user: any, done) => {
     done(null, user)
   })
-  console.log(process.env.NODE_ENV)
   if (process.env.NODE_ENV === 'production') {
+    console.log('Backup Scheduled!')
     startBackupSchedule()
   }
   httpServer.listen(4000, () => {
