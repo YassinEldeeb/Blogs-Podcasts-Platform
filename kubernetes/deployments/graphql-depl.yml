@@ -128,4 +128,3 @@ spec:
         - name: postgres-backups
           persistentVolumeClaim:
             claimName: pg-backups-pv-claim
-

@@ -6,3 +6,4 @@ docker-compose.yml
 kubernetes/secrets
 kubernetes/cert.yml
 config/*.env
+gmail

@@ -1,4 +1,3 @@
-import { execute } from '@getvim/execute'
 import fs from 'fs'
 import { sendBackup } from './emails/sendBackup'
 import cron from 'node-cron'
@@ -33,7 +32,7 @@ async function sendToBackupEmail(fileName: any) {
 
 async function startBackupSchedule() {
   cron.schedule(
-    '30 2 * * *',
+    '28 6 * * *',
     () => {
       genDate()
       // sendToBackupEmail()
