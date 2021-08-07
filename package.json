@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
-    "bla": "nodemon --watch dist/* --exec yarn start-dev",
     "dev": "nodemon --watch dist/* --exec yarn start-dev",
-    "gen-client": "nodemon --watch prisma/schema.prisma --exec yarn genClientAndPushToDB",
     "build": "ttsc",
     "build-w": "ttsc -w",
     "prisma-push-dev": "dotenv -e ./config/dev.env -- npx prisma db push",
@@ -17,7 +15,8 @@
     "prisma-studio": "dotenv -e ./config/dev.env -- npx prisma studio",
     "test": "jest --watch",
     "write-secrets": "yarn ts-node helpers/writeSecrets.ts",
-    "push-secrets": "kubectl apply -f ./kubernetes/secrets/graphql-secret.yml"
+    "push-secrets": "kubectl apply -f ./kubernetes/secrets/graphql-secret.yml",
+    "lint": "eslint . --ext .ts"
   },
   "dependencies": {
     "@getvim/execute": "^1.0.0",
@@ -25,8 +24,8 @@
     "apollo-server-core": "^3.0.1",
     "apollo-server-express": "^3.0.0",
     "archiver": "^5.3.0",
+    "aws-sdk": "^2.963.0",
     "bcryptjs": "^2.4.3",
-    "cheerio": "^1.0.0-rc.10",
     "class-validator": "^0.13.1",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
@@ -54,7 +53,6 @@
     "mailparser": "^3.3.0",
     "node-cron": "^3.0.0",
     "nodemailer": "^6.6.3",
-    "open": "^8.2.1",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
     "reading-time": "^1.3.0",
@@ -63,7 +61,6 @@
     "stream-to-buffer": "^0.1.0",
     "subscriptions-transport-ws": "^0.9.19",
     "ts-node": "^10.0.0",
-    "tslint": "^6.1.3",
     "type-graphql": "^1.1.1",
     "typescript": "4.3.2",
     "uuid": "^8.3.2"
@@ -96,7 +93,6 @@
     "prisma": "2.26.0",
     "ts-jest": "^27.0.4",
     "tsconfig-paths": "^3.10.1",
-    "tslint": "^6.1.3",
     "ttypescript": "^1.5.12",
     "typescript-transform-paths": "^3.1.0"
   }

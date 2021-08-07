@@ -2,8 +2,8 @@ import { Auth } from '@/middleware/Auth'
 import { MyContext } from '@/types/MyContext'
 import { Upload } from '@/types/Upload'
 import { GraphQLUpload } from 'graphql-upload'
-import path from 'path'
 import sharp from 'sharp'
+
 import streamtToBuffer from 'stream-to-buffer'
 import {
   Arg,
@@ -14,7 +14,9 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import fs from 'fs'
+import { uploadImage } from '@/aws/uploadImage'
+import { deleteImage } from '@/aws/deleteImage'
+import { bucketURL } from '@/aws/constants/bucket'
 
 @ObjectType()
 class AddProfilePayload {
@@ -24,7 +26,7 @@ class AddProfilePayload {
 
 @Resolver()
 class AddProfilePicResolver {
-  @Mutation((_type) => AddProfilePayload)
+  @Mutation(() => AddProfilePayload)
   @UseMiddleware(Auth())
   async addProfilePic(
     @Arg('picture', () => GraphQLUpload) file: Upload,
@@ -44,19 +46,14 @@ class AddProfilePicResolver {
     // Remove old Image
     if (profilePic) {
       try {
-        console.log(profilePic)
-        fs.unlinkSync(path.join(__dirname, `../../../uploads${profilePic}`))
+        const fileName = profilePic.replace(bucketURL, '')
+        await deleteImage(fileName)
       } catch (error) {
         throw new Error("Couldn't add profile picture")
       }
     }
 
     const modifiedFilename = userId + mimetype.replace('image/', '.')
-
-    const writeLocation = path.join(
-      __dirname,
-      `../../../uploads/profile_images/${modifiedFilename}`
-    )
 
     const stream = createReadStream()
 
@@ -71,12 +68,18 @@ class AddProfilePicResolver {
       })
     }
 
-    await sharp(await getBufferData())
+    const imageBuffer = await sharp(await getBufferData())
       .resize(250, 250)
-      .toFile(writeLocation)
+      .toBuffer()
+
+    const image = await uploadImage({
+      fileName: modifiedFilename,
+      buffer: imageBuffer,
+      mimetype,
+    })
 
     await prisma.user.update({
-      data: { profilePic: `/profile_images/${modifiedFilename}` },
+      data: { profilePic: image.Location },
       where: { id: userId },
     })
 

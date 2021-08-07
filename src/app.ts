@@ -100,5 +100,3 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 })()
 
 export { pubsub }
-
-const TryHard = ''

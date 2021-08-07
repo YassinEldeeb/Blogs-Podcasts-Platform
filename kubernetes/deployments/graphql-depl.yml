@@ -116,6 +116,16 @@ spec:
                 secretKeyRef:
                   name: graphql-secret
                   key: SERVER_URL
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_SECRET_KEY
       volumes:
         - name: profile-images
           persistentVolumeClaim:
@@ -128,3 +138,4 @@ spec:
         - name: postgres-backups
           persistentVolumeClaim:
             claimName: pg-backups-pv-claim
+

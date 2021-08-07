@@ -26,7 +26,8 @@
       "@/utils/*": ["src/utils/*"],
       "@/prisma": ["src/prisma"],
       "@/redis": ["src/redis"],
-      "@/resolvers/*": ["src/resolvers/*"]
+      "@/resolvers/*": ["src/resolvers/*"],
+      "@/aws/*": ["src/aws/*"]
     },
     "outDir": "./dist",
     "rootDir": "./src"

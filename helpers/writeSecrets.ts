@@ -5,7 +5,7 @@ import { getSecretFileData } from './lib/secretFileData'
 import { getBaseDeplConfig } from './lib/baseDeplConfig'
 
 let secretFileData = getSecretFileData()
-let baseDeplConfig = getBaseDeplConfig()
+const baseDeplConfig = getBaseDeplConfig()
 
 let deplFileEnv = ``
 
@@ -39,7 +39,7 @@ fs.readFile(path.join(__dirname, '../config/prod.env'), 'utf8', (err, data) => {
   })
 
   fs.writeFileSync(
-    path.join(__dirname, '../../../kubernetes/secrets/graphql-secret.yml'),
+    path.join(__dirname, '../kubernetes/secrets/graphql-secret.yml'),
     secretFileData
   )
 
@@ -49,7 +49,7 @@ fs.readFile(path.join(__dirname, '../config/prod.env'), 'utf8', (err, data) => {
   )
 
   fs.writeFileSync(
-    path.join(__dirname, '../../../kubernetes/deployments/graphql-depl.yml'),
+    path.join(__dirname, '../kubernetes/deployments/graphql-depl.yml'),
     deploymentFile
   )
 

@@ -19,7 +19,11 @@ const formatedNames = ({ names, name }: formateNamesArgs) => {
   }
 }
 
-export const createMessage = ({ type, names, name }: createMessageArgs) => {
+export const createMessage = ({
+  type,
+  names,
+  name,
+}: createMessageArgs): string => {
   switch (type) {
     case NotificationTypes.newPosts:
       return `New Posts from ${formatedNames({ name, names })}`

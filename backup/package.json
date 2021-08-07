@@ -1,0 +1,23 @@
+{
+  "name": "backup",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/app.js",
+    "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
+    "dev": "nodemon --watch dist/* --exec yarn start-dev",
+    "build": "tsc",
+    "build-w": "tsc -w"
+  },
+  "dependencies": {
+    "archiver": "^5.3.0",
+    "dotenv-cli": "^4.0.0",
+    "node-cron": "^3.0.0",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.13",
+    "nodemon": "^2.0.12"
+  }
+}
