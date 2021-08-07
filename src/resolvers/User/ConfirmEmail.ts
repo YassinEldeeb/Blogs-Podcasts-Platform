@@ -10,7 +10,7 @@ import { genRefreshToken } from '@/auth/utils/genRefreshToken'
 
 @Resolver()
 class ConfirmEmailResolver {
-  @Mutation((_returns) => ConfirmEmailPayload)
+  @Mutation(() => ConfirmEmailPayload)
   async confirmEmail(
     @Arg('token') token: string,
     @Ctx() context: MyContext,

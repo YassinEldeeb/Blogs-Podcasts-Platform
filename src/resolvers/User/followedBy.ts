@@ -16,9 +16,9 @@ import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'
 
-@Resolver((_of) => User)
+@Resolver(() => User)
 class followedByResolver {
-  @FieldResolver((_type) => [Follower])
+  @FieldResolver(() => [Follower])
   @UseMiddleware(Auth())
   async followedBy(
     @Root() user: User,

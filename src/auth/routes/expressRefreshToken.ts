@@ -37,7 +37,7 @@ refreshTokenRouter.post('/refresh_token', async (req, res) => {
 
   sendRefreshToken(res, refreshToken)
 
-  return res.send({ ok: true, accessToken: accessToken })
+  return res.send({ ok: true, accessToken })
 })
 
 export { refreshTokenRouter }

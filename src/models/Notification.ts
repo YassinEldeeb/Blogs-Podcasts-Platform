@@ -15,6 +15,7 @@ class NotificationFromUser {
   notification: Notification
   notificationId: string
 }
+
 @ObjectType()
 export class Notification {
   @Field((_type) => ID)

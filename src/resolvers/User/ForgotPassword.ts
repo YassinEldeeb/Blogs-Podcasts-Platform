@@ -9,7 +9,7 @@ class forgotPasswordInput extends resendConfirmInput {}
 
 @Resolver()
 class ForgotPasswordResolver {
-  @Mutation((_type) => SuccessPayload)
+  @Mutation(() => SuccessPayload)
   async forgotPassword(
     @Args() { email }: forgotPasswordInput,
     @Ctx() { prisma }: MyContext

@@ -1,7 +1,5 @@
 import path from 'path'
-require('dotenv-safe').config({
-  example: path.join(__dirname, '../config/.env.example'),
-})
+import dotenvSafe from 'dotenv-safe'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'
@@ -19,7 +17,10 @@ import { githubOAuthRouter } from './OAuth/Github/routes/auth'
 import { githubStrategyRouter } from './OAuth/Github/strategy'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
-import { startBackupSchedule } from './backup'
+
+dotenvSafe.config({
+  example: path.join(__dirname, '../config/.env.example'),
+})
 
 const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
@@ -88,10 +89,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   passport.deserializeUser((user: any, done) => {
     done(null, user)
   })
-  if (process.env.NODE_ENV !== 'development') {
-    console.log('Backup Scheduled!')
-    startBackupSchedule()
-  }
+
   httpServer.listen(4000, () => {
     console.log(`
       Server is running!
@@ -102,3 +100,5 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 })()
 
 export { pubsub }
+
+const TryHard = ''

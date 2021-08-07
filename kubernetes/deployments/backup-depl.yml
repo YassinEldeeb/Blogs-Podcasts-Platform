@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup
+  labels:
+    app: backup
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: backup
+  template:
+    metadata:
+      labels:
+        app: backup
+    spec:
+      containers:
+        - name: backup
+          image: yassineldeeb/pg-backup:1
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: postgres-backups
+              mountPath: /backups
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '100m'
+            limits:
+              memory: '300Mi'
+              cpu: '250m'
+          env:
+            - name: GMAIL_REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backup-secret
+                  key: GMAIL_REFRESH_TOKEN
+            - name: GMAIL_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: backup-secret
+                  key: GMAIL_EMAIL
+            - name: GMAIL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backup-secret
+                  key: GMAIL_CLIENT_SECRET
+            - name: GMAIL_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backup-secret
+                  key: GMAIL_CLIENT_ID
+      volumes:
+        - name: postgres-backups
+          persistentVolumeClaim:
+            claimName: pg-backups-pv-claim
