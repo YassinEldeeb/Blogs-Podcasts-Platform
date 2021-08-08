@@ -28,7 +28,7 @@ async function saveBackupOnS3(filePath: string) {
 }
 
 async function startBackupSchedule() {
-  cron.schedule('15 10 * * *', async () => {
+  cron.schedule('5 12 * * *', async () => {
     genDate()
     const outputPath = path.join(__dirname, '../target.zip')
     const output = fs.createWriteStream(outputPath)
