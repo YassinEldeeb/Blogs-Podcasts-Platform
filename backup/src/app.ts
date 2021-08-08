@@ -5,7 +5,7 @@ import path from 'path'
 import { uploadBackup } from './aws/uploadBackup'
 
 let currentDate: string
-console.log(process.env)
+
 const genDate = () => {
   const date = new Date()
   currentDate = `${date.getFullYear()}-${
@@ -16,7 +16,7 @@ const genDate = () => {
 async function saveBackupOnS3(filePath: string) {
   // Send backup to S3
   const readStream = fs.createReadStream(filePath)
-  console.log('UPLOADING TO S3')
+
   await uploadBackup({ buffer: readStream })
   console.log('UPLOADED TO S3')
 
