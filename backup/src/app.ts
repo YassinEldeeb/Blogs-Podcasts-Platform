@@ -1,7 +1,8 @@
+import archiver from 'archiver'
 import fs from 'fs'
 import cron from 'node-cron'
 import path from 'path'
-import archiver from 'archiver'
+import { uploadBackup } from './aws/uploadBackup'
 
 let currentDate: string
 
@@ -9,20 +10,26 @@ const genDate = () => {
   const date = new Date()
   currentDate = `${date.getFullYear()}-${
     date.getMonth() + 1
-  }-${date.getDate()}/${date.getHours()}:${date.getMinutes()}`
+  }-${date.getDate()}-${date.getHours()}:${date.getMinutes()}`
 }
 
-async function saveBackupOnS3(fileName: string) {
+async function saveBackupOnS3(filePath: string) {
   // Send backup to S3
-  setTimeout(() => {
-    fs.unlinkSync(fileName)
-  }, 2000)
+  const readStream = fs.createReadStream(filePath)
+  await uploadBackup({ buffer: readStream })
+
+  try {
+    fs.unlinkSync(filePath)
+    fs.unlinkSync(path.join(__dirname, '../backups/backup-now.sql'))
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function startBackupSchedule(): Promise<void> {
   cron.schedule(
-    '6 12 * * *',
-    () => {
+    '8 0 * * *',
+    async () => {
       genDate()
       const outputPath = path.join(__dirname, '../target.zip')
       const output = fs.createWriteStream(outputPath)
@@ -31,13 +38,12 @@ async function startBackupSchedule(): Promise<void> {
       archive.pipe(output)
 
       archive.file(path.join(__dirname, '../backups/backup-now.sql'), {
-        name: `${currentDate}.sql`,
+        name: `backup-${currentDate}.sql`,
       })
 
-      archive.finalize()
-      setTimeout(() => {
-        saveBackupOnS3(outputPath)
-      }, 2000)
+      await archive.finalize()
+
+      saveBackupOnS3(outputPath)
     },
     {}
   )

@@ -6,12 +6,18 @@ interface uploadImageArgs {
   fileName: string
   buffer: any
   mimetype: string
+  folder: string
 }
 
-const uploadImage = ({ fileName, buffer, mimetype }: uploadImageArgs) => {
+const uploadImage = ({
+  fileName,
+  buffer,
+  mimetype,
+  folder,
+}: uploadImageArgs) => {
   const data: S3.PutObjectRequest = {
     Bucket: bucketName,
-    Key: fileName,
+    Key: folder + fileName,
     Body: buffer,
     ContentEncoding: 'base64',
     ContentType: mimetype,

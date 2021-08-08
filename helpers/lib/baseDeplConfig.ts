@@ -25,15 +25,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
-          volumeMounts:
-            - name: profile-images
-              mountPath: /uploads/profile_images
-
-            - name: posts-images
-              mountPath: /uploads/posts_images
-
-            - name: postgres-backups
-              mountPath: /backups
           resources:
             requests:
               memory: '300Mi'
@@ -66,18 +57,5 @@ spec:
                 configMapKeyRef:
                   name: redis-configmap
                   key: redis_host$((((INJECT_SECRETS))))
-      volumes:
-        - name: profile-images
-          persistentVolumeClaim:
-            claimName: 'profile-images-pv-claim'
-
-        - name: posts-images
-          persistentVolumeClaim:
-            claimName: 'posts-images-pv-claim'
-
-        - name: postgres-backups
-          persistentVolumeClaim:
-            claimName: pg-backups-pv-claim
-
 `
 export { getBaseDeplConfig }

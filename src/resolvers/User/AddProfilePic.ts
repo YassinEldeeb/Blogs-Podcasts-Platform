@@ -72,14 +72,19 @@ class AddProfilePicResolver {
       .resize(250, 250)
       .toBuffer()
 
-    const image = await uploadImage({
+    if (imageBuffer.length / Math.pow(1024, 2) > 8) {
+      throw new Error('Image is pretty damn Large!')
+    }
+
+    const { Location } = await uploadImage({
       fileName: modifiedFilename,
       buffer: imageBuffer,
       mimetype,
+      folder: 'profilePics/',
     })
 
     await prisma.user.update({
-      data: { profilePic: image.Location },
+      data: { profilePic: Location },
       where: { id: userId },
     })
 

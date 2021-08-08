@@ -2,8 +2,7 @@ node_modules
 dist
 pgdata
 docker-compose.yml
-.env
+*.env
 kubernetes/secrets
 kubernetes/cert.yml
-config/*.env
 gmail

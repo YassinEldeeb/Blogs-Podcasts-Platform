@@ -34,26 +34,21 @@ spec:
               memory: '300Mi'
               cpu: '250m'
           env:
-            - name: GMAIL_REFRESH_TOKEN
+            - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: backup-secret
-                  key: GMAIL_REFRESH_TOKEN
-            - name: GMAIL_EMAIL
+                  name: graphql-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: backup-secret
-                  key: GMAIL_EMAIL
-            - name: GMAIL_CLIENT_SECRET
+                  name: graphql-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_ACCOUNT_ID
               valueFrom:
                 secretKeyRef:
-                  name: backup-secret
-                  key: GMAIL_CLIENT_SECRET
-            - name: GMAIL_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: backup-secret
-                  key: GMAIL_CLIENT_ID
+                  name: graphql-secret
+                  key: AWS_ACCOUNT_ID
       volumes:
         - name: postgres-backups
           persistentVolumeClaim:

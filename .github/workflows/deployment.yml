@@ -28,13 +28,21 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Build Image
+      - name: Build Server Image
         run: |
           docker build -t yassineldeeb/graphql:1 .
 
-      - name: Push Image
+      - name: Build Backup Image
+        run: |
+          docker build -t yassineldeeb/pg-backup:1 ./backup
+
+      - name: Push Server Image
         run: |
           docker push yassineldeeb/graphql:1
+
+      - name: Push Backup Image
+        run: |
+          docker push yassineldeeb/pg-backup:1
 
       - name: Install Digital Ocean CLI
         run: |
@@ -61,11 +69,6 @@ jobs:
       - name: Apply Kubernetes Stuff
         run: |
           kubectl apply -f ./kubernetes/deployments/graphql-depl.yml
+          kubectl apply -f ./kubernetes/deployments/backup-depl.yml
           kubectl scale deployment graphql --replicas=0
           kubectl scale deployment graphql --replicas=2
-
-# kubectl apply -f ./kubernetes/volumes/imagesVolume.yml
-# kubectl apply -f ./kubernetes/configmaps/pg-configmap.yml
-# kubectl apply -f ./kubernetes/configmaps/redis-configmap.yml
-# kubectl apply -f ./kubernetes/deployments/pg-depl.yml
-# kubectl apply -f ./kubernetes/deployments/redis-depl.yml

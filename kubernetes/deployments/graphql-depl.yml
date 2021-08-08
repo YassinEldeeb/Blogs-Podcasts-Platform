@@ -25,15 +25,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
-          volumeMounts:
-            - name: profile-images
-              mountPath: /uploads/profile_images
-
-            - name: posts-images
-              mountPath: /uploads/posts_images
-
-            - name: postgres-backups
-              mountPath: /backups
           resources:
             requests:
               memory: '300Mi'
@@ -121,21 +112,13 @@ spec:
                 secretKeyRef:
                   name: graphql-secret
                   key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_KEY
+            - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: graphql-secret
-                  key: AWS_SECRET_KEY
-      volumes:
-        - name: profile-images
-          persistentVolumeClaim:
-            claimName: 'profile-images-pv-claim'
-
-        - name: posts-images
-          persistentVolumeClaim:
-            claimName: 'posts-images-pv-claim'
-
-        - name: postgres-backups
-          persistentVolumeClaim:
-            claimName: pg-backups-pv-claim
-
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_ACCOUNT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_ACCOUNT_ID
