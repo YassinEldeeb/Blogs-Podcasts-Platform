@@ -42,7 +42,7 @@ jobs:
 
       - name: Build Restore Image
         run: |
-          build-restore-image
+          yarn build-restore-image
 
       - name: Push Server Image
         run: |
