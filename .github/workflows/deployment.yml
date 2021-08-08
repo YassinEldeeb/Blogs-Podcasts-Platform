@@ -15,12 +15,9 @@ jobs:
         with:
           node-version: '16.4'
 
-      - name: Switch to Server directory
-        run: |
-          cd ./server
-
       - name: Run Tests
         run: |
+          cd ./server
           yarn install --frozen-lockfile
           npx jest
 
@@ -33,14 +30,11 @@ jobs:
 
       - name: Build Server Image
         run: |
-          docker build -t yassineldeeb/graphql:1 .
-
-      - name: Switch to Backup directory
-        run: |
-          cd ./backup
+          docker build -t yassineldeeb/graphql:1 ./server
 
       - name: Build Backup Image
         run: |
+          cd ./backup
           docker build -t yassineldeeb/pg-backup:1 ./backup
 
       - name: Push Server Image
