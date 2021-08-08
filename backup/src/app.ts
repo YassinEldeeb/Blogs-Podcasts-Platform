@@ -29,26 +29,22 @@ async function saveBackupOnS3(filePath: string) {
 }
 
 async function startBackupSchedule() {
-  cron.schedule(
-    '30 9 * * *',
-    async () => {
-      genDate()
-      const outputPath = path.join(__dirname, '../target.zip')
-      const output = fs.createWriteStream(outputPath)
-      const archive = archiver('zip')
+  // cron.schedule('30 9 * * *', async () => {
+  genDate()
+  const outputPath = path.join(__dirname, '../target.zip')
+  const output = fs.createWriteStream(outputPath)
+  const archive = archiver('zip')
 
-      archive.pipe(output)
+  archive.pipe(output)
 
-      archive.file(path.join(__dirname, '../backups/backup-now.sql'), {
-        name: `backup-${currentDate}.sql`,
-      })
+  archive.file(path.join(__dirname, '../backups/backup-now.sql'), {
+    name: `backup-${currentDate}.sql`,
+  })
 
-      await archive.finalize()
+  await archive.finalize()
 
-      saveBackupOnS3(outputPath)
-    },
-    {}
-  )
+  saveBackupOnS3(outputPath)
+  // })
 }
 
 startBackupSchedule()
