@@ -30,7 +30,7 @@ async function saveBackupOnS3(filePath: string) {
 
 async function startBackupSchedule() {
   cron.schedule(
-    '11 9 * * *',
+    '30 9 * * *',
     async () => {
       genDate()
       const outputPath = path.join(__dirname, '../target.zip')
