@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Server Image
         run: |
-          docker build -t yassineldeeb/graphql:1 .
+          docker build -t yassineldeeb/graphql:1 ./server
 
       - name: Build Backup Image
         run: |

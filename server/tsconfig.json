@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "lib": ["es2018", "esnext.asynciterable"],
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/auth/*": ["src/auth/*"],
+      "@/data-loaders/*": ["src/data-loaders/*"],
+      "@/emails/*": ["src/emails/*"],
+      "@/middleware/*": ["src/middleware/*"],
+      "@/models/*": ["src/models/*"],
+      "@/types/*": ["src/types/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/prisma": ["src/prisma"],
+      "@/redis": ["src/redis"],
+      "@/resolvers/*": ["src/resolvers/*"],
+      "@/aws/*": ["src/aws/*"]
+    },
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}
