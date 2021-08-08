@@ -72,3 +72,5 @@ jobs:
           kubectl apply -f ./kubernetes/deployments/backup-depl.yml
           kubectl scale deployment graphql --replicas=0
           kubectl scale deployment graphql --replicas=2
+          kubectl scale deployment backup --replicas=0
+          kubectl scale deployment backup --replicas=1
