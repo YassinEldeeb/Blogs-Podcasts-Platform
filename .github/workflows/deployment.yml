@@ -34,9 +34,7 @@ jobs:
 
       - name: Build Backup Image
         run: |
-          ls
-          cd ../backup
-          docker build -t yassineldeeb/pg-backup:1 ./backup
+          docker build -t yassineldeeb/pg-backup:1 ../backup
 
       - name: Push Server Image
         run: |
