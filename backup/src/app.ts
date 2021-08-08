@@ -5,7 +5,7 @@ import path from 'path'
 import { uploadBackup } from './aws/uploadBackup'
 
 let currentDate: string
-
+console.log(process.env)
 const genDate = () => {
   const date = new Date()
   currentDate = `${date.getFullYear()}-${
