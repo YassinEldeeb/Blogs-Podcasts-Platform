@@ -40,6 +40,10 @@ jobs:
         run: |
           yarn build-backup-image
 
+      - name: Build Restore Image
+        run: |
+          build-restore-image
+
       - name: Push Server Image
         run: |
           docker push yassineldeeb/graphql:1
@@ -47,6 +51,10 @@ jobs:
       - name: Push Backup Image
         run: |
           docker push yassineldeeb/pg-backup:1
+
+      - name: Push Restore Image
+        run: |
+          docker push yassineldeeb/pg-restore:1
 
       - name: Install Digital Ocean CLI
         run: |
