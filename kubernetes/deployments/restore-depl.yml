@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup
+  labels:
+    app: backup
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: backup
+  template:
+    metadata:
+      labels:
+        app: backup
+    spec:
+      containers:
+        - name: backup
+          image: yassineldeeb/pg-restore:1
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: postgres-backups
+              mountPath: /backups
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '100m'
+            limits:
+              memory: '300Mi'
+              cpu: '250m'
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_ACCOUNT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secret
+                  key: AWS_ACCOUNT_ID
+            - name: DB_NAME
+              value: prisma-pg
+      volumes:
+        - name: postgres-backups
+          persistentVolumeClaim:
+            claimName: pg-backups-pv-claim

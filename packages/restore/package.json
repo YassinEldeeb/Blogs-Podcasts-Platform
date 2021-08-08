@@ -1,9 +1,8 @@
 {
-  "name": "@devops/common",
+  "name": "@devops/restore",
   "version": "1.0.0",
   "main": "dist/app.js",
   "license": "MIT",
-  "typings": "dist/app.d.ts",
   "scripts": {
     "start": "node dist/app.js",
     "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
@@ -11,11 +10,13 @@
     "build": "tsc",
     "build-w": "tsc -w"
   },
-  "dependencies": {
-    "aws-sdk": "^2.963.0",
-    "typescript": "^4.3.5"
-  },
   "devDependencies": {
-    "@types/node": "^16.4.13"
+    "@types/node": "^16.4.13",
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "@devops/common": "1.0.0",
+    "@getvim/execute": "^1.0.0",
+    "typescript": "^4.3.5"
   }
 }
