@@ -16,7 +16,9 @@ const genDate = () => {
 async function saveBackupOnS3(filePath: string) {
   // Send backup to S3
   const readStream = fs.createReadStream(filePath)
+  console.log('UPLOADING TO S3')
   await uploadBackup({ buffer: readStream })
+  console.log('UPLOADED TO S3')
 
   try {
     fs.unlinkSync(filePath)
@@ -28,7 +30,7 @@ async function saveBackupOnS3(filePath: string) {
 
 async function startBackupSchedule(): Promise<void> {
   cron.schedule(
-    '40 8 * * *',
+    '55 8 * * *',
     async () => {
       genDate()
       const outputPath = path.join(__dirname, '../target.zip')
