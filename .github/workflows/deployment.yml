@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Backup Image
         run: |
-          docker build -t yassineldeeb/pg-backup:1 ../backup
+          docker build -t yassineldeeb/pg-backup:1 ./backup
 
       - name: Push Server Image
         run: |
@@ -68,7 +68,6 @@ jobs:
 
       - name: Apply Kubernetes Stuff
         run: |
-          cd ../
           kubectl apply -f ./kubernetes/deployments/graphql-depl.yml
           kubectl apply -f ./kubernetes/deployments/backup-depl.yml
           kubectl scale deployment graphql --replicas=0
