@@ -4,5 +4,4 @@ pgdata
 docker-compose.yml
 *.env
 kubernetes/secrets
-kubernetes/cert.yml
 gmail
