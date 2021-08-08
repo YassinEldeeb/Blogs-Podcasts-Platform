@@ -21,6 +21,10 @@ jobs:
           yarn install --frozen-lockfile
           npx jest
 
+      - name: Build Packages
+        run: |
+          yarn build
+
       - name: Docker Login
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -30,11 +34,11 @@ jobs:
 
       - name: Build Server Image
         run: |
-          docker build -t yassineldeeb/graphql:1 ./server
+          yarn build-server-image
 
       - name: Build Backup Image
         run: |
-          docker build -t yassineldeeb/pg-backup:1 ./backup
+          yarn build-backup-image
 
       - name: Push Server Image
         run: |

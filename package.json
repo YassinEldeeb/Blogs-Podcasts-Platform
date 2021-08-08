@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "lerna run build",
+    "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./docker/server/Dockerfile .",
+    "build-backup-image": "docker build -t yassineldeeb/backup:1 -f ./docker/backup/Dockerfile ."
+  },
+  "devDependencies": {
+    "lerna": "^2.11.0"
+  }
+}
