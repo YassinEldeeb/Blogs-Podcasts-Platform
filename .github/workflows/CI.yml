@@ -19,6 +19,15 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+      - uses: actions/upload-artifact@master
+        with:
+          name: node_modules
+          path: node_modules
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: packages
+          path: packages
 
   Server:
     runs-on: ubuntu-latest
@@ -40,10 +49,19 @@ jobs:
         with:
           node-version: '16.4'
 
+      - uses: actions/download-artifact@master
+        with:
+          name: node_modules
+          path: node_modules
+
+      - uses: actions/download-artifact@master
+        with:
+          name: packages
+          path: packages
+
       - name: Run Tests
         run: |
           cd ./packages/server
-          yarn install --frozen-lockfile
           npx jest
 
       - name: Docker Login
@@ -104,6 +122,16 @@ jobs:
         run: |
           no changed files
 
+      - uses: actions/download-artifact@master
+        with:
+          name: node_modules
+          path: node_modules
+
+      - uses: actions/download-artifact@master
+        with:
+          name: packages
+          path: packages
+
       - name: Docker Login
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -132,6 +160,16 @@ jobs:
         if: steps.changed-restore.outputs.changed == 'true'
         run: |
           no changed files
+
+      - uses: actions/download-artifact@master
+        with:
+          name: node_modules
+          path: node_modules
+
+      - uses: actions/download-artifact@master
+        with:
+          name: packages
+          path: packages
 
       - name: Docker Login
         env:
