@@ -12,7 +12,7 @@ jobs:
       - uses: marceloprado/has-changed-path@v1
         id: changed-server
         with:
-          paths: packages/server
+          paths: packages/server packages/common
 
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -102,7 +102,7 @@ jobs:
       - uses: marceloprado/has-changed-path@v1
         id: changed-backup
         with:
-          paths: packages/backup
+          paths: packages/backup packages/common
 
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -151,7 +151,7 @@ jobs:
       - uses: marceloprado/has-changed-path@v1
         id: changed-restore
         with:
-          paths: packages/restore
+          paths: packages/restore packages/common
 
       - uses: actions/checkout@v2
       - name: Use Node.js
