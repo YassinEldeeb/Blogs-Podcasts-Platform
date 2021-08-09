@@ -16,30 +16,30 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Use Node.js
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
 
       - uses: actions/cache@v2
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           yarn install --frozen-lockfile
 
       - name: Run Tests
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           cd ./packages/server
           npx jest
 
       - name: Build Package
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           lerna run build --scope={@devops/common,@devops/server}
 
@@ -47,49 +47,49 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Server Image
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           yarn build-server-image
 
       - name: Push Server Image
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           docker push yassineldeeb/graphql:1
 
       - name: Install Digital Ocean CLI
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           sudo snap install doctl
           sudo snap connect doctl:kube-config
           sudo snap connect doctl:ssh-keys :ssh-keys
 
       - name: Login to DGO
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           doctl auth init --access-token=${{secrets.DGO_SECRET}}
 
       - uses: azure/setup-kubectl@v1
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         id: install
 
       - name: Saving Cluster Credentials
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           sudo mkdir -m 777 /home/runner/.kube
           doctl kubernetes cluster kubeconfig save graphql-cluster
 
       - name: Switching Kubectl Context
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           kubectl config use-context do-lon1-graphql-cluster
 
       - name: Apply Kubernetes Stuff
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           kubectl apply -f ./kubernetes/deployments/graphql-depl.yml
           kubectl apply -f ./kubernetes/deployments/backup-depl.yml
@@ -106,29 +106,29 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Use Node.js
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
 
       - uses: actions/cache@v2
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         run: |
           yarn install --frozen-lockfile
 
       - name: Build Package
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         run: |
           lerna run build --scope={@devops/common,@devops/backup}
 
       - name: Docker Login
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
@@ -136,12 +136,12 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Backup Image
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         run: |
           yarn build-backup-image
 
       - name: Push Backup Image
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         run: |
           docker push yassineldeeb/pg-backup:1
 
@@ -155,24 +155,24 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Use Node.js
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
 
       - uses: actions/cache@v2
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           yarn install --frozen-lockfile
 
       - name: Build Package
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           lerna run build --scope={@devops/common,@devops/restore}
 
@@ -180,16 +180,16 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Restore Image
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           yarn build-restore-image
 
       - name: Push Restore Image
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           docker push yassineldeeb/pg-restore:1
