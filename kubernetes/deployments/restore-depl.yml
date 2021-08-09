@@ -23,9 +23,6 @@ spec:
         - name: restore
           image: yassineldeeb/pg-restore:1
           imagePullPolicy: Always
-          volumeMounts:
-            - name: postgres-storage
-              mountPath: /var/lib/postgresql/pg-data
           resources:
             requests:
               memory: '100Mi'
@@ -51,6 +48,31 @@ spec:
                   key: AWS_ACCOUNT_ID
             - name: DB_NAME
               value: prisma-pg
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          resources:
+            requests:
+              memory: 150Mi
+              cpu: 100m
+            limits:
+              memory: 700Mi
+              cpu: 500Mi
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/pg-data
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: pg-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: pg-password
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:

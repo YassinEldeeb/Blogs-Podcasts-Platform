@@ -15,7 +15,9 @@ s3Bucket.getObject(
 
     fs.writeFileSync(fileNameGzip, data.Body as any)
 
-    execute(`pg_restore -cC -d ${process.env.DB_NAME} ${fileNameGzip}`)
+    execute(
+      `pg_restore -U username -d ${process.env.DB_NAME} -1 ${fileNameGzip}`
+    )
       .then(async () => {
         fs.unlinkSync('backup.zip')
         console.log('Restored')
