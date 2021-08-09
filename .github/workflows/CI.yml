@@ -5,33 +5,9 @@ on:
     branches: [master]
 
 jobs:
-  Build-Packages:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.4'
-
-      - name: Build Packages
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
-      - uses: actions/upload-artifact@master
-        with:
-          name: node_modules
-          path: node_modules
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: packages
-          path: packages
-
   Server:
     runs-on: ubuntu-latest
-    needs: [Build-Packages]
+
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-server
@@ -49,20 +25,18 @@ jobs:
         with:
           node-version: '16.4'
 
-      - uses: actions/download-artifact@master
-        with:
-          name: node_modules
-          path: node_modules
-
-      - uses: actions/download-artifact@master
-        with:
-          name: packages
-          path: packages
-
       - name: Run Tests
         run: |
           cd ./packages/server
+          yarn install --frozen-lockfile
           npx jest
+
+      - name: Build Package
+        run: |
+          cd ./packages/server
+          yarn build
+          cd ../packages/common
+          yarn build
 
       - name: Docker Login
         env:
@@ -110,7 +84,6 @@ jobs:
 
   Backup:
     runs-on: ubuntu-latest
-    needs: [Build-Packages]
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-backup
@@ -122,15 +95,12 @@ jobs:
         run: |
           no changed files
 
-      - uses: actions/download-artifact@master
-        with:
-          name: node_modules
-          path: node_modules
-
-      - uses: actions/download-artifact@master
-        with:
-          name: packages
-          path: packages
+      - name: Build Package
+        run: |
+          cd ./packages/backup
+          yarn build
+          cd ../packages/common
+          yarn build
 
       - name: Docker Login
         env:
@@ -149,7 +119,6 @@ jobs:
 
   Restore:
     runs-on: ubuntu-latest
-    needs: [Build-Packages]
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-restore
@@ -161,15 +130,12 @@ jobs:
         run: |
           no changed files
 
-      - uses: actions/download-artifact@master
-        with:
-          name: node_modules
-          path: node_modules
-
-      - uses: actions/download-artifact@master
-        with:
-          name: packages
-          path: packages
+      - name: Build Package
+        run: |
+          cd ./packages/restore
+          yarn build
+          cd ../packages/common
+          yarn build
 
       - name: Docker Login
         env:
