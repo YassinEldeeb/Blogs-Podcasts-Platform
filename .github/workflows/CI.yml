@@ -90,6 +90,12 @@ jobs:
         with:
           paths: packages/backup
 
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.4'
+
       - name: Check if there's any changes
         if: steps.changed-backup.outputs.changed == 'true'
         run: |
@@ -124,6 +130,12 @@ jobs:
         id: changed-restore
         with:
           paths: packages/restore
+
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.4'
 
       - name: Check if there's any changes
         if: steps.changed-restore.outputs.changed == 'true'
