@@ -3,6 +3,8 @@ import { s3Bucket } from './aws/config/s3Bucket'
 import { bucketName } from './aws/constants/bucket'
 import fs from 'fs'
 
+console.log('Some Changes!')
+
 const restore = async () => {
   const data = s3Bucket.getObject(
     {

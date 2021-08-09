@@ -72,6 +72,7 @@ jobs:
           doctl auth init --access-token=${{secrets.DGO_SECRET}}
 
       - uses: azure/setup-kubectl@v1
+        if: steps.changed-restore.outputs.changed == 'true'
         id: install
 
       - name: Saving Cluster Credentials
