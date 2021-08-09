@@ -17,6 +17,7 @@ jobs:
 
       - name: Build Packages
         run: |
+          yarn install --frozen-lockfile
           yarn build
 
   Server:
