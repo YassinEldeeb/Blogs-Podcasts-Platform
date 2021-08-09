@@ -4,7 +4,7 @@ metadata:
   name: postgres-backup
 spec:
   # Backup the database every day at 2AM --> 0 2 * * *
-  schedule: '32 12 * * *'
+  schedule: '54 12 * * *'
   jobTemplate:
     spec:
       template:

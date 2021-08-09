@@ -25,7 +25,7 @@ async function saveBackupOnS3(filePath: string) {
 }
 
 async function startBackupSchedule() {
-  cron.schedule('47 12 * * *', async () => {
+  cron.schedule('55 12 * * *', async () => {
     genDate()
 
     const output = fs.createWriteStream(zipOutputPath)
@@ -33,7 +33,7 @@ async function startBackupSchedule() {
 
     archive.pipe(output)
 
-    archive.file(path.join(__dirname, '../../../backups/backup-now.sql'), {
+    archive.file(path.join(__dirname, '../backups/backup-now.sql'), {
       name: `backup-${currentDate}.sql`,
     })
 

@@ -25,7 +25,7 @@ spec:
           imagePullPolicy: Always
           volumeMounts:
             - name: postgres-backups
-              mountPath: /backups
+              mountPath: /packages/backup/backups
           resources:
             requests:
               memory: '100Mi'
