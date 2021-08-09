@@ -5,6 +5,7 @@ import path from 'path'
 import { uploadBackup } from './aws/uploadBackup'
 
 let currentDate: string
+const zipOutputPath = path.join(__dirname, '../target.zip')
 
 const genDate = () => {
   const date = new Date()
@@ -19,13 +20,15 @@ async function saveBackupOnS3(filePath: string) {
 
   await uploadBackup({ buffer: readStream })
   console.log('UPLOADED TO S3')
+
+  fs.unlinkSync(zipOutputPath)
 }
 
 async function startBackupSchedule() {
-  cron.schedule('33 12 * * *', async () => {
+  cron.schedule('47 12 * * *', async () => {
     genDate()
-    const outputPath = path.join(__dirname, '../target.zip')
-    const output = fs.createWriteStream(outputPath)
+
+    const output = fs.createWriteStream(zipOutputPath)
     const archive = archiver('zip')
 
     archive.pipe(output)
@@ -36,7 +39,7 @@ async function startBackupSchedule() {
 
     await archive.finalize()
 
-    saveBackupOnS3(outputPath)
+    saveBackupOnS3(zipOutputPath)
   })
 }
 
