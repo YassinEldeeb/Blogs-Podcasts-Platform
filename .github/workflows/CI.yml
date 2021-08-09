@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: marceloprado/has-changed-path@v1
-        id: changed-server
-        with:
-          paths: packages/server packages/common
-
       - uses: actions/checkout@v2
       - name: Use Node.js
         if: steps.changed-server.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
+
+      - uses: marceloprado/has-changed-path@v1
+        id: changed-server
+        with:
+          paths: packages/server packages/common
 
       - uses: actions/cache@v2
         if: steps.changed-server.outputs.changed == 'false'
@@ -99,17 +99,17 @@ jobs:
   Backup:
     runs-on: ubuntu-latest
     steps:
-      - uses: marceloprado/has-changed-path@v1
-        id: changed-backup
-        with:
-          paths: packages/backup packages/common
-
       - uses: actions/checkout@v2
       - name: Use Node.js
         if: steps.changed-backup.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
+
+      - uses: marceloprado/has-changed-path@v1
+        id: changed-backup
+        with:
+          paths: packages/backup packages/common
 
       - uses: actions/cache@v2
         if: steps.changed-backup.outputs.changed == 'false'
@@ -148,17 +148,17 @@ jobs:
   Restore:
     runs-on: ubuntu-latest
     steps:
-      - uses: marceloprado/has-changed-path@v1
-        id: changed-restore
-        with:
-          paths: packages/restore packages/common
-
       - uses: actions/checkout@v2
       - name: Use Node.js
         if: steps.changed-restore.outputs.changed == 'false'
         uses: actions/setup-node@v2
         with:
           node-version: '16.4'
+
+      - uses: marceloprado/has-changed-path@v1
+        id: changed-restore
+        with:
+          paths: packages/restore packages/common
 
       - uses: actions/cache@v2
         if: steps.changed-restore.outputs.changed == 'false'
