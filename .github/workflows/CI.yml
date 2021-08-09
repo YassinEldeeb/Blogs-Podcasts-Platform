@@ -33,9 +33,9 @@ jobs:
 
       - name: Build Package
         run: |
-          cd ../packages/common
+          cd ./packages/common
           yarn build
-          cd ./packages/server
+          cd ../packages/server
           yarn build
 
       - name: Docker Login
@@ -103,9 +103,9 @@ jobs:
 
       - name: Build Package
         run: |
-          cd ../packages/common
+          cd ./packages/common
           yarn build
-          cd ./packages/backup
+          cd ../packages/backup
           yarn build
 
       - name: Docker Login
@@ -144,9 +144,9 @@ jobs:
 
       - name: Build Package
         run: |
-          cd ../packages/common
+          cd ./packages/common
           yarn build
-          cd ./packages/restore
+          cd ../packages/restore
           yarn build
 
       - name: Docker Login
