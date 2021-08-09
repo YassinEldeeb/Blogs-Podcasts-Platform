@@ -147,34 +147,34 @@ jobs:
           docker push yassineldeeb/pg-backup:1
 
       - name: Install Digital Ocean CLI
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           sudo snap install doctl
           sudo snap connect doctl:kube-config
           sudo snap connect doctl:ssh-keys :ssh-keys
 
       - name: Login to DGO
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           doctl auth init --access-token=${{secrets.DGO_SECRET}}
 
       - uses: azure/setup-kubectl@v1
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         id: install
 
       - name: Saving Cluster Credentials
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           sudo mkdir -m 777 /home/runner/.kube
           doctl kubernetes cluster kubeconfig save graphql-cluster
 
       - name: Switching Kubectl Context
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           kubectl config use-context do-lon1-graphql-cluster
 
       - name: Apply Kubernetes Stuff
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           kubectl delete -f ./kubernetes/cron-jobs/pg-backup.yml
           kubectl apply -f ./kubernetes/cron-jobs/pg-backup.yml
@@ -233,34 +233,34 @@ jobs:
           docker push yassineldeeb/pg-restore:1
 
       - name: Install Digital Ocean CLI
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           sudo snap install doctl
           sudo snap connect doctl:kube-config
           sudo snap connect doctl:ssh-keys :ssh-keys
 
       - name: Login to DGO
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           doctl auth init --access-token=${{secrets.DGO_SECRET}}
 
       - uses: azure/setup-kubectl@v1
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         id: install
 
       - name: Saving Cluster Credentials
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           sudo mkdir -m 777 /home/runner/.kube
           doctl kubernetes cluster kubeconfig save graphql-cluster
 
       - name: Switching Kubectl Context
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           kubectl config use-context do-lon1-graphql-cluster
 
       - name: Apply Kubernetes Stuff
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           kubectl apply -f ./kubernetes/deployments/restore-depl.yml
           kubectl scale deployment restore --replicas=0
