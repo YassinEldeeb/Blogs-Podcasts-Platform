@@ -5,9 +5,17 @@ on:
     branches: [master]
 
 jobs:
-  Server:
+  Build-Packages:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Build Packages
+        run: |
+          yarn build
+
+  Server:
+    runs-on: ubuntu-latest
+    needs: [Build-Packages]
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-server
@@ -15,7 +23,7 @@ jobs:
           paths: packages/server
 
       - name: Check if there's any changes
-        if: steps.changed-server.outputs.changed == 'true'
+        if: steps.changed-server.outputs.changed == 'false'
         run: |
           no changed files
 
@@ -30,11 +38,6 @@ jobs:
           cd ./packages/server
           yarn install --frozen-lockfile
           npx jest
-
-      - name: Build Package
-        run: |
-          cd packages/server
-          yarn build
 
       - name: Docker Login
         env:
@@ -82,7 +85,7 @@ jobs:
 
   Backup:
     runs-on: ubuntu-latest
-
+    needs: [Build-Packages]
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-backup
@@ -90,14 +93,9 @@ jobs:
           paths: packages/backup
 
       - name: Check if there's any changes
-        if: steps.changed-backup.outputs.changed == 'true'
+        if: steps.changed-backup.outputs.changed == 'false'
         run: |
           no changed files
-
-      - name: Build Package
-        run: |
-          cd packages/backup
-          yarn build
 
       - name: Docker Login
         env:
@@ -116,7 +114,7 @@ jobs:
 
   Restore:
     runs-on: ubuntu-latest
-
+    needs: [Build-Packages]
     steps:
       - uses: marceloprado/has-changed-path@v1
         id: changed-restore
@@ -124,14 +122,9 @@ jobs:
           paths: packages/restore
 
       - name: Check if there's any changes
-        if: steps.changed-restore.outputs.changed == 'true'
+        if: steps.changed-restore.outputs.changed == 'false'
         run: |
           no changed files
-
-      - name: Build Package
-        run: |
-          cd packages/restore
-          yarn build
 
       - name: Docker Login
         env:
