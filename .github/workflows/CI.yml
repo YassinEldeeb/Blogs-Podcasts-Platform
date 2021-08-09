@@ -27,15 +27,15 @@ jobs:
 
       - name: Run Tests
         run: |
-          cd ./packages/server
           yarn install --frozen-lockfile
+          cd ./packages/server
           npx jest
 
       - name: Build Package
         run: |
-          cd ./packages/server
-          yarn build
           cd ../packages/common
+          yarn build
+          cd ./packages/server
           yarn build
 
       - name: Docker Login
@@ -103,9 +103,9 @@ jobs:
 
       - name: Build Package
         run: |
-          cd ./packages/backup
-          yarn build
           cd ../packages/common
+          yarn build
+          cd ./packages/backup
           yarn build
 
       - name: Docker Login
@@ -144,9 +144,9 @@ jobs:
 
       - name: Build Package
         run: |
-          cd ./packages/restore
-          yarn build
           cd ../packages/common
+          yarn build
+          cd ./packages/restore
           yarn build
 
       - name: Docker Login
