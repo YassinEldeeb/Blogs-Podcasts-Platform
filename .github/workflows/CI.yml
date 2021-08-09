@@ -14,11 +14,6 @@ jobs:
         with:
           paths: packages/server
 
-      - name: Check if there's any changes
-        if: steps.changed-server.outputs.changed == 'true'
-        run: |
-          no changed files
-
       - uses: actions/checkout@v2
       - name: Use Node.js
         uses: actions/setup-node@v2
@@ -31,15 +26,18 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn install --frozen-lockfile
 
       - name: Run Tests
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           cd ./packages/server
           npx jest
 
       - name: Build Package
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           lerna run build --scope={@devops/common,@devops/server}
 
@@ -47,24 +45,29 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Server Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn build-server-image
 
       - name: Push Server Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           docker push yassineldeeb/graphql:1
 
       - name: Install Digital Ocean CLI
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           sudo snap install doctl
           sudo snap connect doctl:kube-config
           sudo snap connect doctl:ssh-keys :ssh-keys
 
       - name: Login to DGO
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           doctl auth init --access-token=${{secrets.DGO_SECRET}}
 
@@ -72,15 +75,18 @@ jobs:
         id: install
 
       - name: Saving Cluster Credentials
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           sudo mkdir -m 777 /home/runner/.kube
           doctl kubernetes cluster kubeconfig save graphql-cluster
 
       - name: Switching Kubectl Context
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           kubectl config use-context do-lon1-graphql-cluster
 
       - name: Apply Kubernetes Stuff
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           kubectl apply -f ./kubernetes/deployments/graphql-depl.yml
           kubectl apply -f ./kubernetes/deployments/backup-depl.yml
@@ -101,25 +107,23 @@ jobs:
         with:
           node-version: '16.4'
 
-      - name: Check if there's any changes
-        if: steps.changed-backup.outputs.changed == 'true'
-        run: |
-          no changed files
-
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn install --frozen-lockfile
 
       - name: Build Package
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           lerna run build --scope={@devops/common,@devops/backup}
 
       - name: Docker Login
+        if: steps.changed-restore.outputs.changed == 'true'
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
@@ -127,10 +131,12 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Backup Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn build-backup-image
 
       - name: Push Backup Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           docker push yassineldeeb/pg-backup:1
 
@@ -148,21 +154,18 @@ jobs:
         with:
           node-version: '16.4'
 
-      - name: Check if there's any changes
-        if: steps.changed-restore.outputs.changed == 'true'
-        run: |
-          no changed files
-
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install dependencies
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn install --frozen-lockfile
 
       - name: Build Package
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           lerna run build --scope={@devops/common,@devops/restore}
 
@@ -170,13 +173,16 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build Restore Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           yarn build-restore-image
 
       - name: Push Restore Image
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           docker push yassineldeeb/pg-restore:1
