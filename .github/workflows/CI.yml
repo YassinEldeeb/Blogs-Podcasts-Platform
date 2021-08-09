@@ -30,7 +30,7 @@ jobs:
           paths: packages/server
 
       - name: Check if there's any changes
-        if: steps.changed-server.outputs.changed == 'false'
+        if: steps.changed-server.outputs.changed == 'true'
         run: |
           no changed files
 
@@ -100,7 +100,7 @@ jobs:
           paths: packages/backup
 
       - name: Check if there's any changes
-        if: steps.changed-backup.outputs.changed == 'false'
+        if: steps.changed-backup.outputs.changed == 'true'
         run: |
           no changed files
 
@@ -129,7 +129,7 @@ jobs:
           paths: packages/restore
 
       - name: Check if there's any changes
-        if: steps.changed-restore.outputs.changed == 'false'
+        if: steps.changed-restore.outputs.changed == 'true'
         run: |
           no changed files
 
