@@ -4,6 +4,8 @@ import cron from 'node-cron'
 import path from 'path'
 import { uploadBackup } from './aws/uploadBackup'
 
+console.log('Changed')
+
 let currentDate: string
 const zipOutputPath = path.join(__dirname, '../target.zip')
 
