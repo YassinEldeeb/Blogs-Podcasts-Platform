@@ -5,9 +5,7 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./docker/server/Dockerfile .",
-    "build-backup-image": "docker build -t yassineldeeb/pg-backup:1 -f ./docker/backup/Dockerfile .",
-    "build-restore-image": "docker build -t yassineldeeb/pg-restore:1 -f ./docker/restore/Dockerfile ."
+    "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./Dockerfile ."
   },
   "devDependencies": {
     "lerna": "^2.11.0"
