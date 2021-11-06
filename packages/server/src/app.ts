@@ -46,7 +46,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
     cors({
       origin: ['http://localhost:3000', 'http://127.0.0.1:5500'],
       credentials: true,
-    })
+    }),
   )
   app.set('trust proxy', 1)
 
@@ -55,11 +55,11 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
   app.use(graphqlUploadExpress())
   app.use(
     '/profile_images',
-    express.static(path.join(__dirname, '../uploads/profile_images/'))
+    express.static(path.join(__dirname, '../uploads/profile_images/')),
   )
   app.use(
     '/posts_images',
-    express.static(path.join(__dirname, '../uploads/posts_images/'))
+    express.static(path.join(__dirname, '../uploads/posts_images/')),
   )
 
   server.applyMiddleware({ app })
@@ -75,7 +75,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
         return { wsHeaders }
       },
     },
-    { server: httpServer, path: server.graphqlPath }
+    { server: httpServer, path: server.graphqlPath },
   )
 
   app.use(githubStrategyRouter)
@@ -92,7 +92,7 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
 
   httpServer.listen(4000, () => {
     console.log(`
-      Server is running!
+      🚀 Server is running!
       Listening on port 4000
       Explore on https://studio.apollographql.com/sandbox
     `)
