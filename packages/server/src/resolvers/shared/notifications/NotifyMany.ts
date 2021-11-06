@@ -130,8 +130,6 @@ export const notifyMany = async ({
       }
     })
 
-    console.log(updatedNotificationsWithFromUsers)
-
     await prisma.notificationFromUser.createMany({
       data: notificationFromUsers,
     })

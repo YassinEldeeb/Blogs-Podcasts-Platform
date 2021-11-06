@@ -51,7 +51,7 @@ class UploadPostCover {
     // Remove old Image
     if (coverImg) {
       try {
-        const fileName = coverImg.replace(bucketURL, '')
+        const fileName = coverImg.replace(bucketURL, '') as string
         await deleteImage(fileName)
       } catch (error) {
         throw new Error("Couldn't add cover image for your post")

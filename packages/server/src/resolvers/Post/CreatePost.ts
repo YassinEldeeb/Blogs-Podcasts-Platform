@@ -14,7 +14,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { notifyMany } from '../shared/notifications/NotifyMany'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { CreatePostInput } from './createPost/CreatePostInput'
@@ -53,13 +52,6 @@ class CreatePostResolver {
         authorId: userId,
       } as PublishedData)
     }
-
-    const followers = (
-      await prisma.follower.findMany({
-        where: { followed_userId: userId },
-        select: { follower_userId: true },
-      })
-    ).map((e: any) => e.follower_userId)
 
     return newPost
   }

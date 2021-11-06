@@ -21,7 +21,7 @@ function SecureData() {
         delete SecureData.oldPassword
       }
     }
-
+    SecureData.email = (data.email as string).toLowerCase()
     return SecureData
   })
 }

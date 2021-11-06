@@ -3,7 +3,6 @@ import { MyContext } from '@/types/MyContext'
 import { Upload } from '@/types/Upload'
 import { GraphQLUpload } from 'graphql-upload'
 import sharp from 'sharp'
-
 import streamtToBuffer from 'stream-to-buffer'
 import {
   Arg,
@@ -68,13 +67,17 @@ class AddProfilePicResolver {
       })
     }
 
+    const buffer = await getBufferData()
+
+    if (buffer.length / Math.pow(1024, 2) > 8) {
+      throw new Error(
+        'This Image is pretty damn Large bro, gotta send me your 8K DSLR to try it out.'
+      )
+    }
+
     const imageBuffer = await sharp(await getBufferData())
       .resize(250, 250)
       .toBuffer()
-
-    if (imageBuffer.length / Math.pow(1024, 2) > 8) {
-      throw new Error('Image is pretty damn Large!')
-    }
 
     const { Location } = await uploadImage({
       fileName: modifiedFilename,

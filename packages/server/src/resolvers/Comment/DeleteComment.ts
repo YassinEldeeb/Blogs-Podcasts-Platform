@@ -24,7 +24,7 @@ class BaseResolver {
   @Mutation((_type) => Comment)
   @UseMiddleware(Auth())
   @IsOwner(models.comment)
-  async deleteBase(
+  async deleteComment(
     @Arg('id') id: string,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,

@@ -23,7 +23,7 @@ class UpdateComment {
   @Mutation((_type) => Comment)
   @UseMiddleware(Auth())
   @IsOwner(models.comment)
-  async updateBase(
+  async updateComment(
     @Arg('id') id: string,
     @Arg('data') data: UpdateCommentInput,
     @Ctx() { prisma, userId }: MyContext,

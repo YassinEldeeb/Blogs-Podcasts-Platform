@@ -5,12 +5,10 @@ import { Post } from '@/models/Post'
 import { PaginationArgs } from '@/resolvers/shared/pagination'
 import { Select } from '@/resolvers/shared/select/selectParamDecorator'
 import { SortingArgs } from '@/resolvers/shared/sorting'
-import { MyContext } from '@/types/MyContext'
 import {
   Arg,
   Args,
   ClassType,
-  Ctx,
   FieldResolver,
   Resolver,
   Root,

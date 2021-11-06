@@ -1,12 +1,8 @@
 import { Field, ObjectType, registerEnumType } from 'type-graphql'
 import { MutationType } from '@/types/enums/mutationType'
+import { Topics } from '@/types/enums/subscriptions'
 
-enum types {
-  comment = 'comment',
-  heart = 'heart',
-}
-
-registerEnumType(types, {
+registerEnumType(Topics, {
   name: 'PublishedDataType',
 })
 
@@ -15,8 +11,8 @@ export class PublishedDataWithTypes {
   @Field((_type) => MutationType)
   mutation: MutationType
 
-  @Field((_type) => types)
-  type: types
+  @Field((_type) => Topics)
+  type: Topics
 
   @Field()
   id: string

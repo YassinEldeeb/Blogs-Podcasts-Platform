@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["napi", "referentialActions"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -70,10 +69,20 @@ model Notification {
   fromUsers      NotificationFromUser[]
   seen           Boolean                @default(false)
   message        String
-  type           String
+  type           NotificationType
   url            String
   createdAt      DateTime               @default(now())
   updatedAt      DateTime               @updatedAt
+}
+
+enum NotificationType {
+  newPosts
+  newComments
+  newFollowers
+  reply
+  heartOnPost
+  heartOnComment
+  heartOnReply
 }
 
 model NotificationFromUser {

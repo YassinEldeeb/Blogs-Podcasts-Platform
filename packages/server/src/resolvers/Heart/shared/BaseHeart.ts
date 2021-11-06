@@ -80,7 +80,6 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
             authorId: userId,
           })
 
-        console.log(heart)
         if (userId !== heart[type].author.id) {
           if (type === 'post') {
             notify({

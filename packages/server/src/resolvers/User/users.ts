@@ -1,10 +1,21 @@
 import { MyContext } from '@/types/MyContext'
 import { Prisma } from '@prisma/client'
-import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
+import {
+  Arg,
+  Args,
+  ArgsType,
+  Ctx,
+  Field,
+  Info,
+  Query,
+  Resolver,
+} from 'type-graphql'
 import { User } from '@/models/User'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'
+import { GraphQLResolveInfo } from 'graphql'
+import graphqlFields from 'graphql-fields'
 
 @ArgsType()
 class UsersInput extends PaginationArgs {

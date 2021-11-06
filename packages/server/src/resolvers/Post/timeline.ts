@@ -34,7 +34,7 @@ class MyFeedResolver {
       ...select,
       createdAt: true,
       author: {
-        select: { ...{ id: true }, ...(select?.author?.select || {}) },
+        select: { id: true, ...(select?.author?.select || {}) },
       },
     }
 

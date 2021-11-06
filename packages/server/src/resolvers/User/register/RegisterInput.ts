@@ -1,4 +1,11 @@
-import { IsEmail, Length, MinLength } from 'class-validator'
+import {
+  IsEmail,
+  IsLowercase,
+  isLowercase,
+  IS_LOWERCASE,
+  Length,
+  MinLength,
+} from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 import { UserExists } from '@/resolvers/shared/validations/decorators/userExists'
 import { IsEqualTo } from './isEqual'
@@ -17,6 +24,7 @@ export class RegisterInput {
 
   @Field()
   @IsEmail()
+  @IsLowercase()
   @UserExists({ message: 'Email is taken', isProblem: true, byEmail: true })
   email: string
 

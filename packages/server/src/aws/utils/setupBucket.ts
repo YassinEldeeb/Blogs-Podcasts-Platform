@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk'
 
-const setupBucket = ({ bucketName }: { bucketName: string }) => {
+export const setupBucket = ({ bucketName }: { bucketName: string }) => {
   const env = (envVar: string) => {
     return envVar.replace(/\n|\r/g, '')
   }
@@ -14,5 +14,3 @@ const setupBucket = ({ bucketName }: { bucketName: string }) => {
   const s3Bucket = new AWS.S3({ params: { bucketName } })
   return s3Bucket
 }
-
-export { setupBucket }

@@ -9,7 +9,6 @@ import { checkUsernameExistance } from '../shared/checkUsernameExists'
 @ValidatorConstraint({ async: true })
 export class usernameExistConstraint implements ValidatorConstraintInterface {
   validate(username: string, args: any) {
-    console.log(args)
     return checkUsernameExistance(username, !!args.constraints[0])
   }
 }

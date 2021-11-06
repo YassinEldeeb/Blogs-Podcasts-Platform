@@ -10,6 +10,8 @@ import {
 } from 'type-graphql'
 import fs from 'fs'
 import path from 'path'
+import { bucketURL } from '@/aws/constants/bucket'
+import { deleteImage } from '@/aws/deleteImage'
 
 @ObjectType()
 class RemoveProfilePayload {
@@ -35,9 +37,10 @@ class AddProfilePicResolver {
     })
 
     try {
-      fs.unlinkSync(path.join(__dirname, `../../../uploads/${profilePic}`))
+      const fileName = profilePic.replace(bucketURL, '')
+      await deleteImage(fileName)
     } catch (error) {
-      throw new Error('No profile picture to be deleted!')
+      throw new Error("Couldn't delete your profile picture!")
     }
 
     return { removed: true }

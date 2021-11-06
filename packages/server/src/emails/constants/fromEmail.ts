@@ -1,1 +1,1 @@
-export const FROMEMAIL = process.env.GMAIL_EMAIL
+export const FROMEMAIL = process.env.GMAIL_EMAIL!

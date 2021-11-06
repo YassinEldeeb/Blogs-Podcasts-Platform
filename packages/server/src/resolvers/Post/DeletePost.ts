@@ -5,7 +5,6 @@ import { models } from '@/types/enums/models'
 import { DELETED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
-import { NotificationTypes } from '@/types/NotificationsTypes'
 import {
   Args,
   Ctx,
@@ -15,8 +14,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { notify } from '../shared/notifications/Notify'
-import { notifyMany } from '../shared/notifications/NotifyMany'
 import { Select } from '../shared/select/selectParamDecorator'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { PostIdInput } from './shared/PostIdExists'
@@ -55,13 +52,6 @@ class DeletePostResolver {
         deleted: true,
       } as PublishedData)
     }
-
-    const followers = (
-      await prisma.follower.findMany({
-        where: { followed_userId: userId },
-        select: { follower_userId: true },
-      })
-    ).map((e: any) => e.follower_userId)
 
     return deletedPost
   }

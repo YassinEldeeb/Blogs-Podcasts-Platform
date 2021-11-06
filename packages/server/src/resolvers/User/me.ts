@@ -10,7 +10,6 @@ class MeResolver {
   @UseMiddleware(Auth())
   async me(
     @Ctx() { prisma, userId }: MyContext,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Select() select: any
   ): Promise<User> {
     return prisma.user.findUnique({ where: { id: userId }, select }) as any
