@@ -20,7 +20,7 @@ jobs:
       - uses: marceloprado/has-changed-path@v1
         id: changed-server
         with:
-          paths: packages/server packages/common
+          paths: packages/server
 
       - uses: actions/cache@v2
         if: steps.changed-server.outputs.changed == 'true'
