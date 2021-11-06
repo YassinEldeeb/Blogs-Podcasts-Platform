@@ -94,7 +94,6 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
     console.log(`
       🚀 Server is running!
       Listening on port 4000
-      Explore on https://studio.apollographql.com/sandbox
     `)
   })
 })()
