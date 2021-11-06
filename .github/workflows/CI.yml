@@ -42,7 +42,7 @@ jobs:
       - name: Build Server Package
         if: steps.changed-server.outputs.changed == 'true'
         run: |
-          lerna run build --scope={@devops/server}
+          lerna run build
 
       - name: Docker Login
         env:
