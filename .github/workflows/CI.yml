@@ -39,10 +39,10 @@ jobs:
           cd ./packages/server
           npx jest
 
-      - name: Build Package
+      - name: Build Server Package
         if: steps.changed-server.outputs.changed == 'true'
         run: |
-          lerna run build --scope={@devops/common,@devops/server}
+          lerna run build --scope={@devops/server}
 
       - name: Docker Login
         env:
