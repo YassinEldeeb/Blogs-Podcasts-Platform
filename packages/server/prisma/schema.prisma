@@ -9,24 +9,30 @@ datasource db {
 
 model User {
   id                            String                 @id @default(cuid())
+  test String?
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
   email                         String                 @unique
   // @private
   password                      String?
   bio                           String?                @db.VarChar(160)
+  // @private
   tokenVersion                  Int                    @default(0)
+  // @private
   confirmed                     Boolean                @default(false)
   profilePic                    String?
   posts                         Post[]
   comments                      Comment[]
+  // @private
   hearts                        Heart[]
   followers_count               Int                    @default(0)
   following_count               Int                    @default(0)
   followers                     Follower[]
   following                     Follower[]             @relation("followerToUser")
   notifications                 Notification[]
+  // @private
   notificationsFromUser         NotificationFromUser[]
+  // @private
   notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
   githubId                      String?                @unique
   lastTimelineVisit             DateTime?
@@ -36,7 +42,9 @@ model User {
 
 model Follower {
   id              String   @id @default(cuid())
+  // @private
   followed_userId String
+  // @private
   follower_userId String
   followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
   follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
@@ -53,6 +61,7 @@ model Post {
   hearts         Heart[]
   hearts_count   Int       @default(0)
   comments_count Int       @default(0)
+  // @private
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
@@ -66,6 +75,7 @@ model Post {
 model Notification {
   id             String                 @id @default(cuid())
   notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
+  // @private
   notifiedUserId String
   fromUsers      NotificationFromUser[]
   seen           Boolean                @default(false)
@@ -90,9 +100,11 @@ model NotificationFromUser {
   id             String        @id @default(cuid())
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
+  // @private
   notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
   userId         String
   userWhoFiredId String
+  // @private
   notificationId String?
 }
 
@@ -101,8 +113,11 @@ model Heart {
   user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  // @private
   authorId  String
+  // @private
   postId    String?
+  // @private
   commentId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,7 +128,9 @@ model Comment {
   text         String
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  // @private
   authorId     String
+  // @private
   postId       String
   hearts       Heart[]
   hearts_count Int      @default(0)
