@@ -15,7 +15,7 @@ class MyFeedResolver {
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post[]> {
     const following = await prisma.follower.findMany({
       where: { follower_userId: userId },
@@ -49,7 +49,7 @@ class MyFeedResolver {
 
     const filteredPosts = posts.filter((post: any) => {
       const followingDate = following.find(
-        (e) => e.followed_userId === post.author.id
+        (e) => e.followed_userId === post.author.id,
       )!.createdAt
 
       return post.createdAt >= followingDate

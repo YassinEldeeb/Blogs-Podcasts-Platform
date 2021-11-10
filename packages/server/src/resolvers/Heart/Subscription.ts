@@ -23,7 +23,7 @@ class HeartsSubscriptionResolver {
   async hearts(
     @Root() data: HeartPublishedData,
     @Arg('postId') _postId: string,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<HeartSubscriptionPayload> {
     return ReturnHeart(data, select)
   }

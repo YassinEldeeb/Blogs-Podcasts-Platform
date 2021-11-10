@@ -5,6 +5,7 @@ import { models } from '@/types/enums/models'
 import { UPDATED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
+
 import {
   Mutation,
   UseMiddleware,
@@ -28,7 +29,7 @@ class UpdateComment {
     @Arg('data') data: UpdateCommentInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Comment> {
     const updatedComment = (await prisma.comment.update({
       where: { id },

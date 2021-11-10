@@ -26,7 +26,7 @@ class CreateCommentResolver {
     @Arg('data') data: CreateCommentInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Comment> {
     const selectWithDefault = {
       ...select,

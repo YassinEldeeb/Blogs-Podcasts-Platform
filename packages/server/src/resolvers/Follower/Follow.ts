@@ -26,7 +26,7 @@ class FollowResolver {
     @Args() { user_id: UserIdToFollow }: FollowInput,
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any,
-    @PubSub() pubSub: PubSubEngine
+    @PubSub() pubSub: PubSubEngine,
   ) {
     const followed = await prisma.follower.findFirst({
       where: { followed_userId: UserIdToFollow, follower_userId: userId! },

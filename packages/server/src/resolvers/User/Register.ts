@@ -13,7 +13,7 @@ class RegisterResolver {
     @Arg('data') _unsecureData: RegisterInput,
     @Ctx() context: MyContext,
     @Select() select: any,
-    @SecureData() data: any
+    @SecureData() data: any,
   ): Promise<User> {
     const { prisma } = context
 

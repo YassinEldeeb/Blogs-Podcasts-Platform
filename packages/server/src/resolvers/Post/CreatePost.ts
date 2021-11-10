@@ -26,7 +26,7 @@ class CreatePostResolver {
     @Arg('data') data: CreatePostInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post> {
     let readTime: { text: string; minutes: number }
 

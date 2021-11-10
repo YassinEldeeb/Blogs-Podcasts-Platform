@@ -6,6 +6,7 @@ import { DELETED } from '@/types/enums/mutationType'
 import { Topics } from '@/types/enums/subscriptions'
 import { MyContext } from '@/types/MyContext'
 import { NotificationTypes } from '@/types/NotificationsTypes'
+
 import {
   Mutation,
   UseMiddleware,
@@ -28,7 +29,7 @@ class BaseResolver {
     @Arg('id') id: string,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Comment> {
     const selectWithDefault = {
       ...select,

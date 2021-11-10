@@ -25,7 +25,7 @@ class CommentsSubscriptionsResolver {
   async comments(
     @Root() data: PublishedData,
     @Arg('postId') _id: string,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<CommentSubscriptionPayload> {
     let comment = null
 

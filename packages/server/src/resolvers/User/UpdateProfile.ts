@@ -15,7 +15,7 @@ class UpdateUserProfileResolver {
     @Arg('data') _unsecureData: UpdateUserInput,
     @Ctx() { prisma, userId }: MyContext,
     @Select() select: any,
-    @SecureData() data: any
+    @SecureData() data: any,
   ) {
     if (_unsecureData.oldPassword) {
       const { password } = (await prisma.user.findUnique({
@@ -30,7 +30,7 @@ class UpdateUserProfileResolver {
       checkPassword(
         password,
         _unsecureData.oldPassword,
-        'Unable to Change the Password!'
+        'Unable to Change the Password!',
       )
     }
     return prisma.user.update({

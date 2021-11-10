@@ -20,7 +20,7 @@ class PostsSubscriptionsResolver {
   @Authorized()
   async myFeed(
     @Root() data: PostPublishedData,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<PostSubscriptionPayload> {
     let post = null
 

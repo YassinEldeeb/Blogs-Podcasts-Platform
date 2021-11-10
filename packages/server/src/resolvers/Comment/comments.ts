@@ -12,7 +12,7 @@ class CommentsResolver {
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Comment[]> {
     return prisma.comment.findMany({
       where: { post: { published: true } },

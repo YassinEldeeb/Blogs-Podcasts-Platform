@@ -1,5 +1,6 @@
 import { postsLoader } from '@/data-loaders/PostsLoader'
 import { User } from '@/models/User'
+
 import {
   Arg,
   Args,
@@ -22,7 +23,7 @@ class PostsResolver {
     @Root() user: User,
     @Args() { take, skip, cursorId }: PostsInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-    @Select() select: any
+    @Select() select: any,
   ) {
     return postsLoader.load({
       id: user.id,

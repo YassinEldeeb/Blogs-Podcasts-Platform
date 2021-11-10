@@ -15,14 +15,14 @@ class MyFeedResolver {
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post[]> {
     const following = { followers: { some: { follower_userId: userId } } }
 
     const feed: Prisma.PostWhereInput = {
       OR: [
         {
-          author: { followers: { some: { follower_userId: userId } } },
+          author: following,
         },
         {
           hearts: {

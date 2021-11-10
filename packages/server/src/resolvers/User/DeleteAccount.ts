@@ -13,7 +13,7 @@ class DeleteAccountResolver {
   async deleteAccount(
     @Arg('token') token: string,
     @Ctx() { prisma }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<SuccessPayload> {
     const userId = await redisClient.get(`${deleteAccountPerfix}${token}`)
     console.log(userId, token)

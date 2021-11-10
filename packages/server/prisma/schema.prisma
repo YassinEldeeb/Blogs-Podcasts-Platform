@@ -12,6 +12,7 @@ model User {
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
   email                         String                 @unique
+  // @private
   password                      String?
   bio                           String?                @db.VarChar(160)
   tokenVersion                  Int                    @default(0)

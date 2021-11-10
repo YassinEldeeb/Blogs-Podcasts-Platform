@@ -11,7 +11,7 @@ class PostResolver {
   async post(
     @Arg('id') id: string,
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post[]> {
     const post = (await prisma.post.findFirst({
       where: {

@@ -14,7 +14,7 @@ class ConfirmEmailResolver {
   async confirmEmail(
     @Arg('token') token: string,
     @Ctx() context: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<ConfirmEmailPayload> {
     const { prisma, res } = context
 
@@ -34,7 +34,7 @@ class ConfirmEmailResolver {
 
     const refreshToken = await genRefreshToken(
       authUser.id,
-      authUser.tokenVersion
+      authUser.tokenVersion,
     )
 
     sendRefreshToken(res, refreshToken)

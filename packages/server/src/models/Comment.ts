@@ -21,9 +21,6 @@ export class Comment {
   post: Post
 
   @Field()
-  bio: string
-
-  @Field()
   createdAt: Date
 
   @Field()

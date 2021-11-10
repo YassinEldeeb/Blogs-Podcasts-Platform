@@ -30,7 +30,7 @@ class UpdatePostResolver {
     @Arg('data') data: UpdatePostInput,
     @PubSub() pubSub: PubSubEngine,
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post> {
     const originalPost = (await prisma.post.findUnique({
       where: { id: postId },

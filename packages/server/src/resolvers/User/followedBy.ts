@@ -25,7 +25,7 @@ class followedByResolver {
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Follower[]> {
     return followedByLoader.load({
       id: user.id,

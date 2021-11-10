@@ -10,7 +10,7 @@ class NotificationsResolver {
   @UseMiddleware(Auth())
   async myNotifications(
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ) {
     const notifications = await prisma.notification.findMany({
       select,

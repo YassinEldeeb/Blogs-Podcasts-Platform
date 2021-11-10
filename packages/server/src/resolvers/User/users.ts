@@ -30,7 +30,7 @@ class UsersResolver {
     @Args() { searchQuery, skip, take, cursorId }: UsersInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ) {
     let where: Prisma.UserWhereInput = {}
     const query = searchQuery?.toLowerCase()

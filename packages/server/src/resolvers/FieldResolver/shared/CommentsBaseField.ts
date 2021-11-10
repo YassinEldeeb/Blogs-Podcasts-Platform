@@ -16,7 +16,7 @@ import {
 
 export function commentsBaseResolver<T extends ClassType>(
   by: 'authorId' | 'postId',
-  returnType: T
+  returnType: T,
 ) {
   @Resolver((_of) => returnType)
   class BaseCommentsResolver {
@@ -25,7 +25,7 @@ export function commentsBaseResolver<T extends ClassType>(
       @Root() user: Post,
       @Args() { take, skip, cursorId }: PaginationArgs,
       @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-      @Select() select: any
+      @Select() select: any,
     ) {
       let loader: any
       if (by === 'authorId') {

@@ -27,7 +27,7 @@ class DeletePostResolver {
     @Args() { postId }: PostIdInput,
     @Ctx() { prisma, userId }: MyContext,
     @PubSub() pubSub: PubSubEngine,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post> {
     const ownPost = await prisma.post.findFirst({
       where: { id: postId, authorId: userId },

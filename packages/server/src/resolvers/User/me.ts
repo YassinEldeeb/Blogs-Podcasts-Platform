@@ -8,11 +8,14 @@ import { Select } from '../shared/select/selectParamDecorator'
 class MeResolver {
   @Query(() => User)
   @UseMiddleware(Auth())
-  async me(
+  me(
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<User> {
-    return prisma.user.findUnique({ where: { id: userId }, select }) as any
+    return prisma.user.findUnique({
+      where: { id: userId },
+      select,
+    }) as any
   }
 }
 

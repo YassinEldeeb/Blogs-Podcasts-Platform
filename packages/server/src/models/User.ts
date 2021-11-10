@@ -6,7 +6,7 @@ import { Post } from './Post'
 
 @ObjectType()
 export class User {
-  @Field((_type) => ID)
+  @Field(() => ID)
   id: string
 
   @Field()
@@ -27,21 +27,21 @@ export class User {
   hearts: Heart[]
 
   @Field({ nullable: true })
-  profilePic?: String
+  profilePic?: string
 
-  @Field((_type) => [Post])
+  @Field(() => [Post])
   posts: Post[]
 
-  @Field((_type) => [Comment])
+  @Field(() => [Comment])
   comments: Comment[]
 
   @Field({ nullable: true })
   bio?: string
 
-  @Field((_type) => [Follower])
+  @Field(() => [Follower])
   followers: Follower[]
 
-  @Field((_type) => [Follower])
+  @Field(() => [Follower])
   following: Follower[]
 
   @Field()
@@ -50,7 +50,7 @@ export class User {
   @Field()
   following_count: number
 
-  @Field((_type) => [Follower])
+  @Field(() => [Follower])
   followedBy: Follower[]
 
   @Field()

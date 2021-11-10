@@ -30,7 +30,7 @@ class MyPostsResolver {
     @Args() { published, skip, take, cursorId }: MyPostsInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma, userId }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ) {
     const where: Prisma.PostWhereInput = {
       authorId: userId,

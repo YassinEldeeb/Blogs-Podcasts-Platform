@@ -23,7 +23,7 @@ class FollowerSubscriptionResolver {
   async followers(
     @Root() data: FollowerPublishedData,
     @Arg('userId') _postId: string,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<FollowerSubscriptionPayload> {
     const follower = (await prisma.follower.findUnique({
       where: { id: data.id },

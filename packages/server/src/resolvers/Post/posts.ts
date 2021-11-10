@@ -22,7 +22,7 @@ class PostsResolver {
     @Args() { authorId, search, take, skip, cursorId }: PostsInput,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
     @Ctx() { prisma }: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<Post[]> {
     const where: Prisma.PostWhereInput = { published: true }
 

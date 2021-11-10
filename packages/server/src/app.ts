@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
 import { execute, subscribe } from 'graphql'
-import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { graphqlUploadExpress } from 'graphql-upload'
 import { createServer } from 'http'
 import passport from 'passport'
@@ -17,14 +16,13 @@ import { githubOAuthRouter } from './OAuth/Github/routes/auth'
 import { githubStrategyRouter } from './OAuth/Github/strategy'
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
+import { pubsub } from './redis'
 
 dotenvSafe.config({
   example: path.join(__dirname, '../config/.env.example'),
 })
 
-const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
-
-;(async () => {
+const bootstrapServer = async () => {
   const schema = await createSchema(pubsub)
 
   const server = new ApolloServer({
@@ -96,6 +94,8 @@ const pubsub = new RedisPubSub({ connection: { host: process.env.REDIS_HOST } })
       Listening on port 4000
     `)
   })
-})()
+}
+
+bootstrapServer()
 
 export { pubsub }

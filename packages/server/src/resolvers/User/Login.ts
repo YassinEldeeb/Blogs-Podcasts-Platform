@@ -15,7 +15,7 @@ class LoginResolver {
   async login(
     @Arg('data') { email, password }: LoginInput,
     @Ctx() context: MyContext,
-    @Select() select: any
+    @Select() select: any,
   ): Promise<AuthPayload> {
     const { prisma, res } = context
 
@@ -47,7 +47,7 @@ class LoginResolver {
 
     const refreshToken = await genRefreshToken(
       authUser.id,
-      authUser.tokenVersion
+      authUser.tokenVersion,
     )
 
     sendRefreshToken(res, refreshToken)
