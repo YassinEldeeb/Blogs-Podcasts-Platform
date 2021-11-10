@@ -92,6 +92,24 @@ jobs:
       - name: Apply Kubernetes Stuff
         if: steps.changed-server.outputs.changed == 'true'
         run: |
+          kubectl apply -f ./kubernetes/configmaps/pg-configmap.yml
+          kubectl apply -f ./kubernetes/configmaps/redis-configmap.yml
+
+          kubectl apply -f ./kubernetes/secrets/aws-secret.yml
+          kubectl apply -f ./kubernetes/secrets/graphql-secret.yml
+          kubectl apply -f ./kubernetes/secrets/pg-secret.yml
+          kubectl apply -f ./kubernetes/secrets/pgpass-secret.yml
+
+          kubectl apply -f ./kubernetes/deployments/pg-depl.yml
+          kubectl apply -f ./kubernetes/deployments/pg-backup.yml
           kubectl apply -f ./kubernetes/deployments/graphql-depl.yml
+          kubectl apply -f ./kubernetes/deployments/redis-depl.yml
+
+          kubectl apply -f ./kubernetes/jobs/restore-job.yml
+
+          kubectl apply -f ./kubernetes/graphql-ingress.yml
+
+          kubectl apply -f ./kubernetes/metrics.yml
+
           kubectl scale deployment graphql --replicas=0
           kubectl scale deployment graphql --replicas=2
