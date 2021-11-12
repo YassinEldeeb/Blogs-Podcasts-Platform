@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken'
 import { AuthChecker } from 'type-graphql'
-import { prisma } from '@/prisma'
-import { MyContext } from '@/types/MyContext'
+import { prisma } from '@prismaInstance'
+import { MyContext } from '@Types/MyContext'
 
 export const authSubscription: AuthChecker<MyContext> = async (
   { context },
-  _data
+  _data,
 ) => {
   if (!context.wsHeaders.authorization) {
     throw new Error('Not authenticated!')

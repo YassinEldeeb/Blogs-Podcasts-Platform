@@ -1,5 +1,5 @@
-import { CREATED, DELETED } from '@/types/enums/mutationType'
-import { prisma } from '@/prisma'
+import { CREATED, DELETED } from '@Types/enums/mutationType'
+import { prisma } from '@prismaInstance'
 import { HeartPublishedData } from '../subscription/heartPublished'
 import { heartMutationType } from '../subscription/heartSubscriptionPayload'
 

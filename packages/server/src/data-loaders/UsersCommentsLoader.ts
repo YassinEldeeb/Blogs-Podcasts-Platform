@@ -1,6 +1,6 @@
-import { User } from '@/models/User'
-import { models } from '@/types/enums/models'
-import { baseBatch } from './shared/baseDataLoader'
+import { User } from '@models/User'
+import { models } from '@Types/enums/models'
+import { baseBatch } from './explicit-cases/shared/baseDataLoader'
 
 const usersCommentsLoader = baseBatch<User>({
   uniqueId: 'authorId',

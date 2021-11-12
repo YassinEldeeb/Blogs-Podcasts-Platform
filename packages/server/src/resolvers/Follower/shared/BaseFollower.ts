@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
+import { Follower } from '@models/Follower'
 import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
-import { MyContext } from '@/types/MyContext'
-import { Follower } from '@/models/Follower'
+import { MyContext } from '@Types/MyContext'
 import { PaginationArgs } from '../../shared/pagination'
 import { Select } from '../../shared/select/selectParamDecorator'
 import { SortingArgs } from '../../shared/sorting'
@@ -20,7 +20,7 @@ export function followerBaseResolver(name: 'followers' | 'following') {
       @Args() { userId, skip, take, cursorId }: FollowersInput,
       @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
       @Ctx() { prisma }: MyContext,
-      @Select({}, false) select: any
+      @Select({}, false) select: any,
     ): Promise<Follower[]> {
       let where: Prisma.FollowerWhereInput =
         name === 'followers'

@@ -1,11 +1,11 @@
-import { bucketURL } from '@/aws/constants/bucket'
-import { deleteImage } from '@/aws/deleteImage'
-import { uploadImage } from '@/aws/uploadImage'
-import { Auth } from '@/middleware/Auth'
-import { IsOwner } from '@/middleware/IsOwner'
-import { models } from '@/types/enums/models'
-import { MyContext } from '@/types/MyContext'
-import { Upload } from '@/types/Upload'
+import { bucketURL } from '@aws/constants/bucket'
+import { deleteImage } from '@aws/deleteImage'
+import { uploadImage } from '@aws/uploadImage'
+import { Auth } from '@middleware/Auth'
+import { IsOwner } from '@middleware/IsOwner'
+import { models } from '@Types/enums/models'
+import { MyContext } from '@Types/MyContext'
+import { Upload } from '@Types/Upload'
 import { GraphQLUpload } from 'graphql-upload'
 import sharp from 'sharp'
 import streamtToBuffer from 'stream-to-buffer'
@@ -35,7 +35,7 @@ class UploadPostCover {
   async uploadPostCover(
     @Arg('picture', () => GraphQLUpload) file: Upload,
     @Args() { postId }: PostIdInput,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<UploadCoverImagePayload> {
     const { createReadStream, mimetype } = file
 

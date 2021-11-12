@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 
 export const checkPostExistance = (id: string, published?: boolean) => {
   return prisma.post

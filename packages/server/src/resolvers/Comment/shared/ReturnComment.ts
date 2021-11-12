@@ -1,10 +1,10 @@
-import { DELETED } from '@/types/enums/mutationType'
-import { prisma } from '@/prisma'
+import { DELETED } from '@Types/enums/mutationType'
+import { prisma } from '@prismaInstance'
 import { CommentPublishedData } from './CommentPublished'
 
 export const ReturnComment = async (
   data: CommentPublishedData,
-  select: any
+  select: any,
 ) => {
   let comment = null
 

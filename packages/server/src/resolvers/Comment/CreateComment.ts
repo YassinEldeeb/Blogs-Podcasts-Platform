@@ -1,9 +1,9 @@
-import { Auth } from '@/middleware/Auth'
-import { Comment } from '@/models/Comment'
-import { CREATED } from '@/types/enums/mutationType'
-import { Topics } from '@/types/enums/subscriptions'
-import { MyContext } from '@/types/MyContext'
-import { NotificationTypes } from '@/types/NotificationsTypes'
+import { Auth } from '@middleware/Auth'
+import { Comment } from '@models/Comment'
+import { CREATED } from '@Types/enums/mutationType'
+import { Topics } from '@Types/enums/subscriptions'
+import { MyContext } from '@Types/MyContext'
+import { NotificationTypes } from '@Types/NotificationsTypes'
 import {
   Mutation,
   UseMiddleware,

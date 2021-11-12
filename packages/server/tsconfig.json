@@ -1,24 +1,22 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "transform": "typescript-transform-paths"
-      }
-    ],
     "baseUrl": ".",
+    "moduleResolution": "Node",
     "paths": {
-      "@/auth/*": ["src/auth/*"],
-      "@/data-loaders/*": ["src/data-loaders/*"],
-      "@/emails/*": ["src/emails/*"],
-      "@/middleware/*": ["src/middleware/*"],
-      "@/models/*": ["src/models/*"],
-      "@/types/*": ["src/types/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/prisma": ["src/prisma"],
-      "@/redis": ["src/redis"],
-      "@/resolvers/*": ["src/resolvers/*"],
-      "@/aws/*": ["src/aws/*"]
+      "@auth/*": ["src/auth/*"],
+      "@shared/*": ["src/resolvers/shared/*"],
+      "@oAuth/*": ["src/OAuth/*"],
+      "@data-loaders/*": ["src/data-loaders/*"],
+      "@emails/*": ["src/emails/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@models/*": ["src/models/*"],
+      "@Types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@prismaInstance": ["src/prisma"],
+      "@redis": ["src/redis"],
+      "@resolvers/*": ["src/resolvers/*"],
+      "@aws/*": ["src/aws/*"]
     },
     "outDir": "./dist",
     "rootDir": "./src"

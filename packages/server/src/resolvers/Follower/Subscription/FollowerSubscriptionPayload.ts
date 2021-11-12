@@ -1,6 +1,6 @@
 import { Field, ObjectType } from 'type-graphql'
-import { MutationType } from '@/types/enums/mutationType'
-import { Follower } from '@/models/Follower'
+import { MutationType } from '@Types/enums/mutationType'
+import { Follower } from '@models/Follower'
 
 @ObjectType()
 export class FollowerSubscriptionPayload {

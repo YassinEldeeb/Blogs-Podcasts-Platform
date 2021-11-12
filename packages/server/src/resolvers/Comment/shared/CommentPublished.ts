@@ -1,5 +1,5 @@
 import { ObjectType, Field } from 'type-graphql'
-import { PublishedData } from '../../shared/subscription/PublishedData'
+import { PublishedData } from '@shared/subscription/PublishedData'
 
 @ObjectType()
 export class CommentPublishedData extends PublishedData {

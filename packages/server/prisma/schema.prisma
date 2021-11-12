@@ -2,6 +2,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator PrismaTypegraphqlTypesGenerator {
+  provider     = "yarn prisma-typegraphql-types-generator"
+  modelsOutput = "./src/gen/models"
+  enumsOutput  = "./src/gen/another/long/nested/dir/for/enums/enums"
+  useYarn      = true
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -9,30 +16,30 @@ datasource db {
 
 model User {
   id                            String                 @id @default(cuid())
-  test String?
+  test                          Bytes[]
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
   email                         String                 @unique
-  // @private
+  // @hide
   password                      String?
   bio                           String?                @db.VarChar(160)
-  // @private
+  // @hide
   tokenVersion                  Int                    @default(0)
-  // @private
+  // @hide
   confirmed                     Boolean                @default(false)
   profilePic                    String?
   posts                         Post[]
   comments                      Comment[]
-  // @private
+  // @hide
   hearts                        Heart[]
   followers_count               Int                    @default(0)
   following_count               Int                    @default(0)
   followers                     Follower[]
   following                     Follower[]             @relation("followerToUser")
   notifications                 Notification[]
-  // @private
+  // @hide
   notificationsFromUser         NotificationFromUser[]
-  // @private
+  // @hide
   notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
   githubId                      String?                @unique
   lastTimelineVisit             DateTime?
@@ -42,9 +49,9 @@ model User {
 
 model Follower {
   id              String   @id @default(cuid())
-  // @private
+  // @hide
   followed_userId String
-  // @private
+  // @hide
   follower_userId String
   followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
   follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
@@ -61,13 +68,14 @@ model Post {
   hearts         Heart[]
   hearts_count   Int       @default(0)
   comments_count Int       @default(0)
-  // @private
+  // @hide
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
   readingTimeTxt String
   readingTimeMin Float
   coverImg       String?
+  json           Json
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -75,7 +83,7 @@ model Post {
 model Notification {
   id             String                 @id @default(cuid())
   notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
-  // @private
+  // @hide
   notifiedUserId String
   fromUsers      NotificationFromUser[]
   seen           Boolean                @default(false)
@@ -100,11 +108,11 @@ model NotificationFromUser {
   id             String        @id @default(cuid())
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
-  // @private
+  // @hide
   notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
   userId         String
   userWhoFiredId String
-  // @private
+  // @hide
   notificationId String?
 }
 
@@ -113,11 +121,11 @@ model Heart {
   user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  // @private
+  // @hide
   authorId  String
-  // @private
+  // @hide
   postId    String?
-  // @private
+  // @hide
   commentId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -128,9 +136,9 @@ model Comment {
   text         String
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  // @private
+  // @hide
   authorId     String
-  // @private
+  // @hide
   postId       String
   hearts       Heart[]
   hearts_count Int      @default(0)

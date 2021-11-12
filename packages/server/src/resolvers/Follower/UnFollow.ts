@@ -9,14 +9,14 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { DELETED } from '@/types/enums/mutationType'
-import { Topics } from '@/types/enums/subscriptions'
-import { MyContext } from '@/types/MyContext'
-import { Auth } from '@/middleware/Auth'
+import { DELETED } from '@Types/enums/mutationType'
+import { Topics } from '@Types/enums/subscriptions'
+import { MyContext } from '@Types/MyContext'
+import { Auth } from '@middleware/Auth'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { FollowInput } from './follow/followInput'
 import { notify } from '../shared/notifications/Notify'
-import { NotificationTypes } from '@/types/NotificationsTypes'
+import { NotificationTypes } from '@Types/NotificationsTypes'
 
 @ObjectType()
 class UnFollowPayload {
@@ -31,7 +31,7 @@ class FollowResolver {
   async unFollow(
     @Args() { user_id: UserIdToUnFollow }: FollowInput,
     @Ctx() { prisma, userId }: MyContext,
-    @PubSub() pubSub: PubSubEngine
+    @PubSub() pubSub: PubSubEngine,
   ): Promise<UnFollowPayload> {
     const followed = await prisma.follower.findFirst({
       where: { followed_userId: UserIdToUnFollow, follower_userId: userId! },

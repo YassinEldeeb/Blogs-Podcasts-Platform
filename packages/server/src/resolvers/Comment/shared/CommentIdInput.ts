@@ -1,4 +1,4 @@
-import { CommentExists } from '@/resolvers/shared/validations/decorators/commentExists'
+import { CommentExists } from '@resolvers/shared/validations/decorators/commentExists'
 import { ArgsType, Field, ID } from 'type-graphql'
 
 @ArgsType()

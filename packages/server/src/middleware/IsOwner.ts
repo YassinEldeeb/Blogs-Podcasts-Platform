@@ -1,7 +1,7 @@
 import { createMethodDecorator } from 'type-graphql'
-import { models } from '@/types/enums/models'
-import { prisma } from '@/prisma'
-import { MyContext } from '@/types/MyContext'
+import { models } from '@Types/enums/models'
+import { prisma } from '@prismaInstance'
+import { MyContext } from '@Types/MyContext'
 
 export function IsOwner(model: models) {
   return createMethodDecorator<MyContext>(
@@ -22,10 +22,10 @@ export function IsOwner(model: models) {
         throw new Error(
           `You're not the author of the ${
             model.charAt(0).toUpperCase() + model.slice(1)
-          }!`
+          }!`,
         )
       }
       return next()
-    }
+    },
   )
 }

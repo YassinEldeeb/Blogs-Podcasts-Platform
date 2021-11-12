@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 import { baseNotifyArgs } from './shared/baseNotifyArgs'
 import { createMessage } from './shared/createMessage'
 import cuid from 'cuid'
@@ -34,7 +34,7 @@ export const notifyMany = async ({
   })
 
   const existingNotifiedUserIds = existingNotifications.map(
-    (e) => e.notifiedUserId
+    (e) => e.notifiedUserId,
   )
 
   // 3- Find the difference between NotifiedUserIds & existingNotifiedUserIds
@@ -43,7 +43,7 @@ export const notifyMany = async ({
   const difference = existingNotifiedUserIds
     .filter((x) => !notifiedUsersIds.includes(x))
     .concat(
-      notifiedUsersIds.filter((x) => !existingNotifiedUserIds.includes(x))
+      notifiedUsersIds.filter((x) => !existingNotifiedUserIds.includes(x)),
     )
 
   const updatedNotifications: any[] = []

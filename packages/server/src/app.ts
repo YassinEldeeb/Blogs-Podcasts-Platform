@@ -11,12 +11,13 @@ import { createServer } from 'http'
 import passport from 'passport'
 import 'reflect-metadata'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { refreshTokenRouter } from './auth/routes/expressRefreshToken'
-import { githubOAuthRouter } from './OAuth/Github/routes/auth'
-import { githubStrategyRouter } from './OAuth/Github/strategy'
+
 import { prisma } from './prisma'
 import { createSchema } from './utils/createSchema'
 import { pubsub } from './redis'
+import { githubStrategyRouter } from '@oAuth/Github/strategy'
+import { refreshTokenRouter } from '@auth/routes/expressRefreshToken'
+import { githubOAuthRouter } from '@oAuth/Github/routes/auth'
 
 dotenvSafe.config({
   example: path.join(__dirname, '../config/.env.example'),

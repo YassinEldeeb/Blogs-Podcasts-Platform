@@ -7,7 +7,7 @@ export const createTransporter = async () => {
   const oauth2Client = await new OAuth2(
     process.env.GMAIL_CLIENT_ID,
     process.env.GMAIL_CLIENT_SECRET,
-    'https://developers.google.com/oauthplayground'
+    'https://developers.google.com/oauthplayground',
   )
 
   oauth2Client.setCredentials({

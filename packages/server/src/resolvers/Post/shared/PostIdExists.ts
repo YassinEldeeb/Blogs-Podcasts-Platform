@@ -1,4 +1,4 @@
-import { PostExists } from '@/resolvers/shared/validations/decorators/postExists'
+import { PostExists } from '@resolvers/shared/validations/decorators/postExists'
 import { ArgsType, Field, ID } from 'type-graphql'
 
 @ArgsType()

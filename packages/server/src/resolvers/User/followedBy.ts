@@ -1,8 +1,8 @@
-import { followedByLoader } from '@/data-loaders/explicit-cases/followedBy'
-import { Auth } from '@/middleware/Auth'
-import { Follower } from '@/models/Follower'
-import { User } from '@/models/User'
-import { MyContext } from '@/types/MyContext'
+import { followedByLoader } from '@data-loaders/explicit-cases/followedBy'
+import { Auth } from '@middleware/Auth'
+import { Follower } from '@models/Follower'
+import { User } from '@models/User'
+import { MyContext } from '@Types/MyContext'
 import {
   Arg,
   Args,

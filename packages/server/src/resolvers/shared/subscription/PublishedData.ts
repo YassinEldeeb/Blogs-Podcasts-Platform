@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql'
-import { MutationType } from '@/types/enums/mutationType'
+import { MutationType } from '@Types/enums/mutationType'
 
 @ObjectType()
 export class PublishedData {

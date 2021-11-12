@@ -1,6 +1,6 @@
-import { Auth } from '@/middleware/Auth'
-import { MyContext } from '@/types/MyContext'
-import { Upload } from '@/types/Upload'
+import { Auth } from '@middleware/Auth'
+import { MyContext } from '@Types/MyContext'
+import { Upload } from '@Types/Upload'
 import { GraphQLUpload } from 'graphql-upload'
 import sharp from 'sharp'
 import streamtToBuffer from 'stream-to-buffer'
@@ -13,9 +13,9 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql'
-import { uploadImage } from '@/aws/uploadImage'
-import { deleteImage } from '@/aws/deleteImage'
-import { bucketURL } from '@/aws/constants/bucket'
+import { uploadImage } from '@aws/uploadImage'
+import { deleteImage } from '@aws/deleteImage'
+import { bucketURL } from '@aws/constants/bucket'
 
 @ObjectType()
 class AddProfilePayload {
@@ -29,7 +29,7 @@ class AddProfilePicResolver {
   @UseMiddleware(Auth())
   async addProfilePic(
     @Arg('picture', () => GraphQLUpload) file: Upload,
-    @Ctx() { prisma, userId }: MyContext
+    @Ctx() { prisma, userId }: MyContext,
   ): Promise<AddProfilePayload> {
     const { createReadStream, mimetype } = file
 
@@ -71,7 +71,7 @@ class AddProfilePicResolver {
 
     if (buffer.length / Math.pow(1024, 2) > 8) {
       throw new Error(
-        'This Image is pretty damn Large bro, gotta send me your 8K DSLR to try it out.'
+        'This Image is pretty damn Large bro, gotta send me your 8K DSLR to try it out.',
       )
     }
 

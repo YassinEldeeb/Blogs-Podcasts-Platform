@@ -1,6 +1,6 @@
-import { Post } from '@/models/Post'
-import { models } from '@/types/enums/models'
-import { baseBatch } from './shared/baseDataLoader'
+import { Post } from '@models/Post'
+import { models } from '@Types/enums/models'
+import { baseBatch } from './explicit-cases/shared/baseDataLoader'
 
 const postsLoader = baseBatch<Post>({
   uniqueId: 'authorId',

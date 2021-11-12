@@ -1,4 +1,4 @@
-import { MyContext } from '@/types/MyContext'
+import { MyContext } from '@Types/MyContext'
 import { Prisma } from '@prisma/client'
 import {
   Arg,
@@ -10,7 +10,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql'
-import { User } from '@/models/User'
+import { User } from '@models/User'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
 import { SortingArgs } from '../shared/sorting'

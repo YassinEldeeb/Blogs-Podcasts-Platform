@@ -1,8 +1,8 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 
 export const checkUsernameExistance = (
   username: string,
-  isProblem: boolean = false
+  isProblem: boolean = false,
 ) => {
   return prisma.user
     .findUnique({

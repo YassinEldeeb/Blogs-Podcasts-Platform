@@ -1,10 +1,10 @@
-import { postsCommentsLoader } from '@/data-loaders/PostsCommentsLoader'
-import { usersCommentsLoader } from '@/data-loaders/UsersCommentsLoader'
-import { Comment } from '@/models/Comment'
-import { Post } from '@/models/Post'
-import { PaginationArgs } from '@/resolvers/shared/pagination'
-import { Select } from '@/resolvers/shared/select/selectParamDecorator'
-import { SortingArgs } from '@/resolvers/shared/sorting'
+import { postsCommentsLoader } from '@data-loaders/PostsCommentsLoader'
+import { usersCommentsLoader } from '@data-loaders/UsersCommentsLoader'
+import { Comment } from '@models/Comment'
+import { Post } from '@models/Post'
+import { PaginationArgs } from '@resolvers/shared/pagination'
+import { Select } from '@resolvers/shared/select/selectParamDecorator'
+import { SortingArgs } from '@resolvers/shared/sorting'
 import {
   Arg,
   Args,

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import { v4 } from 'uuid'
-import { redisClient } from '@/redis'
-import { confirmUserPrefix } from '@/resolvers/constants/redisPrefixes'
+import { redisClient } from '@redis'
+import { confirmUserPrefix } from '@resolvers/constants/redisPrefixes'
 import { FROMEMAIL } from './constants/fromEmail'
 import { createTransporter } from './utils/transporter'
 
@@ -14,7 +14,7 @@ export const confirmEmail = async (userId: string, email: string) => {
     await redisClient.setex(
       `${confirmUserPrefix}${token}`,
       60 * 60 * 24,
-      userId
+      userId,
     )
 
     const info = await transporter.sendMail({

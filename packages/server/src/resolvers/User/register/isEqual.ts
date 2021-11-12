@@ -7,7 +7,7 @@ import {
 export function IsEqualTo(
   comparisonField: string,
   actualField: string = 'property',
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ) {
   return (object: any, propertyName: string) => {
     registerDecorator({

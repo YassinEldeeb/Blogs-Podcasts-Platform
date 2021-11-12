@@ -1,4 +1,4 @@
-import { NotificationTypes } from '@/types/NotificationsTypes'
+import { NotificationTypes } from '@Types/NotificationsTypes'
 
 export interface baseNotifyArgs {
   type: NotificationTypes

@@ -1,5 +1,5 @@
 import { createParamDecorator } from 'type-graphql'
-import { MyContext } from '@/types/MyContext'
+import { MyContext } from '@Types/MyContext'
 import bcrypt from 'bcryptjs'
 
 function SecureData() {
@@ -10,7 +10,7 @@ function SecureData() {
     if (data.password || data.newPassword) {
       const hashedPassword = bcrypt.hashSync(
         data.password || data.newPassword,
-        10
+        10,
       )
 
       SecureData.password = hashedPassword

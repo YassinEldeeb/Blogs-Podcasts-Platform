@@ -37,7 +37,7 @@ export function UserExists(validationOptions?: userExistsArg) {
       constraints: [],
       validator: new userExistConstraint(
         validationOptions?.isProblem || false,
-        validationOptions?.byEmail || false
+        validationOptions?.byEmail || false,
       ),
     })
   }

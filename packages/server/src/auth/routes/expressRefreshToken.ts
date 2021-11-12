@@ -1,6 +1,6 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 import { genTokens } from '../genTokens'
 import { sendRefreshToken } from '../sendRefreshToken'
 
@@ -32,7 +32,7 @@ refreshTokenRouter.post('/refresh_token', async (req, res) => {
 
   const { accessToken, refreshToken } = await genTokens(
     payload.id,
-    user.tokenVersion
+    user.tokenVersion,
   )
 
   sendRefreshToken(res, refreshToken)

@@ -12,7 +12,7 @@ export class commentExistConstraint implements ValidatorConstraintInterface {
   validate(id: string, args: any) {
     return checkCommentExistance(
       id,
-      args.constraints[0] ? args.object.postId : undefined
+      args.constraints[0] ? args.object.postId : undefined,
     )
   }
 }

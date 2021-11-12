@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import { v4 } from 'uuid'
-import { redisClient } from '@/redis'
-import { deleteAccountPerfix } from '@/resolvers/constants/redisPrefixes'
+import { redisClient } from '@redis'
+import { deleteAccountPerfix } from '@resolvers/constants/redisPrefixes'
 import { FROMEMAIL } from './constants/fromEmail'
 import { createTransporter } from './utils/transporter'
 
@@ -14,7 +14,7 @@ export const confirmDeleteAccount = async (userId: string, email: string) => {
     await redisClient.setex(
       `${deleteAccountPerfix}${token}`,
       60 * 60 * 15,
-      userId
+      userId,
     )
 
     const info = await transporter.sendMail({

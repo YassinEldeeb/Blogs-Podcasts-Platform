@@ -1,6 +1,6 @@
 import { Field, ObjectType, registerEnumType } from 'type-graphql'
-import { MutationType } from '@/types/enums/mutationType'
-import { Topics } from '@/types/enums/subscriptions'
+import { MutationType } from '@Types/enums/mutationType'
+import { Topics } from '@Types/enums/subscriptions'
 
 registerEnumType(Topics, {
   name: 'PublishedDataType',

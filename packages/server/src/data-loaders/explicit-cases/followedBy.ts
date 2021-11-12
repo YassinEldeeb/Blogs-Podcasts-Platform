@@ -1,5 +1,5 @@
-import { Follower } from '@/models/Follower'
-import { prisma } from '@/prisma'
+import { Follower } from '@models/Follower'
+import { prisma } from '@prismaInstance'
 import { Prisma } from '@prisma/client'
 import DataLoader from 'dataloader'
 

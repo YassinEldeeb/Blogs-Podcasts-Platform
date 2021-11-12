@@ -1,5 +1,5 @@
 import { Field, ObjectType, registerEnumType } from 'type-graphql'
-import { Heart } from '@/models/Heart'
+import { Heart } from '@models/Heart'
 
 export enum heartMutationType {
   LIKED = 'LIKED',

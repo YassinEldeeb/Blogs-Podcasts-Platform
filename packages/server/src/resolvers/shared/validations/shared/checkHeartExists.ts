@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 
 export const checkHeartExistance = (id: string) => {
   return prisma.heart

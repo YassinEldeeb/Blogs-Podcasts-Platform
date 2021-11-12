@@ -1,13 +1,12 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
-import { checkPassword } from '@/auth/checkPassword'
-import { genTokens } from '@/auth/genTokens'
-import { sendRefreshToken } from '@/auth/sendRefreshToken'
-import { MyContext } from '@/types/MyContext'
+import { MyContext } from '@Types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
 import { checkUserExistance } from '../shared/validations/shared/checkUserExists'
 import { LoginInput } from './login/LoginInput'
 import { AuthPayload } from './shared/authPayload'
-import { genRefreshToken } from '@/auth/utils/genRefreshToken'
+import { genRefreshToken } from '@auth/utils/genRefreshToken'
+import { checkPassword } from '@auth/checkPassword'
+import { sendRefreshToken } from '@auth/sendRefreshToken'
 
 @Resolver()
 class LoginResolver {

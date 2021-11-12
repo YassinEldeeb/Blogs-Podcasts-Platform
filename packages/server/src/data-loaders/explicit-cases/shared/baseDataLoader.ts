@@ -1,5 +1,5 @@
-import { prisma } from '@/prisma'
-import { models } from '@/types/enums/models'
+import { prisma } from '@prismaInstance'
+import { models } from '@Types/enums/models'
 import DataLoader from 'dataloader'
 
 interface DataLoaderArgs {

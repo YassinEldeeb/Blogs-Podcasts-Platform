@@ -1,6 +1,6 @@
-import { followingLoader } from '@/data-loaders/FollowingLoader'
-import { Follower } from '@/models/Follower'
-import { User } from '@/models/User'
+import { followingLoader } from '@data-loaders/FollowingLoader'
+import { Follower } from '@models/Follower'
+import { User } from '@models/User'
 import { Arg, Args, FieldResolver, Resolver, Root } from 'type-graphql'
 import { PaginationArgs } from '../shared/pagination'
 import { Select } from '../shared/select/selectParamDecorator'
@@ -13,7 +13,7 @@ class UserFollowingFieldResolver {
     @Root() user: User,
     @Args() { skip, take, cursorId }: PaginationArgs,
     @Arg('orderBy', { nullable: true }) orderBy: SortingArgs,
-    @Select({}, false) select: any
+    @Select({}, false) select: any,
   ) {
     return followingLoader.load({
       id: user.id,

@@ -1,5 +1,5 @@
-import { Post } from '@/models/Post'
-import { MutationType } from '@/types/enums/mutationType'
+import { Post } from '@models/Post'
+import { MutationType } from '@Types/enums/mutationType'
 import { Field, ObjectType } from 'type-graphql'
 
 @ObjectType()

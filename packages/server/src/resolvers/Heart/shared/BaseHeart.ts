@@ -1,9 +1,9 @@
-import { Auth } from '@/middleware/Auth'
-import { notify } from '@/resolvers/shared/notifications/Notify'
-import { CREATED, DELETED } from '@/types/enums/mutationType'
-import { Topics } from '@/types/enums/subscriptions'
-import { MyContext } from '@/types/MyContext'
-import { NotificationTypes } from '@/types/NotificationsTypes'
+import { Auth } from '@middleware/Auth'
+import { notify } from '@resolvers/shared/notifications/Notify'
+import { CREATED, DELETED } from '@Types/enums/mutationType'
+import { Topics } from '@Types/enums/subscriptions'
+import { MyContext } from '@Types/MyContext'
+import { NotificationTypes } from '@Types/NotificationsTypes'
 import {
   Args,
   ClassType,
@@ -31,7 +31,7 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
     async heartSomething(
       @Args(() => input) input: any,
       @Ctx() { prisma, userId }: MyContext,
-      @PubSub() pubSub: PubSubEngine
+      @PubSub() pubSub: PubSubEngine,
     ): Promise<HeartPayload> {
       const whereParentId: any = {}
       const inputKey = Object.keys(input)[0]

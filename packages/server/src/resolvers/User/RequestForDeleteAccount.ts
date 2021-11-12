@@ -1,9 +1,9 @@
 import { Args, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql'
-import { Auth } from '@/middleware/Auth'
-import { User } from '@/models/User'
-import { MyContext } from '@/types/MyContext'
+import { Auth } from '@middleware/Auth'
+import { User } from '@models/User'
+import { MyContext } from '@Types/MyContext'
 import { Select } from '../shared/select/selectParamDecorator'
-import { confirmDeleteAccount } from '@/emails/deleteAccount'
+import { confirmDeleteAccount } from '@emails/deleteAccount'
 import { resendConfirmInput } from './confirmEmail/resendConfirmInput'
 import { SuccessPayload } from './shared/successPayload'
 
@@ -13,7 +13,7 @@ class RequestForDeleteAccountResolver {
   @UseMiddleware(Auth())
   async requestDeleteAccount(
     @Args() { email }: resendConfirmInput,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<SuccessPayload> {
     const user = await prisma.user.findUnique({
       where: { email },

@@ -1,4 +1,4 @@
-import { UserExists } from '@/resolvers/shared/validations/decorators/userExists'
+import { UserExists } from '@resolvers/shared/validations/decorators/userExists'
 import { IsDefined, MinLength, ValidateIf } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 

@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
-import { redisClient } from '@/redis'
-import { MyContext } from '@/types/MyContext'
+import { redisClient } from '@redis'
+import { MyContext } from '@Types/MyContext'
 import { forgotPasswordPrefix } from '../constants/redisPrefixes'
 import { ResetPasswordInput } from './resetPassword/resetPasswordInput'
 import { SecureData } from './shared/hashedPassword'
@@ -13,7 +13,7 @@ class ResetPasswordResolver {
     @Arg('token') token: string,
     @Arg('data') _unsecureData: ResetPasswordInput,
     @Ctx() { prisma }: MyContext,
-    @SecureData() data: any
+    @SecureData() data: any,
   ): Promise<SuccessPayload> {
     const userId = await redisClient.get(`${forgotPasswordPrefix}${token}`)
 

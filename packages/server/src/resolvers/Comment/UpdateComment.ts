@@ -1,10 +1,10 @@
-import { Auth } from '@/middleware/Auth'
-import { IsOwner } from '@/middleware/IsOwner'
-import { Comment } from '@/models/Comment'
-import { models } from '@/types/enums/models'
-import { UPDATED } from '@/types/enums/mutationType'
-import { Topics } from '@/types/enums/subscriptions'
-import { MyContext } from '@/types/MyContext'
+import { Auth } from '@middleware/Auth'
+import { IsOwner } from '@middleware/IsOwner'
+import { Comment } from '@models/Comment'
+import { models } from '@Types/enums/models'
+import { UPDATED } from '@Types/enums/mutationType'
+import { Topics } from '@Types/enums/subscriptions'
+import { MyContext } from '@Types/MyContext'
 
 import {
   Mutation,

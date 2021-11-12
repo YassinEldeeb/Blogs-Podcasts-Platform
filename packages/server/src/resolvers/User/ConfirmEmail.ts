@@ -1,12 +1,12 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
-import { genTokens } from '@/auth/genTokens'
-import { sendRefreshToken } from '@/auth/sendRefreshToken'
-import { redisClient } from '@/redis'
-import { MyContext } from '@/types/MyContext'
+import { genTokens } from '@auth/genTokens'
+import { sendRefreshToken } from '@auth/sendRefreshToken'
+import { redisClient } from '@redis'
+import { MyContext } from '@Types/MyContext'
 import { confirmUserPrefix } from '../constants/redisPrefixes'
 import { Select } from '../shared/select/selectParamDecorator'
 import { ConfirmEmailPayload } from './confirmEmail/confirmEmailPayload'
-import { genRefreshToken } from '@/auth/utils/genRefreshToken'
+import { genRefreshToken } from '@auth/utils/genRefreshToken'
 
 @Resolver()
 class ConfirmEmailResolver {

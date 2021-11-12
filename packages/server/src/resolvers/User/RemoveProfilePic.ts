@@ -1,5 +1,5 @@
-import { Auth } from '@/middleware/Auth'
-import { MyContext } from '@/types/MyContext'
+import { Auth } from '@middleware/Auth'
+import { MyContext } from '@Types/MyContext'
 import {
   Ctx,
   Field,
@@ -10,8 +10,8 @@ import {
 } from 'type-graphql'
 import fs from 'fs'
 import path from 'path'
-import { bucketURL } from '@/aws/constants/bucket'
-import { deleteImage } from '@/aws/deleteImage'
+import { bucketURL } from '@aws/constants/bucket'
+import { deleteImage } from '@aws/deleteImage'
 
 @ObjectType()
 class RemoveProfilePayload {
@@ -24,7 +24,7 @@ class AddProfilePicResolver {
   @Mutation((_type) => RemoveProfilePayload)
   @UseMiddleware(Auth())
   async removeProfilePic(
-    @Ctx() { prisma, userId }: MyContext
+    @Ctx() { prisma, userId }: MyContext,
   ): Promise<RemoveProfilePayload> {
     const { profilePic } = (await prisma.user.findUnique({
       select: { profilePic: true },

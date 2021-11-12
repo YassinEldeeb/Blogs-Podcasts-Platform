@@ -7,9 +7,9 @@ import {
   MinLength,
 } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
-import { UserExists } from '@/resolvers/shared/validations/decorators/userExists'
+import { UserExists } from '@resolvers/shared/validations/decorators/userExists'
 import { IsEqualTo } from './isEqual'
-import { UsernameExists } from '@/resolvers/shared/validations/decorators/usernameExists'
+import { UsernameExists } from '@resolvers/shared/validations/decorators/usernameExists'
 
 @InputType()
 export class RegisterInput {

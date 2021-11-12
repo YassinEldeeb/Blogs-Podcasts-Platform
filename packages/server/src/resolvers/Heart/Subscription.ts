@@ -1,4 +1,4 @@
-import { Topics } from '@/types/enums/subscriptions'
+import { Topics } from '@Types/enums/subscriptions'
 import { Arg, Root, Subscription } from 'type-graphql'
 import { pubsub } from '../../app'
 import { Select } from '../shared/select/selectParamDecorator'

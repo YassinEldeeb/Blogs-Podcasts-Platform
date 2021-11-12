@@ -1,4 +1,4 @@
-import { NotificationTypes } from '@/types/NotificationsTypes'
+import { NotificationTypes } from '@Types/NotificationsTypes'
 
 interface formateNamesArgs {
   names: string[]

@@ -1,6 +1,6 @@
 import { Args, ArgsType, Ctx, Mutation, Resolver } from 'type-graphql'
-import { resetPasswordEmail } from '@/emails/resetPassword'
-import { MyContext } from '@/types/MyContext'
+import { resetPasswordEmail } from '@emails/resetPassword'
+import { MyContext } from '@Types/MyContext'
 import { resendConfirmInput } from './confirmEmail/resendConfirmInput'
 import { SuccessPayload } from './shared/successPayload'
 
@@ -12,7 +12,7 @@ class ForgotPasswordResolver {
   @Mutation(() => SuccessPayload)
   async forgotPassword(
     @Args() { email }: forgotPasswordInput,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<SuccessPayload> {
     const user = await prisma.user.findUnique({
       where: { email },

@@ -1,6 +1,6 @@
-import { Auth } from '@/middleware/Auth'
-import { Post } from '@/models/Post'
-import { MyContext } from '@/types/MyContext'
+import { Auth } from '@middleware/Auth'
+import { Post } from '@models/Post'
+import { MyContext } from '@Types/MyContext'
 import { Prisma } from '@prisma/client'
 import {
   Arg,

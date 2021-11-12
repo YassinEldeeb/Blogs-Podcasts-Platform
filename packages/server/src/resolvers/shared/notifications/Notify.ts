@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 import { baseNotifyArgs } from './shared/baseNotifyArgs'
 import { createMessage } from './shared/createMessage'
 
@@ -33,7 +33,7 @@ export const notify = async ({
 
   const filteredUsers =
     existingNotification?.fromUsers.filter(
-      (e: any) => e.userWhoFired.id !== firedNotificationUserId
+      (e: any) => e.userWhoFired.id !== firedNotificationUserId,
     ) || []
 
   const names = [name, ...filteredUsers.map((e: any) => e.userWhoFired.name)]

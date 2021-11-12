@@ -1,5 +1,5 @@
-import { postsLoader } from '@/data-loaders/PostsLoader'
-import { User } from '@/models/User'
+import { postsLoader } from '@data-loaders/PostsLoader'
+import { User } from '@models/User'
 
 import {
   Arg,

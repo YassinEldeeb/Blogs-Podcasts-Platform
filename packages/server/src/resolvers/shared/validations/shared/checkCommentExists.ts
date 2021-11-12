@@ -1,4 +1,4 @@
-import { prisma } from '@/prisma'
+import { prisma } from '@prismaInstance'
 import { Prisma } from '@prisma/client'
 
 export const checkCommentExistance = (id: string, postId?: string) => {

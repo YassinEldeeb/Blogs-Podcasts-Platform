@@ -1,5 +1,5 @@
-import { Post } from '@/models/Post'
-import { MyContext } from '@/types/MyContext'
+import { Post } from '@models/Post'
+import { MyContext } from '@Types/MyContext'
 import { Prisma } from '@prisma/client'
 import { Arg, Args, ArgsType, Ctx, Field, Query, Resolver } from 'type-graphql'
 import { PaginationArgs } from '../shared/pagination'
