@@ -2,10 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator PrismaTypegraphqlTypesGenerator {
+generator PrismaTypeGraphQLTypesGenerator {
   provider     = "yarn prisma-typegraphql-types-generator"
-  modelsOutput = "./src/gen/models"
-  enumsOutput  = "./src/gen/another/long/nested/dir/for/enums/enums"
+  modelsOutput = "./src/models"
+  enumsOutput  = "./src/types"
   useYarn      = true
 }
 
@@ -16,9 +16,9 @@ datasource db {
 
 model User {
   id                            String                 @id @default(cuid())
-  test                          Bytes[]
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
+  // @private
   email                         String                 @unique
   // @hide
   password                      String?
@@ -75,7 +75,6 @@ model Post {
   readingTimeTxt String
   readingTimeMin Float
   coverImg       String?
-  json           Json
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }

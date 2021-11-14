@@ -3,8 +3,7 @@ export const MODEL_TEMPLATE = (
   FIELDS: string,
   CUSTOMFIELDS: string = '  // skip overwrite 👇'
 ) => {
-  return `@ObjectType()
-export class ${CLASSNAME} {
+  return `export class ${CLASSNAME} {
 ${FIELDS}
 ${CUSTOMFIELDS}
 }`

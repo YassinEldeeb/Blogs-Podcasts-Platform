@@ -1,7 +1,7 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql'
-import { Comment } from './Comment'
+import { Field, ID, ObjectType } from 'type-graphql'
 import { Heart } from './Heart'
 import { User } from './User'
+import { Comment } from './Comment'
 
 @ObjectType()
 export class Post {
@@ -20,19 +20,14 @@ export class Post {
   @Field()
   published: boolean
 
+  @Field((_type) => [Heart])
+  hearts: Heart[]
+
   @Field()
   hearts_count: number
 
   @Field()
   comments_count: number
-
-  @Field({ nullable: true })
-  coverImg?: string
-
-  @Field((_type) => [Heart])
-  hearts: Heart[]
-
-  authorId: string
 
   @Field((_type) => User)
   author: User
@@ -46,9 +41,14 @@ export class Post {
   @Field()
   readingTimeMin: number
 
+  @Field({ nullable: true })
+  coverImg?: string
+
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
+
+  // skip overwrite 👇
 }

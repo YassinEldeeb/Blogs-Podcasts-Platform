@@ -7,16 +7,18 @@ export class Follower {
   id: string
 
   @Field((_type) => User)
-  followed_user: User
+  follower_user: User
 
   @Field((_type) => User)
-  follower_user: User
+  followed_user: User
+
+  follower_userId: string
+
+  followed_userId: string
 
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
-
-  // skip overwrite 👇
 }

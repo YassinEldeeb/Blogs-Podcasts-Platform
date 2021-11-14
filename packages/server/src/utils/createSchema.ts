@@ -9,7 +9,7 @@ export const createSchema = (
   pubSub: PubSub | RedisPubSub,
 ): Promise<GraphQLSchema> =>
   buildSchema({
-    resolvers: [path.join(__dirname, '../@resolvers/**/*.{ts,js}')],
+    resolvers: [path.join(__dirname, '../resolvers/**/*.{ts,js}')],
     pubSub,
     authChecker: authSubscription,
   })

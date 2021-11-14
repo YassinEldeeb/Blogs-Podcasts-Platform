@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Post } from './Post'
 import { User } from './User'
+import { Post } from './Post'
+import { Heart } from './Heart'
 
 @ObjectType()
 export class Comment {
@@ -10,19 +11,26 @@ export class Comment {
   @Field()
   text: string
 
-  authorId: string
-
   @Field((_type) => User)
   author: User
 
-  postId: string
-
-  @Field(() => Post)
+  @Field((_type) => Post)
   post: Post
+
+  @Field((_type) => [Heart])
+  hearts: Heart[]
+
+  @Field()
+  hearts_count: number
+
+  @Field({ nullable: true })
+  parentId?: string
 
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
+
+  // skip overwrite 👇
 }

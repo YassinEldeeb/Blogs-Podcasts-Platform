@@ -6,10 +6,10 @@ export class NotificationFromUser {
   @Field((_type) => ID)
   id: string
 
-  @Field()
+  @Field((_type) => User)
   user: User
 
-  @Field()
+  @Field((_type) => User)
   userWhoFired: User
 
   @Field()
@@ -17,7 +17,6 @@ export class NotificationFromUser {
 
   @Field()
   userWhoFiredId: string
-
 
   // skip overwrite 👇
 }

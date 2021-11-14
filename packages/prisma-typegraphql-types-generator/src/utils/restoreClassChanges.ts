@@ -1,7 +1,6 @@
 import fs from 'fs'
-import path from 'path'
 
-export const restoreChanges = (writeLocation: string) => {
+export const restoreClassChanges = (writeLocation: string) => {
   const fileExists = fs.existsSync(writeLocation)
   if (!fileExists) return
 

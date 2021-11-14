@@ -1,26 +1,20 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Comment } from './Comment'
-import { Post } from './Post'
 import { User } from './User'
+import { Post } from './Post'
+import { Comment } from './Comment'
 
 @ObjectType()
 export class Heart {
   @Field((_type) => ID)
   id: string
 
-  userId: string
-
   @Field((_type) => User)
   user: User
 
-  postId?: string
-
-  @Field(() => Post, { nullable: true })
+  @Field((_type) => Post, { nullable: true })
   post?: Post
 
-  commentId?: string
-
-  @Field(() => Post, { nullable: true })
+  @Field((_type) => Comment, { nullable: true })
   comment?: Comment
 
   @Field()
@@ -28,4 +22,6 @@ export class Heart {
 
   @Field()
   updatedAt: Date
+
+  // skip overwrite 👇
 }

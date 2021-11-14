@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/app.js",
-    "start-dev": "dotenv -e ./config/dev.env -- node -r tsconfig-paths/register dist/app.js",
+    "start-dev": "dotenv -e ./config/dev.env -- node dist/app.js",
     "dev": "tsc-watch --onSuccess \"yarn start-dev\"",
     "watch-prisma-changes": "nodemon --watch prisma/schema.prisma --exec yarn write-typegraphql-models",
     "write-typegraphql-models": "npx ts-node lib/writePrismaModels.ts",
@@ -19,7 +19,8 @@
     "test": "jest --watch",
     "write-secrets": "yarn ts-node helpers/writeSecrets.ts",
     "push-secrets": "kubectl apply -f ./kubernetes/secrets/graphql-secret.yml",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "prepare": "ts-patch install -s"
   },
   "dependencies": {
     "@paljs/plugins": "^3.8.0",
@@ -46,7 +47,6 @@
     "graphql-middleware": "^6.0.10",
     "graphql-query-complexity": "^0.8.1",
     "graphql-redis-subscriptions": "^2.4.0",
-    "graphql-scalars": "^1.13.1",
     "graphql-subscriptions": "^1.2.1",
     "graphql-type-json": "^0.3.2",
     "graphql-upload": "^12.0.0",
@@ -94,6 +94,8 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.4",
-    "tsc-watch": "^4.5.0"
+    "ts-patch": "^2.0.1",
+    "tsc-watch": "^4.5.0",
+    "typescript-transform-paths": "^3.3.1"
   }
 }

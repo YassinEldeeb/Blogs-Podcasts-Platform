@@ -1,5 +1,6 @@
 export const ExtractFieldsModifications = (dataModel: string) => {
   let hideField = false
+  let privateField = false
   let currentCodeBlock: { name: string; type: 'model' | 'enum' }
   const extractedData: {
     fieldName: string
@@ -11,6 +12,8 @@ export const ExtractFieldsModifications = (dataModel: string) => {
   dataModel.split('\n').forEach((line) => {
     if (line.includes('@hide')) {
       return (hideField = true)
+    } else if (line.includes('@private')) {
+      return (privateField = true)
     }
 
     if (line.includes('model')) {
@@ -33,6 +36,15 @@ export const ExtractFieldsModifications = (dataModel: string) => {
 
       // Reset
       hideField = false
+    } else if (privateField) {
+      extractedData.push({
+        fieldName,
+        private: true,
+        modelName: currentCodeBlock.name,
+      })
+
+      // Reset
+      privateField = false
     }
   })
 

@@ -1,9 +1,7 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, Int, ObjectType } from 'type-graphql'
+import { Comment } from './Comment'
 import { Heart } from './Heart'
 import { User } from './User'
-import { Comment } from './Comment'
-import { Prisma } from '@prisma/client'
-import GraphQLScalars from 'graphql-scalars'
 
 @ObjectType()
 export class Post {
@@ -16,14 +14,11 @@ export class Post {
   @Field()
   body: string
 
-  @Field()
+  @Field((_type) => [String])
   tags: string[]
 
   @Field()
   published: boolean
-
-  @Field()
-  hearts: Heart[]
 
   @Field()
   hearts_count: number
@@ -31,10 +26,18 @@ export class Post {
   @Field()
   comments_count: number
 
-  @Field()
+  @Field({ nullable: true })
+  coverImg?: string
+
+  @Field((_type) => [Heart])
+  hearts: Heart[]
+
+  authorId: string
+
+  @Field((_type) => User)
   author: User
 
-  @Field()
+  @Field((_type) => [Comment])
   comments: Comment[]
 
   @Field()
@@ -43,17 +46,9 @@ export class Post {
   @Field()
   readingTimeMin: number
 
-  @Field({ nullable: true })
-  coverImg?: string
-
-  @Field((_type) => GraphQLScalars.JSONResolver)
-  json: Prisma.JsonValue
-
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
-
-  // skip overwrite 👇
 }

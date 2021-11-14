@@ -1,24 +1,28 @@
 import { Field, ID, ObjectType } from 'type-graphql'
+import { Post } from './Post'
 import { User } from './User'
 
 @ObjectType()
-export class Follower {
+export class Comment {
   @Field((_type) => ID)
   id: string
 
   @Field()
-  followed_user: User
+  text: string
 
-  @Field()
-  follower_user: User
+  authorId: string
+
+  @Field((_type) => User)
+  author: User
+
+  postId: string
+
+  @Field(() => Post)
+  post: Post
 
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
-
-  // skip overwrite 👇
-  @Field()
-  youCantDeleteMe: string
 }

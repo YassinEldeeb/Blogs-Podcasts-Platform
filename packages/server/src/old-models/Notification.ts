@@ -1,17 +1,32 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
-import { NotificationFromUser } from './NotificationFromUser'
-import { NotificationType } from '../another/long/nested/dir/for/enums/enums/NotificationType'
+
+@ObjectType()
+class NotificationFromUser {
+  @Field((_type) => ID)
+  id: string
+
+  @Field((_type) => User)
+  user: User
+
+  @Field((_type) => User)
+  userWhoFired: User
+
+  notification: Notification
+  notificationId: string
+}
 
 @ObjectType()
 export class Notification {
   @Field((_type) => ID)
   id: string
 
-  @Field()
+  notifiedUserId: string
+
+  @Field((_type) => User)
   notifiedUser: User
 
-  @Field()
+  @Field(() => [NotificationFromUser])
   fromUsers: NotificationFromUser[]
 
   @Field()
@@ -21,7 +36,7 @@ export class Notification {
   message: string
 
   @Field()
-  type: NotificationType
+  type: string
 
   @Field()
   url: string
@@ -31,6 +46,4 @@ export class Notification {
 
   @Field()
   updatedAt: Date
-
-  // skip overwrite 👇
 }

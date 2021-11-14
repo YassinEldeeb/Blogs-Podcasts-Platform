@@ -1,32 +1,17 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
-
-@ObjectType()
-class NotificationFromUser {
-  @Field((_type) => ID)
-  id: string
-
-  @Field((_type) => User)
-  user: User
-
-  @Field((_type) => User)
-  userWhoFired: User
-
-  notification: Notification
-  notificationId: string
-}
+import { NotificationFromUser } from './NotificationFromUser'
+import { NotificationType } from '../types/NotificationType'
 
 @ObjectType()
 export class Notification {
   @Field((_type) => ID)
   id: string
 
-  notifiedUserId: string
-
   @Field((_type) => User)
   notifiedUser: User
 
-  @Field(() => [NotificationFromUser])
+  @Field((_type) => [NotificationFromUser])
   fromUsers: NotificationFromUser[]
 
   @Field()
@@ -35,8 +20,8 @@ export class Notification {
   @Field()
   message: string
 
-  @Field()
-  type: string
+  @Field((_type) => NotificationType)
+  type: NotificationType
 
   @Field()
   url: string
@@ -46,4 +31,6 @@ export class Notification {
 
   @Field()
   updatedAt: Date
+
+  // skip overwrite 👇
 }
