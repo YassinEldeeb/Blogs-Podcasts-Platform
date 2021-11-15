@@ -5,7 +5,7 @@ generator client {
 generator PrismaTypeGraphQLTypesGenerator {
   provider     = "yarn prisma-typegraphql-types-generator"
   modelsOutput = "./src/models"
-  enumsOutput  = "./src/types"
+  enumsOutput  = "./src/types/enums"
   useYarn      = true
 }
 
@@ -18,7 +18,7 @@ model User {
   id                            String                 @id @default(cuid())
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
-  // @private
+  //@private
   email                         String                 @unique
   // @hide
   password                      String?

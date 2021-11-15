@@ -7,6 +7,6 @@ export enum ${ENUM} {
 ${ENUMVALUES}
 }
 registerEnumType(${ENUM}, {
-    name: '${ENUM}',
+  name: '${ENUM}',
 })
 `

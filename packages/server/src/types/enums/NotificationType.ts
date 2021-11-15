@@ -10,5 +10,5 @@ export enum NotificationType {
   heartOnReply = 'heartOnReply'
 }
 registerEnumType(NotificationType, {
-    name: 'NotificationType',
+  name: 'NotificationType',
 })

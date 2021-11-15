@@ -6,7 +6,7 @@ import { Notification } from './Notification'
 
 @ObjectType()
 export class User {
-  @Field((_type) => ID)
+  @Field((_type) => ID, { complexity: 5 })
   id: string
 
   @Field()
@@ -58,4 +58,6 @@ export class User {
   updatedAt: Date
 
   // skip overwrite 👇
+  @Field()
+  sayHello: string
 }
