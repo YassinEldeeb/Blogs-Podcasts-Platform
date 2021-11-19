@@ -13,6 +13,6 @@ Install Minikube for setting up a local K8s cluster that runs on a single Node [
 
 2- run this bash script that'll setup everything for you.
 ```bash
-./run.k8s.sh
+yarn start-cluster
 ```
 3- ...to be continued
