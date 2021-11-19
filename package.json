@@ -6,7 +6,8 @@
   "scripts": {
     "build": "lerna run build",
     "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./Dockerfile .",
-    "start-cluster": "sh ./run.k8s.sh"
+    "start-cluster": "sh ./run.k8s.sh",
+    "writeK8sBashScript": "ts-node ./lib/writeK8sBashScript.ts"
   },
   "devDependencies": {
     "lerna": "^2.11.0"
