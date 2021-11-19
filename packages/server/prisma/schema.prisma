@@ -3,9 +3,9 @@ generator client {
 }
 
 generator PrismaTypeGraphQLTypesGenerator {
-  provider     = "yarn prisma-typegraphql-types-generator"
+  provider     = "npx prisma-typegraphql-types-generator"
   modelsOutput = "./src/models"
-  enumsOutput  = "./src/types/enums"
+  enumsOutput  = "./src/types"
   useYarn      = true
 }
 
@@ -18,28 +18,28 @@ model User {
   id                            String                 @id @default(cuid())
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
-  //@private
+  // @nullable
   email                         String                 @unique
-  // @hide
+  // @skip
   password                      String?
   bio                           String?                @db.VarChar(160)
-  // @hide
+  // @skip
   tokenVersion                  Int                    @default(0)
-  // @hide
+  // @skip
   confirmed                     Boolean                @default(false)
   profilePic                    String?
   posts                         Post[]
   comments                      Comment[]
-  // @hide
+  // @skip
   hearts                        Heart[]
   followers_count               Int                    @default(0)
   following_count               Int                    @default(0)
   followers                     Follower[]
   following                     Follower[]             @relation("followerToUser")
   notifications                 Notification[]
-  // @hide
+  // @skip
   notificationsFromUser         NotificationFromUser[]
-  // @hide
+  // @skip
   notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
   githubId                      String?                @unique
   lastTimelineVisit             DateTime?
@@ -49,9 +49,9 @@ model User {
 
 model Follower {
   id              String   @id @default(cuid())
-  // @hide
+  // @skip
   followed_userId String
-  // @hide
+  // @skip
   follower_userId String
   followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
   follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
@@ -68,7 +68,7 @@ model Post {
   hearts         Heart[]
   hearts_count   Int       @default(0)
   comments_count Int       @default(0)
-  // @hide
+  // @skip
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
@@ -82,7 +82,7 @@ model Post {
 model Notification {
   id             String                 @id @default(cuid())
   notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
-  // @hide
+  // @skip
   notifiedUserId String
   fromUsers      NotificationFromUser[]
   seen           Boolean                @default(false)
@@ -107,11 +107,11 @@ model NotificationFromUser {
   id             String        @id @default(cuid())
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
-  // @hide
+  // @skip
   notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
   userId         String
   userWhoFiredId String
-  // @hide
+  // @skip
   notificationId String?
 }
 
@@ -120,11 +120,11 @@ model Heart {
   user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  // @hide
+  // @skip
   authorId  String
-  // @hide
+  // @skip
   postId    String?
-  // @hide
+  // @skip
   commentId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -135,9 +135,9 @@ model Comment {
   text         String
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  // @hide
+  // @skip
   authorId     String
-  // @hide
+  // @skip
   postId       String
   hearts       Heart[]
   hearts_count Int      @default(0)

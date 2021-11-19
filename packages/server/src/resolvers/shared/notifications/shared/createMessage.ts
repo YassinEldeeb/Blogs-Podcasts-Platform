@@ -1,4 +1,4 @@
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 
 interface formateNamesArgs {
   names: string[]
@@ -25,19 +25,19 @@ export const createMessage = ({
   name,
 }: createMessageArgs): string => {
   switch (type) {
-    case NotificationTypes.newPosts:
+    case NotificationType.newPosts:
       return `New Posts from ${formatedNames({ name, names })}`
-    case NotificationTypes.newFollowers:
+    case NotificationType.newFollowers:
       return `${formatedNames({ name, names })} followed you`
-    case NotificationTypes.heartOnPost:
+    case NotificationType.heartOnPost:
       return `${formatedNames({ name, names })} liked your post`
-    case NotificationTypes.heartOnComment:
+    case NotificationType.heartOnComment:
       return `${formatedNames({ name, names })} liked your comment`
-    case NotificationTypes.heartOnReply:
+    case NotificationType.heartOnReply:
       return `${formatedNames({ name, names })} liked your reply`
-    case NotificationTypes.reply:
+    case NotificationType.reply:
       return `${formatedNames({ name, names })} replied to you`
-    case NotificationTypes.newComments:
+    case NotificationType.newComments:
       return `${formatedNames({ name, names })} commented on your post`
     default:
       return 'new notification'

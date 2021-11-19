@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
 import { NotificationFromUser } from './NotificationFromUser'
-import { NotificationType } from '../types/enums/NotificationType'
+import { NotificationType } from '../types/NotificationType'
 
 @ObjectType()
 export class Notification {

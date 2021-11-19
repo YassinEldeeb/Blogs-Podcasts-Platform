@@ -5,7 +5,8 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./Dockerfile ."
+    "build-server-image": "docker build -t yassineldeeb/graphql:1 -f ./Dockerfile .",
+    "test-prod": "sh ./run.k8s.sh"
   },
   "devDependencies": {
     "lerna": "^2.11.0"

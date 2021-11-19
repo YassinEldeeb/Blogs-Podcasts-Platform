@@ -16,7 +16,7 @@ import { Auth } from '@middleware/Auth'
 import { PublishedData } from '../shared/subscription/PublishedData'
 import { FollowInput } from './follow/followInput'
 import { notify } from '../shared/notifications/Notify'
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 
 @ObjectType()
 class UnFollowPayload {
@@ -65,7 +65,7 @@ class FollowResolver {
 
     notify({
       notifiedUserId: UserIdToUnFollow,
-      type: NotificationTypes.newFollowers,
+      type: NotificationType.newFollowers,
       url: `/users/${userId}`,
       firedNotificationUserId: userId!,
       options: { remove: true },

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Int, Float } from 'type-graphql'
 import { Heart } from './Heart'
 import { User } from './User'
 import { Comment } from './Comment'
@@ -23,10 +23,10 @@ export class Post {
   @Field((_type) => [Heart])
   hearts: Heart[]
 
-  @Field()
+  @Field((_type) => Int)
   hearts_count: number
 
-  @Field()
+  @Field((_type) => Int)
   comments_count: number
 
   @Field((_type) => User)
@@ -38,7 +38,7 @@ export class Post {
   @Field()
   readingTimeTxt: string
 
-  @Field()
+  @Field((_type) => Float)
   readingTimeMin: number
 
   @Field({ nullable: true })

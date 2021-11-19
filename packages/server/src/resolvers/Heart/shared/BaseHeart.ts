@@ -3,7 +3,7 @@ import { notify } from '@resolvers/shared/notifications/Notify'
 import { CREATED, DELETED } from '@Types/enums/mutationType'
 import { Topics } from '@Types/enums/subscriptions'
 import { MyContext } from '@Types/MyContext'
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 import {
   Args,
   ClassType,
@@ -84,14 +84,14 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
           if (type === 'post') {
             notify({
               notifiedUserId: heart[type].author.id,
-              type: NotificationTypes.heartOnPost,
+              type: NotificationType.heartOnPost,
               url: `/posts/${heart[type].id}`,
               firedNotificationUserId: userId!,
             })
           } else if (type === 'comment') {
             notify({
               notifiedUserId: heart[type].author.id,
-              type: NotificationTypes.heartOnReply,
+              type: NotificationType.heartOnReply,
               url: `/posts/${heart[type].id}/comments/${input[inputKey]}`,
               firedNotificationUserId: userId!,
             })
@@ -119,7 +119,7 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
           if (type === 'post') {
             notify({
               notifiedUserId: hearted[type].author.id,
-              type: NotificationTypes.heartOnPost,
+              type: NotificationType.heartOnPost,
               url: `/posts/${hearted[type].id}`,
               firedNotificationUserId: userId!,
               options: { remove: true },
@@ -127,7 +127,7 @@ function createBaseHeart<I extends ClassType>(suffix: string, input: I) {
           } else if (type === 'comment') {
             notify({
               notifiedUserId: hearted[type].author.id,
-              type: NotificationTypes.heartOnReply,
+              type: NotificationType.heartOnReply,
               url: `/posts/${hearted[type].id}/comments/${input[inputKey]}`,
               firedNotificationUserId: userId!,
               options: { remove: true },

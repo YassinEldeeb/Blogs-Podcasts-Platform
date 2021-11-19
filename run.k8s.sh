@@ -1,3 +1,4 @@
+#!/bin/bash
 # Apply Config Maps
 kubectl apply -f ./kubernetes/configmaps/pg-configmap.yml
 kubectl apply -f ./kubernetes/configmaps/redis-configmap.yml

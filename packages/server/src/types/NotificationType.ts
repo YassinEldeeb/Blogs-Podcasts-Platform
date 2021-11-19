@@ -7,7 +7,7 @@ export enum NotificationType {
   reply = 'reply',
   heartOnPost = 'heartOnPost',
   heartOnComment = 'heartOnComment',
-  heartOnReply = 'heartOnReply'
+  heartOnReply = 'heartOnReply',
 }
 registerEnumType(NotificationType, {
   name: 'NotificationType',

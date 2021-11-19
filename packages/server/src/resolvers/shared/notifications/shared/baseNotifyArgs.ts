@@ -1,7 +1,7 @@
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 
 export interface baseNotifyArgs {
-  type: NotificationTypes
+  type: NotificationType
   url: string
   firedNotificationUserId: string
   options?: { remove?: boolean }

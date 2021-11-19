@@ -3,7 +3,7 @@ import { Comment } from '@models/Comment'
 import { CREATED } from '@Types/enums/mutationType'
 import { Topics } from '@Types/enums/subscriptions'
 import { MyContext } from '@Types/MyContext'
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 import {
   Mutation,
   UseMiddleware,
@@ -66,7 +66,7 @@ class CreateCommentResolver {
       ) {
         notify({
           notifiedUserId: newComment.post.authorId,
-          type: NotificationTypes.newComments,
+          type: NotificationType.newComments,
           url: `/post/${data.postId}/comments`,
           firedNotificationUserId: userId!,
         })
@@ -76,7 +76,7 @@ class CreateCommentResolver {
         if (parentCommentAuthor)
           notify({
             notifiedUserId: parentCommentAuthor.author.id,
-            type: NotificationTypes.reply,
+            type: NotificationType.reply,
             url: `/post/${data.postId}/comments/${parentCommentAuthor}`,
             firedNotificationUserId: userId!,
           })

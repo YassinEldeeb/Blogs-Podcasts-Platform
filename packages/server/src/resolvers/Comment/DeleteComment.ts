@@ -5,7 +5,7 @@ import { models } from '@Types/enums/models'
 import { DELETED } from '@Types/enums/mutationType'
 import { Topics } from '@Types/enums/subscriptions'
 import { MyContext } from '@Types/MyContext'
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 
 import {
   Mutation,
@@ -59,7 +59,7 @@ class BaseResolver {
     if (userId !== deletedComment.post.authorId)
       notify({
         notifiedUserId: deletedComment.post.authorId,
-        type: NotificationTypes.newComments,
+        type: NotificationType.newComments,
         url: `/post/${deletedComment.postId}/comments}`,
         firedNotificationUserId: userId!,
         options: { remove: true },

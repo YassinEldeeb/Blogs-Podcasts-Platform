@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Int } from 'type-graphql'
 import { Post } from './Post'
 import { Comment } from './Comment'
 import { Follower } from './Follower'
@@ -6,7 +6,7 @@ import { Notification } from './Notification'
 
 @ObjectType()
 export class User {
-  @Field((_type) => ID, { complexity: 5 })
+  @Field((_type) => ID)
   id: string
 
   @Field()
@@ -30,10 +30,10 @@ export class User {
   @Field((_type) => [Comment])
   comments: Comment[]
 
-  @Field()
+  @Field((_type) => Int)
   followers_count: number
 
-  @Field()
+  @Field((_type) => Int)
   following_count: number
 
   @Field((_type) => [Follower])
@@ -58,6 +58,4 @@ export class User {
   updatedAt: Date
 
   // skip overwrite 👇
-  @Field()
-  sayHello: string
 }

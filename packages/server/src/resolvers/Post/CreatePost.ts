@@ -3,7 +3,7 @@ import { Post } from '@models/Post'
 import { CREATED } from '@Types/enums/mutationType'
 import { Topics } from '@Types/enums/subscriptions'
 import { MyContext } from '@Types/MyContext'
-import { NotificationTypes } from '@Types/NotificationsTypes'
+import { NotificationType } from '@Types/NotificationType'
 import readingTime from 'reading-time'
 import {
   Arg,

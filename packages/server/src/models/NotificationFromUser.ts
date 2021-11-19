@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
+import { Notification } from './Notification'
 
 @ObjectType()
 export class NotificationFromUser {

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Int } from 'type-graphql'
 import { User } from './User'
 import { Post } from './Post'
 import { Heart } from './Heart'
@@ -20,7 +20,7 @@ export class Comment {
   @Field((_type) => [Heart])
   hearts: Heart[]
 
-  @Field()
+  @Field((_type) => Int)
   hearts_count: number
 
   @Field({ nullable: true })
